@@ -15,6 +15,7 @@
         {
             if (disposing && (components != null))
             {
+                trayIcon.Dispose();
                 closeConnection();
                 components.Dispose();
             }
