@@ -14,7 +14,6 @@ namespace HyperionScreenCap
         [STAThread]
         static void Main()
         {
-
             #region Use Embedded SlimDX Assembly
 
             AppDomain.CurrentDomain.AssemblyResolve += (Object sender, ResolveEventArgs args) =>
