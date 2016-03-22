@@ -28,7 +28,7 @@ DefaultDirName={pf}\Hyperion Screen Capture
 DisableProgramGroupPage=yes
 LicenseFile=License.txt
 OutputBaseFilename=SetupHyperionScreenCap
-SetupIconFile=Hyperion-enabled.ico
+SetupIconFile=../Resources/Hyperion-enabled.ico
 Compression=lzma
 SolidCompression=yes
 PrivilegesRequired=admin
@@ -41,9 +41,9 @@ Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "..\HyperionScreenCap\bin\x86\Release\HyperionScreenCap.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\HyperionScreenCap\bin\x86\Release\HyperionScreenCap.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "..\HyperionScreenCap\bin\x86\Release\SlimDX.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\x86\Release\HyperionScreenCap.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "..\bin\x86\Release\HyperionScreenCap.exe.config"; DestDir: "{app}"; Flags: ignoreversion
+;Source: "..\bin\x86\Release\SlimDX.dll"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 ; direct X installer 
