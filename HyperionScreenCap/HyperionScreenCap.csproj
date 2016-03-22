@@ -11,6 +11,24 @@
     <AssemblyName>HyperionScreenCap</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -52,10 +70,17 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Hyperion-enabled.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=8.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.8.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="SlimDX, Version=4.0.13.43, Culture=neutral, PublicKeyToken=b1b0c32fd1ffe4f9, processorArchitecture=x86">
       <HintPath>..\packages\SlimDX.4.0.13.44\lib\NET40\SlimDX.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -90,7 +115,6 @@
     <None Include="app.config">
       <SubType>Designer</SubType>
     </None>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Form1.resx">
@@ -102,9 +126,20 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="SlimDX.dll" />
-  </ItemGroup>
-  <ItemGroup>
+    <None Include="Installation Files\scripts\isxdl\czech.ini" />
+    <None Include="Installation Files\scripts\isxdl\english.ini" />
+    <None Include="Installation Files\scripts\isxdl\french.ini" />
+    <None Include="Installation Files\scripts\isxdl\french2.ini" />
+    <None Include="Installation Files\scripts\isxdl\french3.ini" />
+    <None Include="Installation Files\scripts\isxdl\german.ini" />
+    <None Include="Installation Files\scripts\isxdl\norwegian.ini" />
+    <None Include="Installation Files\scripts\isxdl\polish.ini" />
+    <None Include="Installation Files\scripts\isxdl\portugues.ini" />
+    <None Include="Installation Files\scripts\isxdl\portuguese.ini" />
+    <None Include="Installation Files\scripts\isxdl\russian.ini" />
+    <None Include="Installation Files\scripts\isxdl\spanish.ini" />
+    <None Include="Installation Files\scripts\isxdl\swedish.ini" />
+    <None Include="packages.config" />
     <None Include="Resources\ConfigFile.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -113,7 +148,83 @@
   <ItemGroup>
     <None Include="Resources\Hyperion-enabled.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="FodyWeavers.xml" />
+    <Content Include="Installation Files\InstallScript.iss" />
+    <Content Include="Installation Files\scripts\isxdl\isxdl.dll" />
+    <Content Include="Installation Files\scripts\isxdl\isxdl.iss" />
+    <Content Include="Installation Files\scripts\products.iss" />
+    <Content Include="Installation Files\scripts\products\directxruntime.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx11.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx11lp.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx11sp1.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx20.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx20lp.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx20sp1.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx20sp1lp.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx20sp2.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx20sp2lp.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx35.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx35lp.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx35sp1.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx35sp1lp.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx40client.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx40full.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfx46.iss" />
+    <Content Include="Installation Files\scripts\products\dotnetfxversion.iss" />
+    <Content Include="Installation Files\scripts\products\fileversion.iss" />
+    <Content Include="Installation Files\scripts\products\ie6.iss" />
+    <Content Include="Installation Files\scripts\products\iis.iss" />
+    <Content Include="Installation Files\scripts\products\jet4sp8.iss" />
+    <Content Include="Installation Files\scripts\products\kb835732.iss" />
+    <Content Include="Installation Files\scripts\products\mdac28.iss" />
+    <Content Include="Installation Files\scripts\products\msi20.iss" />
+    <Content Include="Installation Files\scripts\products\msi31.iss" />
+    <Content Include="Installation Files\scripts\products\msi45.iss" />
+    <Content Include="Installation Files\scripts\products\msiproduct.iss" />
+    <Content Include="Installation Files\scripts\products\sql2005express.iss" />
+    <Content Include="Installation Files\scripts\products\sql2008express.iss" />
+    <Content Include="Installation Files\scripts\products\sqlcompact35sp2.iss" />
+    <Content Include="Installation Files\scripts\products\stringversion.iss" />
+    <Content Include="Installation Files\scripts\products\vcredist2005.iss" />
+    <Content Include="Installation Files\scripts\products\vcredist2008.iss" />
+    <Content Include="Installation Files\scripts\products\vcredist2010.iss" />
+    <Content Include="Installation Files\scripts\products\vcredist2010sp1.iss" />
+    <Content Include="Installation Files\scripts\products\vcredist2012.iss" />
+    <Content Include="Installation Files\scripts\products\vcredist2013.iss" />
+    <Content Include="Installation Files\scripts\products\vcredist2015.iss" />
+    <Content Include="Installation Files\scripts\products\wic.iss" />
+    <Content Include="Installation Files\scripts\products\winversion.iss" />
+    <Content Include="Installation Files\src\dxwebsetup.exe" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Installation Files\Output\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4 Client Profile %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.4.5">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 4.5</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.1.28.3\build\Fody.targets" Condition="Exists('..\packages\Fody.1.28.3\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.1.28.3\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.1.28.3\build\Fody.targets'))" />
+  </Target>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

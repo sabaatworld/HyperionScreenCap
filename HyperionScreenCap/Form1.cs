@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net.Sockets;
-using System.Web.Script.Serialization;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap
@@ -126,7 +125,7 @@ namespace HyperionScreenCap
 
         static string serialize(Hashtable n)
         {
-            return new JavaScriptSerializer().Serialize(n);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(n);
         }
         static byte[] removeAlpha(DataStream ia)
         {
