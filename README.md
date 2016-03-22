@@ -9,7 +9,7 @@ Setup is done by modifying the HyperionScreenCap.exe.config file.
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <appSettings>
-    <add key="hyperionServerIP" value="192.168.1.171"/> <!-- Students grades are updated bi-monthly -->
+    <add key="hyperionServerIP" value="192.168.1.171"/>
     <add key="hyperionServerJsonPort" value="19444"/> <!-- Hyperion JSON port -->
     <add key="hyperionMessagePriority" value="10"/> 
     <add key="hyperionMessageDuration" value="1000"/>
