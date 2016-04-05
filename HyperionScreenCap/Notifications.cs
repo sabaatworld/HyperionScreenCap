@@ -11,7 +11,7 @@ namespace HyperionScreenCap
         {
             Form1.trayIcon.ShowBalloonTip(3000, "", errorMsg, System.Windows.Forms.ToolTipIcon.Error);
             //Stop the timer if anything goes wrong
-            Program.disableTimer();
+            Program.DisableTimer();
         }
 
         public static void Info(string infoMsg)

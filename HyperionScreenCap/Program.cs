@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap
@@ -14,11 +15,13 @@ namespace HyperionScreenCap
         [STAThread]
         static void Main()
         {
-            mainForm = new Form1();
+
+        mainForm = new Form1();
             Application.Run(mainForm);
             
         }
-        public static void disableTimer()
+
+        public static void DisableTimer()
         {
             mainForm.screenCaptureInterval.Enabled = false;
         }
