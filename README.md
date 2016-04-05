@@ -35,6 +35,7 @@ Setup is done by modifying the HyperionScreenCap.exe.config file.
     <add key="width" value="114"/> <!-- Keep these values small -->
     <add key="height" value="64"/> <!-- Keep these values small -->
     <add key="captureInterval" value="50"/>
+    <add key="monitorIndex" value="0"/> <!-- 0 is the main monitor -->
   </appSettings>
 <startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0,Profile=Client"/></startup>
 </configuration>
