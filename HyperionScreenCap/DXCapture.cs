@@ -18,7 +18,8 @@ namespace HyperionScreenCap
                 PresentParameters present_params = new PresentParameters();
                 present_params.Windowed = true;
                 present_params.SwapEffect = SwapEffect.Discard;
-                d = new Device(new Direct3D(), 0, DeviceType.Hardware, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, present_params);
+
+                d = new Device(new Direct3D(), getMonitor(Form1.monitorIndex), DeviceType.Hardware, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, present_params);
             }
             catch (Exception ex)
             {
@@ -43,6 +44,16 @@ namespace HyperionScreenCap
                 Notifications.Error(ex.Message);
             }
             return null;
+        }
+
+        private int getMonitor(int monitorIndex)
+        {
+            var monitorArray = SlimDX.Windows.DisplayMonitor.EnumerateMonitors();
+            if ((monitorArray.Length -1) >= monitorIndex)
+            {
+                return (monitorArray[monitorIndex] != null) ? monitorIndex : 0;
+            }
+            return 0;
         }
     }
 }

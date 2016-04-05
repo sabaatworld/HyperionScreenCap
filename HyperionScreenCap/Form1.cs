@@ -19,6 +19,7 @@ namespace HyperionScreenCap
         static public int hyperionWidth = int.Parse(ConfigurationManager.AppSettings["width"]);
         static public int hyperionHeight = int.Parse(ConfigurationManager.AppSettings["height"]);
         static public int captureInterval = int.Parse(ConfigurationManager.AppSettings["captureInterval"]);
+        static public int monitorIndex = int.Parse(ConfigurationManager.AppSettings["monitorIndex"]);
 
         static DxScreenCapture d;
 
