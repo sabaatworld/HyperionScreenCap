@@ -77,7 +77,7 @@ namespace HyperionScreenCap
             else if(protocol == "proto")
             {
                 protoClient = new ProtoClient();
-                protoClient.init(hyperionServerIP, hyperionServerProtoPort, hyperionMessagePriority);
+                protoClient.Init(hyperionServerIP, hyperionServerProtoPort, hyperionMessagePriority);
                 if (protoClient.isConnected())
                 {
                     if (notificationLevel == NotifcationLevel.info)
@@ -125,9 +125,12 @@ namespace HyperionScreenCap
             // On close set to black
             if (protoClient != null)
             {
-                protoClient.SendColorToHyperion(0, 0, 0);
-                Thread.Sleep(25);
-                protoClient.SendColorToHyperion(0, 0, 0);
+                screenCaptureInterval.Stop();
+                stopTimer();
+                protoClient.ClearPriority(hyperionMessagePriority);
+                Thread.Sleep(50);
+                protoClient.ClearPriority(hyperionMessagePriority);
+                protoClient.Disconnect();
             }
 
             Application.Exit();
@@ -180,7 +183,7 @@ namespace HyperionScreenCap
                         }
 
                         byte[] pixelData = ms.ToArray();
-                        protoClient.WriteImageToHyperion(pixelData);
+                        protoClient.WriteImage(pixelData);
                     }
                 }
             }

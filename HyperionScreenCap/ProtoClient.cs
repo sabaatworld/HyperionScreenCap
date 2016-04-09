@@ -16,7 +16,7 @@ namespace HyperionScreenCap
         private static int hyperionPriority;
         public bool hyperionProtoErrorOccured;
 
-        public void init(string hyperionIP = "10.1.2.83", int hyperionProtoPort = 19445, int priority = 10)
+        public void Init(string hyperionIP = "10.1.2.83", int hyperionProtoPort = 19445, int priority = 10)
         {
             if (Socket.Connected == false)
             {
@@ -32,7 +32,7 @@ namespace HyperionScreenCap
             }
         }
 
-        public void disconnect()
+        public void Disconnect()
         {
             if (Socket != null)
             {
@@ -60,7 +60,34 @@ namespace HyperionScreenCap
 
             return false;
         }
-        public void WriteImageToHyperion(byte[] pixeldataRaw)
+
+        public void ClearPriority(int priority)
+        {
+            try
+            {
+                if (!isConnected())
+                {
+                    return;
+                }
+
+                ClearRequest clearRequest = ClearRequest.CreateBuilder()
+                .SetPriority(priority)
+                .Build();
+
+                HyperionRequest request = HyperionRequest.CreateBuilder()
+                .SetCommand(HyperionRequest.Types.Command.CLEAR)
+                .SetExtension(ClearRequest.ClearRequest_, clearRequest)
+                .Build();
+
+                SendRequest(request);
+            }
+            catch (Exception e)
+            {
+                Logger("Error occured during clear priority: " + e.Message);
+                hyperionProtoErrorOccured = true;
+            }
+        }
+        public void WriteImage(byte[] pixeldataRaw)
         {
             MemoryStream stream = new MemoryStream(pixeldataRaw);
             BinaryReader reader = new BinaryReader(stream);
@@ -106,16 +133,16 @@ namespace HyperionScreenCap
                     x++;
                 }
 
-                SendImageToHyperion(newpixeldata, null);
+                SendImage(newpixeldata, null);
             }
             catch (Exception e)
             {
-                Logger("Write image to hyperion: " + e.Message);
+                Logger("Error occured during write image: " + e.Message);
                 hyperionProtoErrorOccured = true;
             }
         }
 
-        private void SendImageToHyperion(byte[] pixeldata, byte[] bmiInfoHeader)
+        private void SendImage(byte[] pixeldata, byte[] bmiInfoHeader)
         {
             try
             {
@@ -132,7 +159,7 @@ namespace HyperionScreenCap
                   .SetExtension(ImageRequest.ImageRequest_, imageRequest)
                   .Build();
 
-                SendRequestToHyperion(request);
+                SendRequest(request);
             }
             catch (Exception e)
             {
@@ -142,7 +169,7 @@ namespace HyperionScreenCap
         }
 
 
-        public void SendColorToHyperion(int red, int green, int blue)
+        public void SendColor(int red, int green, int blue)
         {
             if (!Socket.Connected)
             {
@@ -160,10 +187,10 @@ namespace HyperionScreenCap
               .SetExtension(ColorRequest.ColorRequest_, colorRequest)
               .Build();
 
-            SendRequestToHyperion(request);
+            SendRequest(request);
         }
 
-        private void SendRequestToHyperion(HyperionRequest request)
+        private void SendRequest(HyperionRequest request)
         {
             try
             {
