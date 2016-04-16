@@ -48,12 +48,12 @@ namespace HyperionScreenCap
                 {
                     return false;
                 }
-                if(Socket.Connected)
+                if (Socket.Connected)
                 {
                     return true;
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Logger("Error occured during isConnected: " + e.Message);
             }
@@ -142,16 +142,16 @@ namespace HyperionScreenCap
             }
         }
 
-        private void SendImage(byte[] pixeldata, byte[] bmiInfoHeader)
+        public void SendImage(byte[] pixeldata, byte[] bmiInfoHeader)
         {
             try
             {
                 ImageRequest imageRequest = ImageRequest.CreateBuilder()
                   .SetImagedata(Google.ProtocolBuffers.ByteString.CopyFrom(pixeldata))
-                  .SetImageheight(64)
-                  .SetImagewidth(64)
+                  .SetImageheight(Form1.hyperionHeight)
+                  .SetImagewidth(Form1.hyperionWidth)
                   .SetPriority(hyperionPriority)
-                  .SetDuration(-1)
+                  .SetDuration(Form1.hyperionMessageDuration)
                   .Build();
 
                 HyperionRequest request = HyperionRequest.CreateBuilder()
@@ -245,8 +245,7 @@ namespace HyperionScreenCap
 
         private void Logger(string message)
         {
-            // TO DO: 
-            //Optional: connect to notification system
+            Notifications.Info(message);
         }
     }
 }
