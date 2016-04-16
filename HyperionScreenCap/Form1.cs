@@ -14,12 +14,14 @@ namespace HyperionScreenCap
     {
         static string hyperionServerIP = ConfigurationManager.AppSettings["hyperionServerIP"];
         static int hyperionServerJsonPort = int.Parse(ConfigurationManager.AppSettings["hyperionServerJsonPort"]);
-        static int hyperionMessagePriority = int.Parse(ConfigurationManager.AppSettings["hyperionMessagePriority"]);
-        static int hyperionMessageDuration = int.Parse(ConfigurationManager.AppSettings["hyperionMessageDuration"]);
+        static public int hyperionMessagePriority = int.Parse(ConfigurationManager.AppSettings["hyperionMessagePriority"]);
+        static public int hyperionMessageDuration = int.Parse(ConfigurationManager.AppSettings["hyperionMessageDuration"]);
         static public int hyperionWidth = int.Parse(ConfigurationManager.AppSettings["width"]);
         static public int hyperionHeight = int.Parse(ConfigurationManager.AppSettings["height"]);
         static public int captureInterval = int.Parse(ConfigurationManager.AppSettings["captureInterval"]);
         static public int monitorIndex = int.Parse(ConfigurationManager.AppSettings["monitorIndex"]);
+        static int hyperionServerProtoPort = int.Parse(ConfigurationManager.AppSettings["hyperionServerProtoPort"]);
+        static string protocol = ConfigurationManager.AppSettings["protocol"];
 
         static DxScreenCapture d;
 
@@ -45,8 +47,18 @@ namespace HyperionScreenCap
             trayIcon.Visible = true;
 
             d = new DxScreenCapture();
-            connectToServer(hyperionServerIP, hyperionServerJsonPort);
-            if (Connected())
+
+            if (protocol == "json")
+            {
+                connectToServer(hyperionServerIP, hyperionServerJsonPort);
+            }
+            else if(protocol == "proto")
+            {
+                protoClient = new ProtoClient();
+                protoClient.Init(hyperionServerIP, hyperionServerProtoPort, hyperionMessagePriority);
+            }
+            
+            if (Connected() || protoClient.isConnected())
             {
                 Notifications.Info("Connected to Hyperion!");
 
@@ -101,18 +113,29 @@ namespace HyperionScreenCap
             try
             {
                 Surface s = d.CaptureScreen();
-
+              
                 DataRectangle dr = s.LockRectangle(LockFlags.None);
                 DataStream gs = dr.Data;
+
                 var x = removeAlpha(gs);
 
                 s.UnlockRectangle();
                 s.Dispose();
                 gs.Dispose();
 
-                var y = Convert.ToBase64String(x);
-                setImage(y, hyperionMessagePriority, hyperionMessageDuration);
-                y = null;
+                
+                if (protocol == "json")
+                {
+                    var y = Convert.ToBase64String(x);
+                    setImage(y, hyperionMessagePriority, hyperionMessageDuration);
+                    y = null;
+                }
+                else if (protocol == "proto")
+                {
+                    protoClient.SendImage(x, null);
+                }
+                
+
             }
             catch (Exception ex)
             {
@@ -167,6 +190,7 @@ namespace HyperionScreenCap
         #region TcpClient
 
         static TcpClient hyperionServer;
+        static ProtoClient protoClient;
         static NetworkStream serverStream;
         static StreamWriter sendToServer;
         static StreamReader readFromServer;
