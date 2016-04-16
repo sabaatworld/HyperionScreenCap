@@ -2,7 +2,7 @@
 
 Windows screen capture program for the [Hyperion](https://github.com/tvdzwan/hyperion) open-source Ambilight project.
 
-The program uses Direct3D9 to capture the screen, resize it and send it to the JSON interface of Hyperion.
+The program uses Direct3D9 to capture the screen, resize it and send it to the Proto/JSON interface of Hyperion.
 
 ## Download
 Portable zip: [HyperionScreenCap.zip](https://github.com/djhansel/HyperionScreenCap/releases/download/v1.1/HyperionScreenCap.zip)
