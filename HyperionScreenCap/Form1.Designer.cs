@@ -1,11 +1,14 @@
-﻿namespace HyperionScreenCap
+﻿using System.ComponentModel;
+using System.Windows.Forms;
+
+namespace HyperionScreenCap
 {
     partial class Form1
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
+        private IContainer components = null;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -15,8 +18,8 @@
         {
             if (disposing && (components != null))
             {
-                trayIcon.Dispose();
-                closeConnection();
+                TrayIcon.Dispose();
+                CloseConnection();
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -52,6 +55,6 @@
 
         #endregion
 
-        public System.Windows.Forms.Timer screenCaptureInterval;
+        public Timer screenCaptureInterval;
     }
 }

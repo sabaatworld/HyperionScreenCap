@@ -313,12 +313,12 @@ namespace proto
 
             public override pbd::MessageDescriptor DescriptorForType
             {
-                get { return global::proto.HyperionRequest.Descriptor; }
+                get { return Descriptor; }
             }
 
             public override HyperionRequest DefaultInstanceForType
             {
-                get { return global::proto.HyperionRequest.DefaultInstance; }
+                get { return DefaultInstance; }
             }
 
             public override HyperionRequest BuildPartial()
@@ -346,7 +346,7 @@ namespace proto
 
             public override Builder MergeFrom(HyperionRequest other)
             {
-                if (other == global::proto.HyperionRequest.DefaultInstance) return this;
+                if (other == DefaultInstance) return this;
                 PrepareBuilder();
                 if (other.HasCommand)
                 {
@@ -462,7 +462,7 @@ namespace proto
         }
         static HyperionRequest()
         {
-            object.ReferenceEquals(global::proto.Message.Descriptor, null);
+            ReferenceEquals(global::proto.Message.Descriptor, null);
         }
     }
 
@@ -709,12 +709,12 @@ namespace proto
 
             public override pbd::MessageDescriptor DescriptorForType
             {
-                get { return global::proto.ColorRequest.Descriptor; }
+                get { return Descriptor; }
             }
 
             public override ColorRequest DefaultInstanceForType
             {
-                get { return global::proto.ColorRequest.DefaultInstance; }
+                get { return DefaultInstance; }
             }
 
             public override ColorRequest BuildPartial()
@@ -742,7 +742,7 @@ namespace proto
 
             public override Builder MergeFrom(ColorRequest other)
             {
-                if (other == global::proto.ColorRequest.DefaultInstance) return this;
+                if (other == DefaultInstance) return this;
                 PrepareBuilder();
                 if (other.HasPriority)
                 {
@@ -911,7 +911,7 @@ namespace proto
         }
         static ColorRequest()
         {
-            object.ReferenceEquals(global::proto.Message.Descriptor, null);
+            ReferenceEquals(global::proto.Message.Descriptor, null);
         }
     }
 
@@ -1200,12 +1200,12 @@ namespace proto
 
             public override pbd::MessageDescriptor DescriptorForType
             {
-                get { return global::proto.ImageRequest.Descriptor; }
+                get { return Descriptor; }
             }
 
             public override ImageRequest DefaultInstanceForType
             {
-                get { return global::proto.ImageRequest.DefaultInstance; }
+                get { return DefaultInstance; }
             }
 
             public override ImageRequest BuildPartial()
@@ -1233,7 +1233,7 @@ namespace proto
 
             public override Builder MergeFrom(ImageRequest other)
             {
-                if (other == global::proto.ImageRequest.DefaultInstance) return this;
+                if (other == DefaultInstance) return this;
                 PrepareBuilder();
                 if (other.HasPriority)
                 {
@@ -1469,7 +1469,7 @@ namespace proto
         }
         static ImageRequest()
         {
-            object.ReferenceEquals(global::proto.Message.Descriptor, null);
+            ReferenceEquals(global::proto.Message.Descriptor, null);
         }
     }
 
@@ -1675,12 +1675,12 @@ namespace proto
 
             public override pbd::MessageDescriptor DescriptorForType
             {
-                get { return global::proto.ClearRequest.Descriptor; }
+                get { return Descriptor; }
             }
 
             public override ClearRequest DefaultInstanceForType
             {
-                get { return global::proto.ClearRequest.DefaultInstance; }
+                get { return DefaultInstance; }
             }
 
             public override ClearRequest BuildPartial()
@@ -1708,7 +1708,7 @@ namespace proto
 
             public override Builder MergeFrom(ClearRequest other)
             {
-                if (other == global::proto.ClearRequest.DefaultInstance) return this;
+                if (other == DefaultInstance) return this;
                 PrepareBuilder();
                 if (other.HasPriority)
                 {
@@ -1811,7 +1811,7 @@ namespace proto
         }
         static ClearRequest()
         {
-            object.ReferenceEquals(global::proto.Message.Descriptor, null);
+            ReferenceEquals(global::proto.Message.Descriptor, null);
         }
     }
 
@@ -2035,12 +2035,12 @@ namespace proto
 
             public override pbd::MessageDescriptor DescriptorForType
             {
-                get { return global::proto.HyperionReply.Descriptor; }
+                get { return Descriptor; }
             }
 
             public override HyperionReply DefaultInstanceForType
             {
-                get { return global::proto.HyperionReply.DefaultInstance; }
+                get { return DefaultInstance; }
             }
 
             public override HyperionReply BuildPartial()
@@ -2068,7 +2068,7 @@ namespace proto
 
             public override Builder MergeFrom(HyperionReply other)
             {
-                if (other == global::proto.HyperionReply.DefaultInstance) return this;
+                if (other == DefaultInstance) return this;
                 PrepareBuilder();
                 if (other.HasSuccess)
                 {
@@ -2205,7 +2205,7 @@ namespace proto
         }
         static HyperionReply()
         {
-            object.ReferenceEquals(global::proto.Message.Descriptor, null);
+            ReferenceEquals(global::proto.Message.Descriptor, null);
         }
     }
 

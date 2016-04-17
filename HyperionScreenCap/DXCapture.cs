@@ -1,25 +1,25 @@
-﻿using SlimDX.Direct3D9;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 using System.Windows.Forms;
+using SlimDX.Direct3D9;
+using SlimDX.Windows;
 
 namespace HyperionScreenCap
 {
     public class DxScreenCapture
     {
-        Device d;
+        private readonly Device _d;
 
         public DxScreenCapture()
         {
             try
             {
-                PresentParameters present_params = new PresentParameters();
-                present_params.Windowed = true;
-                present_params.SwapEffect = SwapEffect.Discard;
+                var presentParams = new PresentParameters
+                {
+                    Windowed = true,
+                    SwapEffect = SwapEffect.Discard
+                };
 
-                d = new Device(new Direct3D(), getMonitor(Form1.monitorIndex), DeviceType.Hardware, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, present_params);
+                _d = new Device(new Direct3D(), GetMonitor(Form1.MonitorIndex), DeviceType.Hardware, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, presentParams);
             }
             catch (Exception ex)
             {
@@ -32,9 +32,9 @@ namespace HyperionScreenCap
         {
             try
             {
-                Surface s = Surface.CreateOffscreenPlain(d, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, Format.A8R8G8B8, Pool.Scratch);
-                Surface b = Surface.CreateOffscreenPlain(d, (Form1.hyperionWidth), (Form1.hyperionHeight), Format.A8R8G8B8, Pool.Scratch);
-                d.GetFrontBufferData(0, s);
+                var s = Surface.CreateOffscreenPlain(_d, Screen.PrimaryScreen.Bounds.Width, Screen.PrimaryScreen.Bounds.Height, Format.A8R8G8B8, Pool.Scratch);
+                var b = Surface.CreateOffscreenPlain(_d, (Form1.HyperionWidth), (Form1.HyperionHeight), Format.A8R8G8B8, Pool.Scratch);
+                _d.GetFrontBufferData(0, s);
                 Surface.FromSurface(b, s, Filter.Triangle, 0);
                 s.Dispose();
                 return b;
@@ -46,9 +46,9 @@ namespace HyperionScreenCap
             return null;
         }
 
-        private int getMonitor(int monitorIndex)
+        private static int GetMonitor(int monitorIndex)
         {
-            var monitorArray = SlimDX.Windows.DisplayMonitor.EnumerateMonitors();
+            var monitorArray = DisplayMonitor.EnumerateMonitors();
             if ((monitorArray.Length -1) >= monitorIndex)
             {
                 return (monitorArray[monitorIndex] != null) ? monitorIndex : 0;
