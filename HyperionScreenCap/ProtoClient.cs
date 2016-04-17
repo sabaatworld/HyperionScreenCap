@@ -6,13 +6,13 @@ using proto;
 
 namespace HyperionScreenCap
 {
-    internal class ProtoClient
+    internal static class ProtoClient
     {
         private static TcpClient _socket = new TcpClient();
         private static Stream _stream;
         private static int _hyperionPriority;
 
-        public void Init(string hyperionIp = "10.1.2.83", int hyperionProtoPort = 19445, int priority = 10)
+        public static void Init(string hyperionIp = "10.1.2.83", int hyperionProtoPort = 19445, int priority = 10)
         {
             if (_socket.Connected) return;
             Logger("Connecting to Hyperion...");
@@ -28,7 +28,7 @@ namespace HyperionScreenCap
             Logger("Connected to Hyperion using protobufer!");
         }
 
-        public bool IsConnected()
+        public static bool IsConnected()
         {
             try
             {
@@ -49,7 +49,7 @@ namespace HyperionScreenCap
             return false;
         }
 
-        public void SendImage(byte[] pixeldata)
+        public static void SendImage(byte[] pixeldata)
         {
             try
             {
@@ -75,28 +75,26 @@ namespace HyperionScreenCap
         }
 
 
-        private void SendRequest(HyperionRequest request)
+        private static void SendRequest(IMessageLite request)
         {
             try
             {
-                if (_socket.Connected)
-                {
-                    var size = request.SerializedSize;
-                    var header = new byte[4];
-                    header[0] = (byte) ((size >> 24) & 0xFF);
-                    header[1] = (byte) ((size >> 16) & 0xFF);
-                    header[2] = (byte) ((size >> 8) & 0xFF);
-                    header[3] = (byte) (size & 0xFF);
+                if (!_socket.Connected) return;
+                var size = request.SerializedSize;
+                var header = new byte[4];
+                header[0] = (byte) ((size >> 24) & 0xFF);
+                header[1] = (byte) ((size >> 16) & 0xFF);
+                header[2] = (byte) ((size >> 8) & 0xFF);
+                header[3] = (byte) (size & 0xFF);
 
-                    var headerSize = header.Length;
-                    _stream.Write(header, 0, headerSize);
-                    request.WriteTo(_stream);
-                    _stream.Flush();
+                var headerSize = header.Length;
+                _stream.Write(header, 0, headerSize);
+                request.WriteTo(_stream);
+                _stream.Flush();
 
-                    // Enable reply message if needed (debugging only)
-                    //HyperionReply reply = ReceiveReply();
-                    //Logger("Reply: " + reply.ToString());
-                }
+                // Enable reply message if needed (debugging only)
+                //HyperionReply reply = ReceiveReply();
+                //Logger("Reply: " + reply.ToString());
             }
             catch (Exception e)
             {
@@ -104,7 +102,7 @@ namespace HyperionScreenCap
             }
         }
 
-        private void Logger(string message)
+        private static void Logger(string message)
         {
             Notifications.Info(message);
         }

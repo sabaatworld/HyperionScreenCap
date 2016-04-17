@@ -6,7 +6,6 @@ using System.IO;
 using System.Net.Sockets;
 using System.Windows.Forms;
 using Newtonsoft.Json;
-using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace HyperionScreenCap
@@ -56,25 +55,24 @@ namespace HyperionScreenCap
 
             _d = new DxScreenCapture();
 
-            if (Protocol == "json")
+            switch (Protocol)
             {
-                ConnectToServer(HyperionServerIp, HyperionServerJsonPort);
-            }
-            else if (Protocol == "proto")
-            {
-                _protoClient = new ProtoClient();
-                _protoClient.Init(HyperionServerIp, HyperionServerProtoPort, HyperionMessagePriority);
+                case "json":
+                    ConnectToServer(HyperionServerIp, HyperionServerJsonPort);
+                    break;
+                case "proto":
+                    
+                    ProtoClient.Init(HyperionServerIp, HyperionServerProtoPort, HyperionMessagePriority);
+                    break;
             }
 
-            if (Connected() || _protoClient.IsConnected())
-            {
-                Notifications.Info("Connected to Hyperion!");
+            if (!Connected() && !ProtoClient.IsConnected()) return;
+            Notifications.Info("Connected to Hyperion!");
 
-                TrayIcon.Icon = Resources.Hyperion_enabled;
-                TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-                screenCaptureInterval.Interval = CaptureInterval;
-                screenCaptureInterval.Enabled = true;
-            }
+            TrayIcon.Icon = Resources.Hyperion_enabled;
+            TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
+            screenCaptureInterval.Interval = CaptureInterval;
+            screenCaptureInterval.Enabled = true;
         }
 
 
@@ -94,7 +92,7 @@ namespace HyperionScreenCap
             }
         }
 
-        private void OnExit(object sender, EventArgs e)
+        private static void OnExit(object sender, EventArgs e)
         {
             Application.Exit();
         }
@@ -125,14 +123,15 @@ namespace HyperionScreenCap
                 gs.Dispose();
 
 
-                if (Protocol == "json")
+                switch (Protocol)
                 {
-                    var y = Convert.ToBase64String(x);
-                    SetImage(y, HyperionMessagePriority, HyperionMessageDuration);
-                }
-                else if (Protocol == "proto")
-                {
-                    _protoClient.SendImage(x);
+                    case "json":
+                        var y = Convert.ToBase64String(x);
+                        SetImage(y, HyperionMessagePriority, HyperionMessageDuration);
+                        break;
+                    case "proto":
+                        ProtoClient.SendImage(x);
+                        break;
                 }
             }
             catch (Exception ex)
@@ -155,7 +154,7 @@ namespace HyperionScreenCap
             return JsonConvert.SerializeObject(n);
         }
 
-        private static byte[] RemoveAlpha(DataStream ia)
+        private static byte[] RemoveAlpha(Stream ia)
         {
             var newImage = new List<byte>();
             while (ia.Position < ia.Length)
@@ -174,7 +173,6 @@ namespace HyperionScreenCap
         #region TcpClient
 
         private static TcpClient _hyperionServer;
-        private static ProtoClient _protoClient;
         private static NetworkStream _serverStream;
         private static StreamWriter _sendToServer;
         private static StreamReader _readFromServer;
