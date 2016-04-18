@@ -4,262 +4,183 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Net.Sockets;
+using System.Threading;
 using System.Windows.Forms;
-using Newtonsoft.Json;
+using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace HyperionScreenCap
 {
-    public partial class Form1 : Form
+  public partial class Form1 : Form
+  {
+    private static readonly string HyperionServerIp = ConfigurationManager.AppSettings["hyperionServerIP"];
+
+    private static readonly int HyperionMessagePriority =
+      int.Parse(ConfigurationManager.AppSettings["hyperionMessagePriority"]);
+
+    public static readonly int HyperionMessageDuration =
+      int.Parse(ConfigurationManager.AppSettings["hyperionMessageDuration"]);
+
+    public static readonly int HyperionWidth = int.Parse(ConfigurationManager.AppSettings["width"]);
+    public static readonly int HyperionHeight = int.Parse(ConfigurationManager.AppSettings["height"]);
+    private static readonly int CaptureInterval = int.Parse(ConfigurationManager.AppSettings["captureInterval"]);
+    public static readonly int MonitorIndex = int.Parse(ConfigurationManager.AppSettings["monitorIndex"]);
+
+    private static readonly int HyperionServerPort =
+      int.Parse(ConfigurationManager.AppSettings["hyperionServerPort"]);
+
+    private readonly NotifcationLevels NotificationLevel =
+      (NotifcationLevels) Enum.Parse(typeof (NotifcationLevels), ConfigurationManager.AppSettings["notificationLevel"]);
+
+    private static DxScreenCapture _d;
+    private static ProtoClient _protoClient;
+
+    public static NotifyIcon TrayIcon;
+    private static bool CaptureEnabled;
+
+    public enum NotifcationLevels
     {
-        private static readonly string HyperionServerIp = ConfigurationManager.AppSettings["hyperionServerIP"];
-
-        private static readonly int HyperionServerJsonPort =
-            int.Parse(ConfigurationManager.AppSettings["hyperionServerJsonPort"]);
-
-        private static readonly int HyperionMessagePriority =
-            int.Parse(ConfigurationManager.AppSettings["hyperionMessagePriority"]);
-
-        public static readonly int HyperionMessageDuration =
-            int.Parse(ConfigurationManager.AppSettings["hyperionMessageDuration"]);
-
-        public static readonly int HyperionWidth = int.Parse(ConfigurationManager.AppSettings["width"]);
-        public static readonly int HyperionHeight = int.Parse(ConfigurationManager.AppSettings["height"]);
-        private static readonly int CaptureInterval = int.Parse(ConfigurationManager.AppSettings["captureInterval"]);
-        public static readonly int MonitorIndex = int.Parse(ConfigurationManager.AppSettings["monitorIndex"]);
-
-        private static readonly int HyperionServerProtoPort =
-            int.Parse(ConfigurationManager.AppSettings["hyperionServerProtoPort"]);
-
-        private static readonly string Protocol = ConfigurationManager.AppSettings["protocol"];
-
-        private static DxScreenCapture _d;
-
-        public static NotifyIcon TrayIcon;
-
-        public Form1()
-        {
-            InitializeComponent();
-
-            // Create a simple tray menu with only one item.
-            var trayMenu = new ContextMenu();
-            trayMenu.MenuItems.Add("Exit", OnExit);
-
-            TrayIcon = new NotifyIcon {Text = @"Hyperion Screen Capture (Not Connected)"};
-            TrayIcon.DoubleClick += TrayIcon_DoubleClick;
-            TrayIcon.Icon = Resources.Hyperion_disabled;
-
-            // Add menu to tray icon and show it.
-            TrayIcon.ContextMenu = trayMenu;
-            TrayIcon.Visible = true;
-
-            _d = new DxScreenCapture();
-
-            switch (Protocol)
-            {
-                case "json":
-                    ConnectToServer(HyperionServerIp, HyperionServerJsonPort);
-                    break;
-                case "proto":
-                    
-                    ProtoClient.Init(HyperionServerIp, HyperionServerProtoPort, HyperionMessagePriority);
-                    break;
-            }
-
-            if (!Connected() && !ProtoClient.IsConnected()) return;
-            Notifications.Info("Connected to Hyperion!");
-
-            TrayIcon.Icon = Resources.Hyperion_enabled;
-            TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-            screenCaptureInterval.Interval = CaptureInterval;
-            screenCaptureInterval.Enabled = true;
-        }
-
-
-        private void TrayIcon_DoubleClick(object sender, EventArgs e)
-        {
-            if (screenCaptureInterval.Enabled)
-            {
-                TrayIcon.Icon = Resources.Hyperion_disabled;
-                TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
-                screenCaptureInterval.Stop();
-            }
-            else
-            {
-                TrayIcon.Icon = Resources.Hyperion_enabled;
-                TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-                screenCaptureInterval.Start();
-            }
-        }
-
-        private static void OnExit(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        protected override void OnLoad(EventArgs e)
-        {
-            Visible = false; // Hide form window.
-            ShowInTaskbar = false; // Remove from taskbar.
-
-            base.OnLoad(e);
-        }
-
-        #region DXCapture
-
-        private static void capture()
-        {
-            try
-            {
-                var s = _d.CaptureScreen();
-
-                var dr = s.LockRectangle(LockFlags.None);
-                var gs = dr.Data;
-
-                var x = RemoveAlpha(gs);
-
-                s.UnlockRectangle();
-                s.Dispose();
-                gs.Dispose();
-
-
-                switch (Protocol)
-                {
-                    case "json":
-                        var y = Convert.ToBase64String(x);
-                        SetImage(y, HyperionMessagePriority, HyperionMessageDuration);
-                        break;
-                    case "proto":
-                        ProtoClient.SendImage(x);
-                        break;
-                }
-            }
-            catch (Exception ex)
-            {
-                Notifications.Error("Failed to take screenshot." + ex.Message);
-            }
-        }
-
-        #endregion
-
-        private void screenCaptureInterval_Tick(object sender, EventArgs e)
-        {
-            capture();
-        }
-
-        #region Tools
-
-        private static string Serialize(Hashtable n)
-        {
-            return JsonConvert.SerializeObject(n);
-        }
-
-        private static byte[] RemoveAlpha(Stream ia)
-        {
-            var newImage = new List<byte>();
-            while (ia.Position < ia.Length)
-            {
-                var a = new byte[4];
-                ia.Read(a, 0, 4);
-                newImage.Add(a[2]);
-                newImage.Add(a[1]);
-                newImage.Add(a[0]);
-            }
-            return newImage.ToArray();
-        }
-
-        #endregion
-
-        #region TcpClient
-
-        private static TcpClient _hyperionServer;
-        private static NetworkStream _serverStream;
-        private static StreamWriter _sendToServer;
-        private static StreamReader _readFromServer;
-
-        private static void ConnectToServer(string ip, int port)
-        {
-            try
-            {
-                Notifications.Info($"Connecting to Hyperion server: {HyperionServerIp}:{HyperionServerJsonPort}");
-
-                _hyperionServer = new TcpClient(ip, port) {NoDelay = true};
-                _serverStream = _hyperionServer.GetStream();
-                _sendToServer = new StreamWriter(_serverStream) {AutoFlush = true};
-
-                _readFromServer = new StreamReader(_serverStream);
-            }
-            catch (Exception ex)
-            {
-                Notifications.Error("Failed to connect to server. " + ex.Message);
-            }
-        }
-
-        private static void CloseConnection()
-        {
-            try
-            {
-                _serverStream.Dispose();
-                _sendToServer.Dispose();
-                _hyperionServer.Close();
-            }
-            catch
-            {
-                // ignored
-            }
-        }
-
-        private static bool Connected()
-        {
-            return _hyperionServer != null && _hyperionServer.Connected;
-        }
-
-        private static void SendMessage(Hashtable command)
-        {
-            try
-            {
-                var message = Serialize(command);
-                _sendToServer.WriteLine(message);
-                var response = _readFromServer.ReadLine();
-
-                if (response != "{\"success\":true}")
-                {
-                    Notifications.Error("Hyperion error. " + response);
-                }
-            }
-            catch (Exception ex)
-            {
-                Notifications.Error("Failed to send message to Hyperion Server. " + ex.Message);
-            }
-        }
-
-        private static void SetImage(string base64Image, int priority, int duration)
-        {
-            try
-            {
-                var command = new Hashtable
-                {
-                    ["command"] = "image",
-                    ["priority"] = priority,
-                    ["imagewidth"] = HyperionWidth,
-                    ["imageheight"] = HyperionHeight,
-                    ["imagedata"] = base64Image
-                };
-
-                if (duration > 0)
-                {
-                    command["duration"] = duration;
-                }
-
-                // send command message
-                SendMessage(command);
-            }
-            catch (Exception ex)
-            {
-                Notifications.Error("Failed to create JSON Message. " + ex.Message);
-            }
-        }
-
-        #endregion
+      None,
+      Info,
+      Error,
     }
+
+    public Form1()
+    {
+      InitializeComponent();
+
+      // Create a simple tray menu with only one item.
+      var trayMenu = new ContextMenu();
+      trayMenu.MenuItems.Add("Exit", OnExit);
+
+      TrayIcon = new NotifyIcon {Text = @"Hyperion Screen Capture (Not Connected)"};
+      TrayIcon.DoubleClick += TrayIcon_DoubleClick;
+      TrayIcon.Icon = Resources.Hyperion_disabled;
+
+      // Add menu to tray icon and show it.
+      TrayIcon.ContextMenu = trayMenu;
+      TrayIcon.Visible = true;
+
+      _d = new DxScreenCapture(MonitorIndex);
+
+      _protoClient = new ProtoClient();
+      _protoClient.Init(HyperionServerIp, HyperionServerPort, HyperionMessagePriority);
+
+      if (_protoClient.IsConnected())
+      {
+        if (NotificationLevel == NotifcationLevels.Info)
+        {
+          Notifications.Info(string.Format("Connected to Hyperion server on {0}!", HyperionServerIp));
+        }
+
+        CaptureEnabled = true;
+        Thread t = new Thread(StartCapture) {IsBackground = true};
+        t.Start();
+      }
+
+      TrayIcon.Icon = Resources.Hyperion_enabled;
+      TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
+    }
+
+
+    private void TrayIcon_DoubleClick
+      (object sender, EventArgs e)
+    {
+      if (screenCaptureInterval.Enabled)
+      {
+        TrayIcon.Icon = Resources.Hyperion_disabled;
+        TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
+        CaptureEnabled = false;
+      }
+      else
+      {
+        TrayIcon.Icon = Resources.Hyperion_enabled;
+        TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
+        CaptureEnabled = true;
+        Thread.Sleep(50);
+        Thread t = new Thread(StartCapture) {IsBackground = true};
+        t.Start();
+      }
+    }
+
+    private static
+      void OnExit
+      (object sender, EventArgs e)
+    {
+      // Clear tray icon on close
+      if (TrayIcon != null)
+      {
+        TrayIcon.Visible = false;
+      }
+
+      // On send clear priority
+      if (_protoClient != null)
+      {
+        CaptureEnabled = false;
+        _protoClient.ClearPriority(HyperionMessagePriority);
+        Thread.Sleep(50);
+        _protoClient.ClearPriority(HyperionMessagePriority);
+        _protoClient.Disconnect();
+      }
+
+      Application.Exit();
+    }
+
+    protected override
+      void OnLoad
+      (EventArgs
+        e)
+    {
+      Visible = false; // Hide form window.
+      ShowInTaskbar = false; // Remove from taskbar.
+
+      base.OnLoad(e);
+    }
+
+    #region DXCapture
+
+    private void StartCapture()
+    {
+      try
+      {
+        while (CaptureEnabled)
+        {
+          if (!_protoClient.IsConnected())
+          {
+            // Reconnect every 2.5s
+            _protoClient.Init(HyperionServerIp, HyperionServerPort, HyperionMessagePriority);
+            Thread.Sleep(2500);
+            continue;
+          }
+
+          Surface s = _d.CaptureScreen(HyperionWidth, HyperionHeight);
+          DataStream ds = Surface.ToStream(s, ImageFileFormat.Bmp);
+
+          byte[] buffer = new byte[ds.Length];
+          using (MemoryStream ms = new MemoryStream())
+          {
+            int read;
+            while ((read = ds.Read(buffer, 0, buffer.Length)) > 0)
+            {
+              ms.Write(buffer, 0, read);
+            }
+
+            byte[] pixelData = ms.ToArray();
+            _protoClient.SendImage(pixelData);
+
+            Thread.Sleep(CaptureInterval);
+          }
+        }
+      }
+      catch (Exception ex)
+      {
+        if (NotificationLevel == NotifcationLevels.Info || NotificationLevel == NotifcationLevels.Error)
+        {
+          Notifications.Error("Failed to take screenshot." + ex.Message);
+        }
+      }
+    }
+
+    #endregion
+  }
 }
