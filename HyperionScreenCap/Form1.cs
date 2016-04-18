@@ -86,10 +86,11 @@ namespace HyperionScreenCap
     private void TrayIcon_DoubleClick
       (object sender, EventArgs e)
     {
-      if (screenCaptureInterval.Enabled)
+      if (CaptureEnabled)
       {
         TrayIcon.Icon = Resources.Hyperion_disabled;
         TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
+        _protoClient.ClearPriority(HyperionMessagePriority);
         CaptureEnabled = false;
       }
       else

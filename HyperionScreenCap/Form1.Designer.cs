@@ -33,7 +33,6 @@ namespace HyperionScreenCap
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.screenCaptureInterval = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // Form1
@@ -48,7 +47,5 @@ namespace HyperionScreenCap
         }
 
         #endregion
-
-        public Timer screenCaptureInterval;
     }
 }
