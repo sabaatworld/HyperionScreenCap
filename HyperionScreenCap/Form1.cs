@@ -168,6 +168,9 @@ namespace HyperionScreenCap
 
             Thread.Sleep(CaptureInterval);
           }
+
+          ds.Dispose();
+          s.Dispose();
         }
       }
       catch (Exception ex)
