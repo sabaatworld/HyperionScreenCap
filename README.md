@@ -32,7 +32,7 @@ Setup is done by modifying the HyperionScreenCap.exe.config file.
     <add key="hyperionMessageDuration" value="1000"/> <!-- How long will each captured screenshot stay on LEDs -->
     <add key="width"  value="64"/> <!-- Keep these values small -->
     <add key="height" value="64"/> <!-- Keep these values small -->
-    <add key="captureInterval" value="10"/>
+    <add key="captureInterval" value="60"/>
     <add key="notificationLevel" value="None"/>
     <add key="monitorIndex" value="0"/> <!-- 0 is the main monitor -->
   </appSettings>
