@@ -19,7 +19,6 @@ namespace HyperionScreenCap
             if (disposing && (components != null))
             {
                 TrayIcon.Dispose();
-                CloseConnection();
                 components.Dispose();
             }
             base.Dispose(disposing);
@@ -34,13 +33,7 @@ namespace HyperionScreenCap
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            this.screenCaptureInterval = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
-            // 
-            // screenCaptureInterval
-            // 
-            this.screenCaptureInterval.Interval = 1000;
-            this.screenCaptureInterval.Tick += new System.EventHandler(this.screenCaptureInterval_Tick);
             // 
             // Form1
             // 
@@ -54,7 +47,5 @@ namespace HyperionScreenCap
         }
 
         #endregion
-
-        public Timer screenCaptureInterval;
     }
 }
