@@ -45,7 +45,7 @@ namespace HyperionScreenCap {
         internal static ResourceManager ResourceManager {
             get {
                 if (ReferenceEquals(resourceMan, null)) {
-                    ResourceManager temp = new ResourceManager("HyperionScreenCap.Resources", typeof(Resources).Assembly);
+                    var temp = new ResourceManager("HyperionScreenCap.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -71,7 +71,7 @@ namespace HyperionScreenCap {
         /// </summary>
         internal static Icon ConfigFile {
             get {
-                object obj = ResourceManager.GetObject("ConfigFile", resourceCulture);
+                var obj = ResourceManager.GetObject("ConfigFile", resourceCulture);
                 return ((Icon)(obj));
             }
         }
@@ -81,7 +81,7 @@ namespace HyperionScreenCap {
         /// </summary>
         internal static Icon Hyperion_disabled {
             get {
-                object obj = ResourceManager.GetObject("Hyperion_disabled", resourceCulture);
+                var obj = ResourceManager.GetObject("Hyperion_disabled", resourceCulture);
                 return ((Icon)(obj));
             }
         }
@@ -91,7 +91,7 @@ namespace HyperionScreenCap {
         /// </summary>
         internal static Icon Hyperion_enabled {
             get {
-                object obj = ResourceManager.GetObject("Hyperion_enabled", resourceCulture);
+                var obj = ResourceManager.GetObject("Hyperion_enabled", resourceCulture);
                 return ((Icon)(obj));
             }
         }

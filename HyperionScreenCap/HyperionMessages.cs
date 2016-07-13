@@ -43,7 +43,7 @@ namespace proto
 
         static Message()
         {
-            byte[] descriptorData = global::System.Convert.FromBase64String(
+            var descriptorData = global::System.Convert.FromBase64String(
                 "Cg1tZXNzYWdlLnByb3RvEgVwcm90byKCAQoPSHlwZXJpb25SZXF1ZXN0Ei8K" +
                 "B2NvbW1hbmQYASACKA4yHi5wcm90by5IeXBlcmlvblJlcXVlc3QuQ29tbWFu" +
                 "ZCI4CgdDb21tYW5kEgkKBUNPTE9SEAESCQoFSU1BR0UQAhIJCgVDTEVBUhAD" +
@@ -165,9 +165,9 @@ namespace proto
 
         public override void WriteTo(pb::ICodedOutputStream output)
         {
-            int size = SerializedSize;
-            string[] field_names = _hyperionRequestFieldNames;
-            pb::ExtendableMessage<HyperionRequest, HyperionRequest.Builder>.ExtensionWriter extensionWriter = CreateExtensionWriter(this);
+            var size = SerializedSize;
+            var field_names = _hyperionRequestFieldNames;
+            var extensionWriter = CreateExtensionWriter(this);
             if (hasCommand)
             {
                 output.WriteEnum(1, field_names[0], (int)Command, Command);
@@ -181,7 +181,7 @@ namespace proto
         {
             get
             {
-                int size = memoizedSerializedSize;
+                var size = memoizedSerializedSize;
                 if (size != -1) return size;
 
                 size = 0;
@@ -274,7 +274,7 @@ namespace proto
             {
                 if (resultIsReadOnly)
                 {
-                    HyperionRequest original = result;
+                    var original = result;
                     result = new HyperionRequest();
                     resultIsReadOnly = false;
                     MergeFrom(original);
@@ -372,7 +372,7 @@ namespace proto
                 {
                     if (tag == 0 && field_name != null)
                     {
-                        int field_ordinal = global::System.Array.BinarySearch(_hyperionRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
+                        var field_ordinal = global::System.Array.BinarySearch(_hyperionRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
                         if (field_ordinal >= 0)
                             tag = _hyperionRequestFieldTags[field_ordinal];
                         else
@@ -548,8 +548,8 @@ namespace proto
 
         public override void WriteTo(pb::ICodedOutputStream output)
         {
-            int size = SerializedSize;
-            string[] field_names = _colorRequestFieldNames;
+            var size = SerializedSize;
+            var field_names = _colorRequestFieldNames;
             if (hasPriority)
             {
                 output.WriteInt32(1, field_names[2], Priority);
@@ -570,7 +570,7 @@ namespace proto
         {
             get
             {
-                int size = memoizedSerializedSize;
+                var size = memoizedSerializedSize;
                 if (size != -1) return size;
 
                 size = 0;
@@ -670,7 +670,7 @@ namespace proto
             {
                 if (resultIsReadOnly)
                 {
-                    ColorRequest original = result;
+                    var original = result;
                     result = new ColorRequest();
                     resultIsReadOnly = false;
                     MergeFrom(original);
@@ -775,7 +775,7 @@ namespace proto
                 {
                     if (tag == 0 && field_name != null)
                     {
-                        int field_ordinal = global::System.Array.BinarySearch(_colorRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
+                        var field_ordinal = global::System.Array.BinarySearch(_colorRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
                         if (field_ordinal >= 0)
                             tag = _colorRequestFieldTags[field_ordinal];
                         else
@@ -1023,8 +1023,8 @@ namespace proto
 
         public override void WriteTo(pb::ICodedOutputStream output)
         {
-            int size = SerializedSize;
-            string[] field_names = _imageRequestFieldNames;
+            var size = SerializedSize;
+            var field_names = _imageRequestFieldNames;
             if (hasPriority)
             {
                 output.WriteInt32(1, field_names[4], Priority);
@@ -1053,7 +1053,7 @@ namespace proto
         {
             get
             {
-                int size = memoizedSerializedSize;
+                var size = memoizedSerializedSize;
                 if (size != -1) return size;
 
                 size = 0;
@@ -1161,7 +1161,7 @@ namespace proto
             {
                 if (resultIsReadOnly)
                 {
-                    ImageRequest original = result;
+                    var original = result;
                     result = new ImageRequest();
                     resultIsReadOnly = false;
                     MergeFrom(original);
@@ -1274,7 +1274,7 @@ namespace proto
                 {
                     if (tag == 0 && field_name != null)
                     {
-                        int field_ordinal = global::System.Array.BinarySearch(_imageRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
+                        var field_ordinal = global::System.Array.BinarySearch(_imageRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
                         if (field_ordinal >= 0)
                             tag = _imageRequestFieldTags[field_ordinal];
                         else
@@ -1530,8 +1530,8 @@ namespace proto
 
         public override void WriteTo(pb::ICodedOutputStream output)
         {
-            int size = SerializedSize;
-            string[] field_names = _clearRequestFieldNames;
+            var size = SerializedSize;
+            var field_names = _clearRequestFieldNames;
             if (hasPriority)
             {
                 output.WriteInt32(1, field_names[0], Priority);
@@ -1544,7 +1544,7 @@ namespace proto
         {
             get
             {
-                int size = memoizedSerializedSize;
+                var size = memoizedSerializedSize;
                 if (size != -1) return size;
 
                 size = 0;
@@ -1636,7 +1636,7 @@ namespace proto
             {
                 if (resultIsReadOnly)
                 {
-                    ClearRequest original = result;
+                    var original = result;
                     result = new ClearRequest();
                     resultIsReadOnly = false;
                     MergeFrom(original);
@@ -1733,7 +1733,7 @@ namespace proto
                 {
                     if (tag == 0 && field_name != null)
                     {
-                        int field_ordinal = global::System.Array.BinarySearch(_clearRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
+                        var field_ordinal = global::System.Array.BinarySearch(_clearRequestFieldNames, field_name, global::System.StringComparer.Ordinal);
                         if (field_ordinal >= 0)
                             tag = _clearRequestFieldTags[field_ordinal];
                         else
@@ -1882,8 +1882,8 @@ namespace proto
 
         public override void WriteTo(pb::ICodedOutputStream output)
         {
-            int size = SerializedSize;
-            string[] field_names = _hyperionReplyFieldNames;
+            var size = SerializedSize;
+            var field_names = _hyperionReplyFieldNames;
             if (hasSuccess)
             {
                 output.WriteBool(1, field_names[1], Success);
@@ -1900,7 +1900,7 @@ namespace proto
         {
             get
             {
-                int size = memoizedSerializedSize;
+                var size = memoizedSerializedSize;
                 if (size != -1) return size;
 
                 size = 0;
@@ -1996,7 +1996,7 @@ namespace proto
             {
                 if (resultIsReadOnly)
                 {
-                    HyperionReply original = result;
+                    var original = result;
                     result = new HyperionReply();
                     resultIsReadOnly = false;
                     MergeFrom(original);
@@ -2097,7 +2097,7 @@ namespace proto
                 {
                     if (tag == 0 && field_name != null)
                     {
-                        int field_ordinal = global::System.Array.BinarySearch(_hyperionReplyFieldNames, field_name, global::System.StringComparer.Ordinal);
+                        var field_ordinal = global::System.Array.BinarySearch(_hyperionReplyFieldNames, field_name, global::System.StringComparer.Ordinal);
                         if (field_ordinal >= 0)
                             tag = _hyperionReplyFieldTags[field_ordinal];
                         else

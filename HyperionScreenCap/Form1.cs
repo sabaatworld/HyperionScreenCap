@@ -3,7 +3,6 @@ using System.Configuration;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
-using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace HyperionScreenCap
@@ -20,7 +19,7 @@ namespace HyperionScreenCap
         public static readonly int HyperionWidth = int.Parse(ConfigurationManager.AppSettings["width"]);
         public static readonly int HyperionHeight = int.Parse(ConfigurationManager.AppSettings["height"]);
         private static readonly int CaptureInterval = int.Parse(ConfigurationManager.AppSettings["captureInterval"]);
-        public static readonly int MonitorIndex = int.Parse(ConfigurationManager.AppSettings["monitorIndex"]);
+        private static readonly int MonitorIndex = int.Parse(ConfigurationManager.AppSettings["monitorIndex"]);
 
         private static readonly int HyperionServerPort = int.Parse(ConfigurationManager.AppSettings["hyperionServerPort"]);
 
@@ -30,7 +29,7 @@ namespace HyperionScreenCap
         private static ProtoClient _protoClient;
 
         public static NotifyIcon TrayIcon;
-        private static bool CaptureEnabled;
+        private static bool _captureEnabled;
 
         public enum NotifcationLevels { None, Info, Error }
 
@@ -59,16 +58,16 @@ namespace HyperionScreenCap
             _d = new DxScreenCapture(MonitorIndex);
 
             _protoClient = new ProtoClient();
-            _protoClient.Init(HyperionServerIp, HyperionServerPort, HyperionMessagePriority);
+            ProtoClient.Init(HyperionServerIp, HyperionServerPort, HyperionMessagePriority);
 
-            if (_protoClient.IsConnected())
+            if (ProtoClient.IsConnected())
             {
 
-                Notifications.Info(string.Format("Connected to Hyperion server on {0}!", HyperionServerIp));
+                Notifications.Info($"Connected to Hyperion server on {HyperionServerIp}!");
 
 
-                CaptureEnabled = true;
-                Thread t = new Thread(StartCapture) { IsBackground = true };
+                _captureEnabled = true;
+                var t = new Thread(StartCapture) { IsBackground = true };
                 t.Start();
             }
 
@@ -76,22 +75,22 @@ namespace HyperionScreenCap
             TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
         }
 
-        private void TrayIcon_DoubleClick(object sender, EventArgs e)
+        private static void TrayIcon_DoubleClick(object sender, EventArgs e)
         {
-            if (CaptureEnabled)
+            if (_captureEnabled)
             {
                 TrayIcon.Icon = Resources.Hyperion_disabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
-                _protoClient.ClearPriority(HyperionMessagePriority);
-                CaptureEnabled = false;
+                ProtoClient.ClearPriority(HyperionMessagePriority);
+                _captureEnabled = false;
             }
             else
             {
                 TrayIcon.Icon = Resources.Hyperion_enabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-                CaptureEnabled = true;
+                _captureEnabled = true;
                 Thread.Sleep(50);
-                Thread t = new Thread(StartCapture) { IsBackground = true};
+                var t = new Thread(StartCapture) { IsBackground = true};
                 t.Start();
             }
         }
@@ -107,11 +106,11 @@ namespace HyperionScreenCap
             // On send clear priority
             if (_protoClient != null)
             {
-                CaptureEnabled = false;
-                _protoClient.ClearPriority(HyperionMessagePriority);
+                _captureEnabled = false;
+                ProtoClient.ClearPriority(HyperionMessagePriority);
                 Thread.Sleep(50);
-                _protoClient.ClearPriority(HyperionMessagePriority);
-                _protoClient.Disconnect();
+                ProtoClient.ClearPriority(HyperionMessagePriority);
+                ProtoClient.Disconnect();
             }
 
             Application.Exit();
@@ -127,25 +126,25 @@ namespace HyperionScreenCap
 
         #region DXCapture
 
-        private void StartCapture()
+        private static void StartCapture()
         {
             try
             {
-                while (CaptureEnabled)
+                while (_captureEnabled)
                 {
-                    if (!_protoClient.IsConnected())
+                    if (!ProtoClient.IsConnected())
                     {
                         // Reconnect every 2.5s
-                        _protoClient.Init(HyperionServerIp, HyperionServerPort, HyperionMessagePriority);
+                        ProtoClient.Init(HyperionServerIp, HyperionServerPort, HyperionMessagePriority);
                         Thread.Sleep(2500);
                         continue;
                     }
 
-                    Surface s = _d.CaptureScreen(HyperionWidth, HyperionHeight);
-                    DataStream ds = Surface.ToStream(s, ImageFileFormat.Bmp);
+                    var s = _d.CaptureScreen(HyperionWidth, HyperionHeight);
+                    var ds = Surface.ToStream(s, ImageFileFormat.Bmp);
 
-                    byte[] buffer = new byte[ds.Length];
-                    using (MemoryStream ms = new MemoryStream())
+                    var buffer = new byte[ds.Length];
+                    using (var ms = new MemoryStream())
                     {
                         int read;
                         while ((read = ds.Read(buffer, 0, buffer.Length)) > 0)
@@ -153,8 +152,8 @@ namespace HyperionScreenCap
                             ms.Write(buffer, 0, read);
                         }
 
-                        byte[] pixelData = ms.ToArray();
-                        _protoClient.SendImage(pixelData);
+                        var pixelData = ms.ToArray();
+                        ProtoClient.SendImage(pixelData);
 
                         Thread.Sleep(CaptureInterval);
                     }
