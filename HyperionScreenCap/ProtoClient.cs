@@ -130,6 +130,8 @@ namespace HyperionScreenCap
                 _stream.Flush();
 
                 // Enable reply message if needed (debugging only).
+                //var reply = ReceiveReply();
+                //Console.WriteLine($@"Reply: {reply.ToString()}");
             }
             catch (Exception ex)
             {
