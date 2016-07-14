@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using SlimDX;
 using SlimDX.Direct3D9;
 
 namespace HyperionScreenCap
@@ -134,32 +136,22 @@ namespace HyperionScreenCap
                 {
                     if (!ProtoClient.IsConnected())
                     {
-                        // Reconnect every 2.5s
+                        // Reconnect every 0.5s
                         ProtoClient.Init(HyperionServerIp, HyperionServerPort, HyperionMessagePriority);
-                        Thread.Sleep(2500);
+                        Thread.Sleep(500);
                         continue;
                     }
 
                     var s = _d.CaptureScreen(HyperionWidth, HyperionHeight);
-                    var ds = Surface.ToStream(s, ImageFileFormat.Bmp);
+                    var dr = s.LockRectangle(LockFlags.None);
+                    var ds = dr.Data;
+                    var x = removeAlpha(ds);
 
-                    var buffer = new byte[ds.Length];
-                    using (var ms = new MemoryStream())
-                    {
-                        int read;
-                        while ((read = ds.Read(buffer, 0, buffer.Length)) > 0)
-                        {
-                            ms.Write(buffer, 0, read);
-                        }
-
-                        var pixelData = ms.ToArray();
-                        ProtoClient.SendImage(pixelData);
-
-                        Thread.Sleep(CaptureInterval);
-                    }
-
-                    ds.Dispose();
+                    s.UnlockRectangle();
                     s.Dispose();
+                    ds.Dispose();
+
+                    ProtoClient.SendImageToServer(x);
                 }
             }
             catch (Exception ex)
@@ -169,5 +161,19 @@ namespace HyperionScreenCap
         }
 
         #endregion DXCapture
+
+        static byte[] removeAlpha(DataStream ia)
+        {
+            var newImage = new List<byte>();
+            while (ia.Position < ia.Length)
+            {
+                var a = new byte[4];
+                ia.Read(a, 0, 4);
+                newImage.Add(a[2]);
+                newImage.Add(a[1]);
+                newImage.Add(a[0]);
+            }
+            return newImage.ToArray();
+        }
     }
 }

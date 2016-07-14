@@ -61,61 +61,7 @@ namespace HyperionScreenCap
             _socket?.Close();
         }
 
-        public static void SendImage(byte[] pixeldataRaw)
-        {
-            var stream = new MemoryStream(pixeldataRaw);
-            var reader = new BinaryReader(stream);
-
-            stream.Position = 0; // ensure that what start at the beginning of the stream. 
-            reader.ReadBytes(14); // skip bitmap file info header
-            reader.ReadBytes(4 + 4 + 4 + 2 + 2 + 4 + 4 + 4 + 4 + 4 + 4);
-
-            var rgbL = (int) (stream.Length - stream.Position);
-            var rgb = rgbL/(64*64);
-
-            var pixelData = reader.ReadBytes((int) (stream.Length - stream.Position));
-
-            var h1PixelData = new byte[64*rgb];
-            var h2PixelData = new byte[64*rgb];
-
-            // We need to flip the image horizontally.
-            // Because after reading the bytes into the bytearray with BinaryReader the image is upside down (bmp characteristic).
-            int i;
-            for (i = 0; i < ((64/2) - 1); i++)
-            {
-                Array.Copy(pixelData, i*64*rgb, h1PixelData, 0, 64*rgb);
-                Array.Copy(pixelData, (64 - i - 1)*64*rgb, h2PixelData, 0, 64*rgb);
-                Array.Copy(h1PixelData, 0, pixelData, (64 - i - 1)*64*rgb, 64*rgb);
-                Array.Copy(h2PixelData, 0, pixelData, i*64*rgb, 64*rgb);
-            }
-
-            try
-            {
-                // Hyperion expects the bytestring to be the size of 3*width*height.
-                // So 3 bytes per pixel, as in RGB.
-                // Given pixeldata however is 4 bytes per pixel, as in RGBA.
-                // So we need to remove the last byte per pixel.
-                var newpixeldata = new byte[64*64*3];
-                var x = 0;
-                var i2 = 0;
-                while (i2 <= (newpixeldata.GetLength(0) - 2))
-                {
-                    newpixeldata[i2] = pixelData[i2 + x + 2];
-                    newpixeldata[i2 + 1] = pixelData[i2 + x + 1];
-                    newpixeldata[i2 + 2] = pixelData[i2 + x];
-                    i2 += 3;
-                    x++;
-                }
-
-                SendImageToServer(newpixeldata);
-            }
-            catch (Exception ex)
-            {
-                Notifications.Error($"Failed to prepare image for Hyperion server.{ex.Message}");
-            }
-        }
-
-        private static void SendImageToServer(byte[] pixeldata)
+        public static void SendImageToServer(byte[] pixeldata)
         {
             try
             {
@@ -183,13 +129,31 @@ namespace HyperionScreenCap
                 request.WriteTo(_stream);
                 _stream.Flush();
 
-                // Enable reply message if needed (debugging only)
-                //HyperionReply reply = ReceiveReply();
-                //Logger("Reply: " + reply.ToString());
+                // Enable reply message if needed (debugging only).
             }
             catch (Exception ex)
             {
-                Notifications.Error(ex.Message);
+                Notifications.Error($"Failed to send request.{ex.Message}");
+            }
+        }
+        private static HyperionReply ReceiveReply()
+        {
+            try
+            {
+                Stream input = _socket.GetStream();
+                var header = new byte[4];
+                input.Read(header, 0, 4);
+                var size = (header[0] << 24) | (header[1] << 16) | (header[2] << 8) | (header[3]);
+                var data = new byte[size];
+                input.Read(data, 0, size);
+                var reply = HyperionReply.ParseFrom(data);
+
+                return reply;
+            }
+            catch (Exception e)
+            {
+                Notifications.Error("Error during reeceive hyperion reply: " + e.Message);
+                return null;
             }
         }
     }
