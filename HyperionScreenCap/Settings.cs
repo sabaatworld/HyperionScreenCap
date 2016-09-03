@@ -7,6 +7,7 @@ namespace HyperionScreenCap
   class Settings
   {
     private static Configuration Config = ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath);
+
     public static string HyperionServerIp;
     public static int HyperionServerPort;
     public static int HyperionMessagePriority;
