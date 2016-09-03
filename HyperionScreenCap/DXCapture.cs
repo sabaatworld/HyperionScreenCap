@@ -36,7 +36,7 @@ namespace HyperionScreenCap
                 var s = Surface.CreateOffscreenPlain(_d, Screen.PrimaryScreen.Bounds.Width,
                     Screen.PrimaryScreen.Bounds.Height,
                     Format.A8R8G8B8, Pool.Scratch);
-                var b = Surface.CreateOffscreenPlain(_d, Form1.HyperionWidth, Form1.HyperionHeight, Format.A8R8G8B8,
+                var b = Surface.CreateOffscreenPlain(_d, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
                     Pool.Scratch);
                 _d.GetFrontBufferData(0, s);
                 Surface.FromSurface(b, s, Filter.Triangle, 0);
