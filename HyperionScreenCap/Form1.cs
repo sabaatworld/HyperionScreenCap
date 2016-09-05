@@ -35,6 +35,14 @@ namespace HyperionScreenCap
 
       // Create a simple tray menu with only one item.
       var trayMenu = new ContextMenu();
+      MenuItem menuItemChangeMonitor = new MenuItem("Change monitor index");
+
+      for (int i = 0; i <= 8; i++)
+      {
+        menuItemChangeMonitor.MenuItems.Add(new MenuItem(string.Format("#{0}", i), OnChangeMonitor));
+      }
+
+      trayMenu.MenuItems.Add(menuItemChangeMonitor);
       trayMenu.MenuItems.Add("Setup", OnSetup);
       trayMenu.MenuItems.Add("Exit", OnExit);
 
@@ -122,6 +130,23 @@ namespace HyperionScreenCap
       }
     }
 
+
+    private static void OnChangeMonitor(object sender, EventArgs e)
+    {
+      MenuItem selectedMenuItem = sender as MenuItem;
+      if (selectedMenuItem != null)
+      {
+        int newMonitorIndex;
+        bool isValidInteger = int.TryParse(selectedMenuItem.Text.Replace("#", string.Empty), out newMonitorIndex);
+        if (isValidInteger)
+        {
+          Settings.MonitorIndex = newMonitorIndex;
+          Settings.SaveSettings();
+          Init(true);
+        }
+      }
+    }
+
     private static void OnSetup(object sender, EventArgs e)
     {
       SetupForm setupForm = new SetupForm();
@@ -182,6 +207,9 @@ namespace HyperionScreenCap
           ds.Dispose();
 
           ProtoClient.SendImageToServer(x);
+
+          // Add small delay to reduce cpu usage (200FPS max)
+          Thread.Sleep(5);
         }
       }
       catch (Exception ex)
