@@ -67,10 +67,10 @@ namespace HyperionScreenCap
             {
                 var imageRequest = ImageRequest.CreateBuilder()
                     .SetImagedata(ByteString.CopyFrom(pixeldata))
-                    .SetImageheight(Form1.HyperionHeight)
-                    .SetImagewidth(Form1.HyperionWidth)
+                    .SetImageheight(Settings.HyperionHeight)
+                    .SetImagewidth(Settings.HyperionWidth)
                     .SetPriority(_hyperionPriority)
-                    .SetDuration(Form1.HyperionMessageDuration)
+                    .SetDuration(Settings.HyperionMessageDuration)
                     .Build();
 
                 var request = HyperionRequest.CreateBuilder()
