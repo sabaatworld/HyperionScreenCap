@@ -209,7 +209,7 @@ namespace HyperionScreenCap
           ProtoClient.SendImageToServer(x);
 
           // Add small delay to reduce cpu usage (200FPS max)
-          Thread.Sleep(5);
+          Thread.Sleep(Settings.CaptureInterval);
         }
       }
       catch (Exception ex)
@@ -218,20 +218,24 @@ namespace HyperionScreenCap
       }
     }
 
-    #endregion DXCapture
+        #endregion DXCapture
 
-    static byte[] RemoveAlpha(DataStream ia)
-    {
-      var newImage = new List<byte>();
-      while (ia.Position < ia.Length)
-      {
-        var a = new byte[4];
-        ia.Read(a, 0, 4);
-        newImage.Add(a[2]);
-        newImage.Add(a[1]);
-        newImage.Add(a[0]);
-      }
-      return newImage.ToArray();
+        private static byte[] RemoveAlpha(DataStream ia)
+        {
+            var newImage = new byte[(ia.Length * 3 / 4)];
+            int counter = 0;
+            while (ia.Position < ia.Length)
+            {
+                var a = new byte[4];
+                ia.Read(a, 0, 4);
+                newImage[counter] = (a[2]);
+                counter++;
+                newImage[counter] = (a[1]);
+                counter++;
+                newImage[counter] = (a[0]);
+                counter++;
+            }
+            return newImage;
+        }
     }
-  }
 }
