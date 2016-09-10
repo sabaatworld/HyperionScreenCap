@@ -7,14 +7,14 @@ namespace HyperionScreenCap
     {
         public static void Error(string errorMsg)
         {
-            if (Settings.NotificationLevel != Form1.NotifcationLevels.Info &&
-                Settings.NotificationLevel != Form1.NotifcationLevels.Error) return;
+            if (Settings.NotificationLevel != Form1.NotificationLevels.Info &&
+                Settings.NotificationLevel != Form1.NotificationLevels.Error) return;
             Form1.TrayIcon.ShowBalloonTip(3000, "", errorMsg, ToolTipIcon.Error);
         }
 
         public static void Info(string infoMsg)
         {
-            if (Settings.NotificationLevel != Form1.NotifcationLevels.Info) return;
+            if (Settings.NotificationLevel != Form1.NotificationLevels.Info) return;
             Form1.TrayIcon.ShowBalloonTip(1000, "", infoMsg, ToolTipIcon.Info);
             Console.WriteLine(infoMsg);
         }

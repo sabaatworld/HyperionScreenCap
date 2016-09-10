@@ -20,7 +20,7 @@ namespace HyperionScreenCap
                     PresentationInterval = PresentInterval.Immediate
                 };
 
-                _d = new Device(new Direct3D(), GetMonitor(monitorIndex), DeviceType.Hardware, IntPtr.Zero,
+                _d = new Device(new Direct3D(), getMonitor(monitorIndex), DeviceType.Hardware, IntPtr.Zero,
                     CreateFlags.SoftwareVertexProcessing, presentParams);
             }
             catch (Exception ex)
@@ -50,7 +50,7 @@ namespace HyperionScreenCap
             return null;
         }
 
-        private static int GetMonitor(int monitorIndex)
+        private static int getMonitor(int monitorIndex)
         {
             var monitorArray = DisplayMonitor.EnumerateMonitors();
             if (monitorArray.Length - 1 >= monitorIndex)
