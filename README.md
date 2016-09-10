@@ -5,7 +5,7 @@ Windows screen capture program for the [Hyperion](https://github.com/tvdzwan/hyp
 The program uses Direct3D9 to capture the screen, resize it and send it to the ProtoBuffer interface of Hyperion.
 
 ## Download
-[SetupHyperionScreenCap1.3.exe](https://github.com/hanselb/HyperionScreenCap/releases/download/v1.3/SetupHyperionScreenCap1.3.exe)
+[SetupHyperionScreenCap.exe](https://github.com/hanselb/HyperionScreenCap/releases/download/v1.4/SetupHyperionScreenCap.exe)
 
 ## Dependencies
 
