@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using SlimDX.Windows;
 
 namespace HyperionScreenCap
 {
@@ -9,6 +10,14 @@ namespace HyperionScreenCap
         public SetupForm()
         {
             InitializeComponent();
+
+            // Automatically set the monitor index
+
+            for (int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++)
+            {
+                cbMonitorIndex.Items.Add(i);
+            }
+
             loadSettings();
         }
 

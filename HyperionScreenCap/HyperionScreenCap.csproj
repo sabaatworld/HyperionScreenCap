@@ -210,6 +210,10 @@
     <Content Include="Installation Files\scripts\products\wic.iss" />
     <Content Include="Installation Files\scripts\products\winversion.iss" />
     <Content Include="Installation Files\src\dxwebsetup.exe" />
+    <None Include="Resources\gear.ico" />
+    <None Include="Resources\cross.ico" />
+    <None Include="Resources\television--arrow.ico" />
+    <None Include="Resources\television--pencil.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Installation Files\Output\" />

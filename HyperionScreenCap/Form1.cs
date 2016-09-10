@@ -3,6 +3,7 @@ using System.Threading;
 using System.Windows.Forms;
 using SlimDX;
 using SlimDX.Direct3D9;
+using SlimDX.Windows;
 
 namespace HyperionScreenCap
 {
@@ -15,7 +16,7 @@ namespace HyperionScreenCap
         private static ProtoClient _protoClient;
 
         public static NotifyIcon TrayIcon;
-        private static bool CaptureEnabled;
+        private static bool _captureEnabled;
 
         public enum NotificationLevels
         {
@@ -32,16 +33,28 @@ namespace HyperionScreenCap
 
             #region TrayIcon
 
-            // Create a simple tray menu with only one item.
-            var trayMenu = new ContextMenu();
-            MenuItem menuItemChangeMonitor = new MenuItem("Change monitor index");
 
-            for (int i = 0; i <= 8; i++)
+            // Add menu icons
+            var trayMenuIcons = new ContextMenuStrip();
+            trayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap(), onChangeMonitor);
+
+
+            // Create a simple tray menu with only one item.
+
+            for (int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++)
             {
-                menuItemChangeMonitor.MenuItems.Add(new MenuItem(string.Format("#{0}", i), onChangeMonitor));
+                ((ToolStripMenuItem) trayMenuIcons.Items[0]).DropDownItems.Add(string.Format("#{0}", i), Resources.television__arrow.ToBitmap(), onChangeMonitor);
             }
 
-            trayMenu.MenuItems.Add(menuItemChangeMonitor);
+
+            trayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), onSetup);
+            trayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), onExit);
+
+            // Create a simple tray menu with only one item.
+            var trayMenu = new ContextMenu();
+
+            
+//            trayMenu.MenuItems.Add(menuItemChangeMonitor);
             trayMenu.MenuItems.Add("Setup", onSetup);
             trayMenu.MenuItems.Add("Exit", onExit);
 
@@ -50,7 +63,9 @@ namespace HyperionScreenCap
             TrayIcon.Icon = Resources.Hyperion_disabled;
 
             // Add menu to tray icon and show it.
-            TrayIcon.ContextMenu = trayMenu;
+            TrayIcon.ContextMenuStrip = trayMenuIcons;
+            //TrayIcon.ContextMenu = trayMenu;
+            
             TrayIcon.Visible = true;
 
             Settings.LoadSetttings();
@@ -78,7 +93,7 @@ namespace HyperionScreenCap
                 // Stop current capture first on reinit
                 if (reInit)
                 {
-                    CaptureEnabled = false;
+                    _captureEnabled = false;
                     Thread.Sleep(500 + Settings.CaptureInterval);
 
                     if (_protoClient != null)
@@ -98,7 +113,7 @@ namespace HyperionScreenCap
                 {
                     Notifications.Info($"Connected to Hyperion server on {Settings.HyperionServerIp}!");
 
-                    CaptureEnabled = true;
+                    _captureEnabled = true;
                     var t = new Thread(startCapture) {IsBackground = true};
                     t.Start();
                 }
@@ -112,18 +127,18 @@ namespace HyperionScreenCap
 
         private static void TrayIcon_DoubleClick(object sender, EventArgs e)
         {
-            if (CaptureEnabled)
+            if (_captureEnabled)
             {
                 TrayIcon.Icon = Resources.Hyperion_disabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
                 ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
-                CaptureEnabled = false;
+                _captureEnabled = false;
             }
             else
             {
                 TrayIcon.Icon = Resources.Hyperion_enabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-                CaptureEnabled = true;
+                _captureEnabled = true;
                 Thread.Sleep(50);
                 var t = new Thread(startCapture) {IsBackground = true};
                 t.Start();
@@ -163,7 +178,7 @@ namespace HyperionScreenCap
             // On send clear priority
             if (_protoClient != null)
             {
-                CaptureEnabled = false;
+                _captureEnabled = false;
                 ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
                 Thread.Sleep(50);
                 ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
@@ -187,7 +202,7 @@ namespace HyperionScreenCap
         {
             try
             {
-                while (CaptureEnabled)
+                while (_captureEnabled)
                 {
                     if (!ProtoClient.IsConnected())
                     {
