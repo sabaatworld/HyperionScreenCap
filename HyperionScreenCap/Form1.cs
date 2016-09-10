@@ -33,30 +33,20 @@ namespace HyperionScreenCap
 
             #region TrayIcon
 
-
             // Add menu icons
             var trayMenuIcons = new ContextMenuStrip();
             trayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap(), onChangeMonitor);
-
 
             // Create a simple tray menu with only one item.
 
             for (int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++)
             {
-                ((ToolStripMenuItem) trayMenuIcons.Items[0]).DropDownItems.Add(string.Format("#{0}", i), Resources.television__arrow.ToBitmap(), onChangeMonitor);
+                ((ToolStripMenuItem) trayMenuIcons.Items[0]).DropDownItems.Add(string.Format("#{0}", i),
+                    Resources.television__arrow.ToBitmap(), onChangeMonitor);
             }
-
 
             trayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), onSetup);
             trayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), onExit);
-
-            // Create a simple tray menu with only one item.
-            var trayMenu = new ContextMenu();
-
-            
-//            trayMenu.MenuItems.Add(menuItemChangeMonitor);
-            trayMenu.MenuItems.Add("Setup", onSetup);
-            trayMenu.MenuItems.Add("Exit", onExit);
 
             TrayIcon = new NotifyIcon {Text = @"Hyperion Screen Capture (Not Connected)"};
             TrayIcon.DoubleClick += TrayIcon_DoubleClick;
@@ -65,7 +55,7 @@ namespace HyperionScreenCap
             // Add menu to tray icon and show it.
             TrayIcon.ContextMenuStrip = trayMenuIcons;
             //TrayIcon.ContextMenu = trayMenu;
-            
+
             TrayIcon.Visible = true;
 
             Settings.LoadSetttings();
