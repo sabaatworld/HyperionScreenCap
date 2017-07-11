@@ -35,6 +35,9 @@ namespace HyperionScreenCap
                 tbCaptureInterval.Text = Settings.CaptureInterval.ToString();
                 cbMonitorIndex.Text = Settings.MonitorIndex.ToString();
                 tbReconnectInterval.Text = Settings.ReconnectInterval.ToString();
+                tbApiPort.Text = Settings.ApiPort.ToString();
+                chkApiEnabled.Checked = Settings.ApiEnabled;
+
                 cbNotificationLevel.Text = Settings.NotificationLevel.ToString();
             }
             catch (Exception ex)
@@ -61,6 +64,9 @@ namespace HyperionScreenCap
                 Settings.CaptureInterval = int.Parse(tbCaptureInterval.Text);
                 Settings.MonitorIndex = int.Parse(cbMonitorIndex.Text);
                 Settings.ReconnectInterval = int.Parse(tbReconnectInterval.Text);
+                Settings.ApiPort = int.Parse(tbApiPort.Text);
+                Settings.ApiEnabled = chkApiEnabled.Checked;
+
                 Settings.NotificationLevel =
                     (Form1.NotificationLevels) Enum.Parse(typeof(Form1.NotificationLevels), cbNotificationLevel.Text);
 
@@ -177,6 +183,16 @@ namespace HyperionScreenCap
             if (validatorInt(tbReconnectInterval.Text, minValue, maxValue, false) == false)
             {
                 MessageBox.Show(@"Invalid integer filled for reconnect interval");
+            }
+        }
+
+        private void tbApiPort_Validating(object sender, CancelEventArgs e)
+        {
+            const int minValue = 1;
+            const int maxValue = 65535;
+            if (validatorInt(tbApiPort.Text, minValue, maxValue, false) == false)
+            {
+                MessageBox.Show(@"Invalid integer filled for port");
             }
         }
     }

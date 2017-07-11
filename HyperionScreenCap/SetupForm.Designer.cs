@@ -42,6 +42,9 @@
             this.tbIPHostName = new System.Windows.Forms.TextBox();
             this.lblIPHostName = new System.Windows.Forms.Label();
             this.tabPageAdvanced = new System.Windows.Forms.TabPage();
+            this.lblApiPort = new System.Windows.Forms.Label();
+            this.tbApiPort = new System.Windows.Forms.TextBox();
+            this.chkApiEnabled = new System.Windows.Forms.CheckBox();
             this.tbReconnectInterval = new System.Windows.Forms.TextBox();
             this.lblReconnectInterval = new System.Windows.Forms.Label();
             this.tbCaptureInterval = new System.Windows.Forms.TextBox();
@@ -193,6 +196,9 @@
             // tabPageAdvanced
             // 
             this.tabPageAdvanced.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageAdvanced.Controls.Add(this.lblApiPort);
+            this.tabPageAdvanced.Controls.Add(this.tbApiPort);
+            this.tabPageAdvanced.Controls.Add(this.chkApiEnabled);
             this.tabPageAdvanced.Controls.Add(this.tbReconnectInterval);
             this.tabPageAdvanced.Controls.Add(this.lblReconnectInterval);
             this.tabPageAdvanced.Controls.Add(this.tbCaptureInterval);
@@ -209,6 +215,33 @@
             this.tabPageAdvanced.Size = new System.Drawing.Size(689, 270);
             this.tabPageAdvanced.TabIndex = 1;
             this.tabPageAdvanced.Text = "Advanced";
+            // 
+            // lblApiPort
+            // 
+            this.lblApiPort.AutoSize = true;
+            this.lblApiPort.Location = new System.Drawing.Point(10, 217);
+            this.lblApiPort.Name = "lblApiPort";
+            this.lblApiPort.Size = new System.Drawing.Size(45, 13);
+            this.lblApiPort.TabIndex = 12;
+            this.lblApiPort.Text = "API port";
+            // 
+            // tbApiPort
+            // 
+            this.tbApiPort.Location = new System.Drawing.Point(143, 214);
+            this.tbApiPort.Name = "tbApiPort";
+            this.tbApiPort.Size = new System.Drawing.Size(60, 20);
+            this.tbApiPort.TabIndex = 11;
+            this.tbApiPort.Validating += new System.ComponentModel.CancelEventHandler(this.tbApiPort_Validating);
+            // 
+            // chkApiEnabled
+            // 
+            this.chkApiEnabled.AutoSize = true;
+            this.chkApiEnabled.Location = new System.Drawing.Point(209, 216);
+            this.chkApiEnabled.Name = "chkApiEnabled";
+            this.chkApiEnabled.Size = new System.Drawing.Size(79, 17);
+            this.chkApiEnabled.TabIndex = 10;
+            this.chkApiEnabled.Text = "Enable API";
+            this.chkApiEnabled.UseVisualStyleBackColor = true;
             // 
             // tbReconnectInterval
             // 
@@ -350,5 +383,8 @@
     private System.Windows.Forms.TextBox tbReconnectInterval;
     private System.Windows.Forms.Label lblReconnectInterval;
     private System.Windows.Forms.Button btnSaveExit;
+    private System.Windows.Forms.Label lblApiPort;
+    private System.Windows.Forms.TextBox tbApiPort;
+    private System.Windows.Forms.CheckBox chkApiEnabled;
   }
 }

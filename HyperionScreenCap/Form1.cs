@@ -14,6 +14,7 @@ namespace HyperionScreenCap
         private static bool _initLock;
         private static DxScreenCapture _d;
         private static ProtoClient _protoClient;
+        private static ApiServer _apiServer;
 
         public static NotifyIcon TrayIcon;
         private static bool _captureEnabled;
@@ -111,18 +112,42 @@ namespace HyperionScreenCap
                 TrayIcon.Icon = Resources.Hyperion_enabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
 
+                if (Settings.ApiEnabled)
+                {
+                    _apiServer = new ApiServer();
+                    _apiServer.StartServer("localhost", Settings.ApiPort.ToString());
+                }
+                else if (_apiServer != null)
+                {
+                    _apiServer.StopServer();
+                }
+
                 _initLock = false;
             }
         }
 
         private static void TrayIcon_DoubleClick(object sender, EventArgs e)
         {
-            if (_captureEnabled)
+            ToggleCapture("");
+        }
+
+        public static void ToggleCapture(string command)
+        {
+            if (_captureEnabled || command == "OFF")
             {
                 TrayIcon.Icon = Resources.Hyperion_disabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
                 ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
                 _captureEnabled = false;
+            }
+            else if (!_captureEnabled && command == "ON")
+            {
+                TrayIcon.Icon = Resources.Hyperion_enabled;
+                TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
+                _captureEnabled = true;
+                Thread.Sleep(50);
+                var t = new Thread(startCapture) { IsBackground = true };
+                t.Start();
             }
             else
             {
@@ -174,6 +199,8 @@ namespace HyperionScreenCap
                 ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
                 ProtoClient.Disconnect();
             }
+            if(_apiServer != null)
+                _apiServer.StopServer();
 
             Application.Exit();
         }

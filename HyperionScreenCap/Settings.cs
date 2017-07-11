@@ -21,6 +21,9 @@ namespace HyperionScreenCap
         public static int MonitorIndex;
         public static int ReconnectInterval;
 
+        public static int ApiPort;
+        public static bool ApiEnabled;
+
         public static Form1.NotificationLevels NotificationLevel;
 
         public static void SaveSettings()
@@ -37,6 +40,11 @@ namespace HyperionScreenCap
             setting["monitorIndex"].Value = MonitorIndex.ToString();
             setting["reconnectInterval"].Value = ReconnectInterval.ToString();
             setting["notificationLevel"].Value = NotificationLevel.ToString();
+
+            if(setting["apiPort"] != null)
+                setting["apiPort"].Value = ApiPort.ToString();
+            if (setting["apiEnabled"] != null)
+                setting["apiEnabled"].Value = ApiEnabled.ToString();
 
             Config.Save(ConfigurationSaveMode.Modified);
         }
@@ -56,6 +64,12 @@ namespace HyperionScreenCap
                 CaptureInterval = int.Parse(setting["captureInterval"].Value);
                 MonitorIndex = int.Parse(setting["monitorIndex"].Value);
                 ReconnectInterval = int.Parse(setting["reconnectInterval"].Value);
+
+                if (setting["apiPort"] != null)
+                    ApiPort = int.Parse(setting["apiPort"].Value);
+                if (setting["apiEnabled"] != null)
+                    ApiEnabled = bool.Parse(setting["apiEnabled"].Value);
+
                 NotificationLevel =
                     (Form1.NotificationLevels)
                         Enum.Parse(typeof(Form1.NotificationLevels), setting["notificationLevel"].Value);
