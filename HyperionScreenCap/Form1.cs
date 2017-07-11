@@ -133,7 +133,7 @@ namespace HyperionScreenCap
 
         public static void ToggleCapture(string command)
         {
-            if (_captureEnabled || command == "OFF")
+            if (_captureEnabled && command == "OFF")
             {
                 TrayIcon.Icon = Resources.Hyperion_disabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
@@ -149,7 +149,7 @@ namespace HyperionScreenCap
                 var t = new Thread(startCapture) { IsBackground = true };
                 t.Start();
             }
-            else
+            else if (string.IsNullOrEmpty(command))
             {
                 TrayIcon.Icon = Resources.Hyperion_enabled;
                 TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
