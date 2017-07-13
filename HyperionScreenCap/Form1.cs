@@ -126,41 +126,32 @@ namespace HyperionScreenCap
             }
         }
 
-        private static void TrayIcon_DoubleClick(object sender, EventArgs e)
-        {
-            ToggleCapture("");
-        }
+      private static void TrayIcon_DoubleClick(object sender, EventArgs e)
+      {
+        ToggleCapture(_captureEnabled ? "OFF" : "ON");
+      }
 
-        public static void ToggleCapture(string command)
+      public static void ToggleCapture(string command)
+      {
+        if (_captureEnabled && command == "OFF")
         {
-            if (_captureEnabled && command == "OFF")
-            {
-                TrayIcon.Icon = Resources.Hyperion_disabled;
-                TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
-                ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
-                _captureEnabled = false;
-            }
-            else if (!_captureEnabled && command == "ON")
-            {
-                TrayIcon.Icon = Resources.Hyperion_enabled;
-                TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-                _captureEnabled = true;
-                Thread.Sleep(50);
-                var t = new Thread(startCapture) { IsBackground = true };
-                t.Start();
-            }
-            else if (string.IsNullOrEmpty(command))
-            {
-                TrayIcon.Icon = Resources.Hyperion_enabled;
-                TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-                _captureEnabled = true;
-                Thread.Sleep(50);
-                var t = new Thread(startCapture) {IsBackground = true};
-                t.Start();
-            }
+          TrayIcon.Icon = Resources.Hyperion_disabled;
+          TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
+          ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
+          _captureEnabled = false;
         }
+        else if (!_captureEnabled && command == "ON")
+        {
+          TrayIcon.Icon = Resources.Hyperion_enabled;
+          TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
+          _captureEnabled = true;
+          Thread.Sleep(50);
+          var t = new Thread(startCapture) {IsBackground = true};
+          t.Start();
+        }
+      }
 
-        private static void onChangeMonitor(object sender, EventArgs e)
+      private static void onChangeMonitor(object sender, EventArgs e)
         {
             MenuItem selectedMenuItem = sender as MenuItem;
             if (selectedMenuItem != null)
