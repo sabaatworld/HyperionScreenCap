@@ -46,8 +46,8 @@ namespace HyperionScreenCap
                     Resources.television__arrow.ToBitmap(), onChangeMonitor);
             }
 
-            trayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), onSetup);
-            trayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), onExit);
+            trayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
+            trayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), OnExit);
 
             TrayIcon = new NotifyIcon {Text = @"Hyperion Screen Capture (Not Connected)"};
             TrayIcon.DoubleClick += TrayIcon_DoubleClick;
@@ -100,17 +100,20 @@ namespace HyperionScreenCap
                 ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort,
                     Settings.HyperionMessagePriority);
 
-                if (ProtoClient.IsConnected())
+                if (Settings.CaptureOnStartup)
                 {
-                    Notifications.Info($"Connected to Hyperion server on {Settings.HyperionServerIp}!");
+                    if (ProtoClient.IsConnected())
+                    {
+                        Notifications.Info($"Connected to Hyperion server on {Settings.HyperionServerIp}!");
 
-                    _captureEnabled = true;
-                    var t = new Thread(startCapture) {IsBackground = true};
-                    t.Start();
+                        _captureEnabled = true;
+                        var t = new Thread(StartCapture) {IsBackground = true};
+                        t.Start();
+                    }
+
+                    TrayIcon.Icon = Resources.Hyperion_enabled;
+                    TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
                 }
-
-                TrayIcon.Icon = Resources.Hyperion_enabled;
-                TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
 
                 if (Settings.ApiEnabled)
                 {
@@ -146,7 +149,7 @@ namespace HyperionScreenCap
           TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
           _captureEnabled = true;
           Thread.Sleep(50);
-          var t = new Thread(startCapture) {IsBackground = true};
+          var t = new Thread(StartCapture) {IsBackground = true};
           t.Start();
         }
       }
@@ -167,13 +170,13 @@ namespace HyperionScreenCap
             }
         }
 
-        private static void onSetup(object sender, EventArgs e)
+        private static void OnSetup(object sender, EventArgs e)
         {
             SetupForm setupForm = new SetupForm();
             setupForm.Show();
         }
 
-        private static void onExit(object sender, EventArgs e)
+        private static void OnExit(object sender, EventArgs e)
         {
             // Clear tray icon on close
             if (TrayIcon != null)
@@ -190,10 +193,11 @@ namespace HyperionScreenCap
                 ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
                 ProtoClient.Disconnect();
             }
-            if(_apiServer != null)
+
+            if(Settings.ApiEnabled)
                 _apiServer.StopServer();
 
-            Application.Exit();
+            Environment.Exit(0);
         }
 
         protected override void OnLoad(EventArgs e)
@@ -206,7 +210,7 @@ namespace HyperionScreenCap
 
         #region DXCapture
 
-        private static void startCapture()
+        private static void StartCapture()
         {
             try
             {
@@ -224,7 +228,7 @@ namespace HyperionScreenCap
                     var s = _d.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight);
                     var dr = s.LockRectangle(LockFlags.None);
                     var ds = dr.Data;
-                    var x = removeAlpha(ds);
+                    var x = RemoveAlpha(ds);
 
                     s.UnlockRectangle();
                     s.Dispose();
@@ -244,7 +248,7 @@ namespace HyperionScreenCap
 
         #endregion DXCapture
 
-        private static byte[] removeAlpha(DataStream ia)
+        private static byte[] RemoveAlpha(DataStream ia)
         {
             var newImage = new byte[(ia.Length*3/4)];
             int counter = 0;

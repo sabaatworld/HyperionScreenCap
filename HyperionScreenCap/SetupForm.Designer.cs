@@ -56,9 +56,17 @@
             this.tbMessageDuration = new System.Windows.Forms.TextBox();
             this.lblMessageDuration = new System.Windows.Forms.Label();
             this.btnSaveExit = new System.Windows.Forms.Button();
+            this.grpDeactivate = new System.Windows.Forms.GroupBox();
+            this.tbApiExcludeEnd = new System.Windows.Forms.TextBox();
+            this.lblEnd = new System.Windows.Forms.Label();
+            this.tbApiExcludeStart = new System.Windows.Forms.TextBox();
+            this.lblStart = new System.Windows.Forms.Label();
+            this.chkApiExcludeTimesEnabled = new System.Windows.Forms.CheckBox();
+            this.chkCaptureOnStartup = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
             this.tabPageAdvanced.SuspendLayout();
+            this.grpDeactivate.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -74,6 +82,7 @@
             // tabPageGeneric
             // 
             this.tabPageGeneric.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageGeneric.Controls.Add(this.chkCaptureOnStartup);
             this.tabPageGeneric.Controls.Add(this.cbMessagePriority);
             this.tabPageGeneric.Controls.Add(this.lblMessagePriority);
             this.tabPageGeneric.Controls.Add(this.cbMonitorIndex);
@@ -196,6 +205,7 @@
             // tabPageAdvanced
             // 
             this.tabPageAdvanced.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageAdvanced.Controls.Add(this.grpDeactivate);
             this.tabPageAdvanced.Controls.Add(this.lblApiPort);
             this.tabPageAdvanced.Controls.Add(this.tbApiPort);
             this.tabPageAdvanced.Controls.Add(this.chkApiEnabled);
@@ -219,7 +229,7 @@
             // lblApiPort
             // 
             this.lblApiPort.AutoSize = true;
-            this.lblApiPort.Location = new System.Drawing.Point(10, 217);
+            this.lblApiPort.Location = new System.Drawing.Point(395, 17);
             this.lblApiPort.Name = "lblApiPort";
             this.lblApiPort.Size = new System.Drawing.Size(45, 13);
             this.lblApiPort.TabIndex = 12;
@@ -227,7 +237,7 @@
             // 
             // tbApiPort
             // 
-            this.tbApiPort.Location = new System.Drawing.Point(143, 214);
+            this.tbApiPort.Location = new System.Drawing.Point(446, 14);
             this.tbApiPort.Name = "tbApiPort";
             this.tbApiPort.Size = new System.Drawing.Size(60, 20);
             this.tbApiPort.TabIndex = 11;
@@ -236,7 +246,7 @@
             // chkApiEnabled
             // 
             this.chkApiEnabled.AutoSize = true;
-            this.chkApiEnabled.Location = new System.Drawing.Point(209, 216);
+            this.chkApiEnabled.Location = new System.Drawing.Point(512, 16);
             this.chkApiEnabled.Name = "chkApiEnabled";
             this.chkApiEnabled.Size = new System.Drawing.Size(79, 17);
             this.chkApiEnabled.TabIndex = 10;
@@ -338,6 +348,76 @@
             this.btnSaveExit.UseVisualStyleBackColor = true;
             this.btnSaveExit.Click += new System.EventHandler(this.btnSaveExit_Click);
             // 
+            // grpDeactivate
+            // 
+            this.grpDeactivate.Controls.Add(this.chkApiExcludeTimesEnabled);
+            this.grpDeactivate.Controls.Add(this.tbApiExcludeEnd);
+            this.grpDeactivate.Controls.Add(this.lblEnd);
+            this.grpDeactivate.Controls.Add(this.tbApiExcludeStart);
+            this.grpDeactivate.Controls.Add(this.lblStart);
+            this.grpDeactivate.Location = new System.Drawing.Point(395, 53);
+            this.grpDeactivate.Name = "grpDeactivate";
+            this.grpDeactivate.Size = new System.Drawing.Size(287, 106);
+            this.grpDeactivate.TabIndex = 13;
+            this.grpDeactivate.TabStop = false;
+            this.grpDeactivate.Text = "Disable API control during specified time range";
+            // 
+            // tbApiExcludeEnd
+            // 
+            this.tbApiExcludeEnd.Location = new System.Drawing.Point(76, 75);
+            this.tbApiExcludeEnd.Name = "tbApiExcludeEnd";
+            this.tbApiExcludeEnd.Size = new System.Drawing.Size(50, 20);
+            this.tbApiExcludeEnd.TabIndex = 15;
+            this.tbApiExcludeEnd.Text = "21:00";
+            this.tbApiExcludeEnd.Validating += new System.ComponentModel.CancelEventHandler(this.tbExcludeEnd_Validating);
+            // 
+            // lblEnd
+            // 
+            this.lblEnd.AutoSize = true;
+            this.lblEnd.Location = new System.Drawing.Point(11, 78);
+            this.lblEnd.Name = "lblEnd";
+            this.lblEnd.Size = new System.Drawing.Size(29, 13);
+            this.lblEnd.TabIndex = 2;
+            this.lblEnd.Text = "End:";
+            // 
+            // tbApiExcludeStart
+            // 
+            this.tbApiExcludeStart.Location = new System.Drawing.Point(76, 50);
+            this.tbApiExcludeStart.Name = "tbApiExcludeStart";
+            this.tbApiExcludeStart.Size = new System.Drawing.Size(50, 20);
+            this.tbApiExcludeStart.TabIndex = 14;
+            this.tbApiExcludeStart.Text = "8:00";
+            this.tbApiExcludeStart.Validating += new System.ComponentModel.CancelEventHandler(this.tbExcludeStart_Validating);
+            // 
+            // lblStart
+            // 
+            this.lblStart.AutoSize = true;
+            this.lblStart.Location = new System.Drawing.Point(11, 53);
+            this.lblStart.Name = "lblStart";
+            this.lblStart.Size = new System.Drawing.Size(32, 13);
+            this.lblStart.TabIndex = 0;
+            this.lblStart.Text = "Start:";
+            // 
+            // chkApiExcludeTimesEnabled
+            // 
+            this.chkApiExcludeTimesEnabled.AutoSize = true;
+            this.chkApiExcludeTimesEnabled.Location = new System.Drawing.Point(14, 23);
+            this.chkApiExcludeTimesEnabled.Name = "chkApiExcludeTimesEnabled";
+            this.chkApiExcludeTimesEnabled.Size = new System.Drawing.Size(65, 17);
+            this.chkApiExcludeTimesEnabled.TabIndex = 17;
+            this.chkApiExcludeTimesEnabled.Text = "Enabled";
+            this.chkApiExcludeTimesEnabled.UseVisualStyleBackColor = true;
+            // 
+            // chkCaptureOnStartup
+            // 
+            this.chkCaptureOnStartup.AutoSize = true;
+            this.chkCaptureOnStartup.Location = new System.Drawing.Point(9, 197);
+            this.chkCaptureOnStartup.Name = "chkCaptureOnStartup";
+            this.chkCaptureOnStartup.Size = new System.Drawing.Size(144, 17);
+            this.chkCaptureOnStartup.TabIndex = 19;
+            this.chkCaptureOnStartup.Text = "Start capture on first start";
+            this.chkCaptureOnStartup.UseVisualStyleBackColor = true;
+            // 
             // SetupForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -353,6 +433,8 @@
             this.tabPageGeneric.PerformLayout();
             this.tabPageAdvanced.ResumeLayout(false);
             this.tabPageAdvanced.PerformLayout();
+            this.grpDeactivate.ResumeLayout(false);
+            this.grpDeactivate.PerformLayout();
             this.ResumeLayout(false);
 
     }
@@ -386,5 +468,12 @@
     private System.Windows.Forms.Label lblApiPort;
     private System.Windows.Forms.TextBox tbApiPort;
     private System.Windows.Forms.CheckBox chkApiEnabled;
-  }
+        private System.Windows.Forms.GroupBox grpDeactivate;
+        private System.Windows.Forms.TextBox tbApiExcludeEnd;
+        private System.Windows.Forms.Label lblEnd;
+        private System.Windows.Forms.TextBox tbApiExcludeStart;
+        private System.Windows.Forms.Label lblStart;
+        private System.Windows.Forms.CheckBox chkApiExcludeTimesEnabled;
+        private System.Windows.Forms.CheckBox chkCaptureOnStartup;
+    }
 }

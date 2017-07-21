@@ -35,8 +35,12 @@ namespace HyperionScreenCap
                 tbCaptureInterval.Text = Settings.CaptureInterval.ToString();
                 cbMonitorIndex.Text = Settings.MonitorIndex.ToString();
                 tbReconnectInterval.Text = Settings.ReconnectInterval.ToString();
+                chkCaptureOnStartup.Checked = Settings.CaptureOnStartup;
                 tbApiPort.Text = Settings.ApiPort.ToString();
                 chkApiEnabled.Checked = Settings.ApiEnabled;
+                chkApiExcludeTimesEnabled.Checked = Settings.ApiExcludedTimesEnabled;
+                tbApiExcludeStart.Text = Settings.ApiExcludeTimeStart.ToString("HH:mm");
+                tbApiExcludeEnd.Text = Settings.ApiExcludeTimeEnd.ToString("HH:mm");
 
                 cbNotificationLevel.Text = Settings.NotificationLevel.ToString();
             }
@@ -55,6 +59,19 @@ namespace HyperionScreenCap
         {
             try
             {
+                // Check if all settngs are valid
+                if (validatorDateTime(tbApiExcludeStart.Text) == false)
+                {
+                    MessageBox.Show("Error in excluded API start time", "Error in excluded API start time", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                if (validatorDateTime(tbApiExcludeEnd.Text) == false)
+                {
+                    MessageBox.Show("Error in excluded API end time", "Error in excluded API end time", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+
                 Settings.HyperionServerIp = tbIPHostName.Text;
                 Settings.HyperionServerPort = int.Parse(tbProtoPort.Text);
                 Settings.HyperionMessagePriority = int.Parse(cbMessagePriority.Text);
@@ -64,8 +81,12 @@ namespace HyperionScreenCap
                 Settings.CaptureInterval = int.Parse(tbCaptureInterval.Text);
                 Settings.MonitorIndex = int.Parse(cbMonitorIndex.Text);
                 Settings.ReconnectInterval = int.Parse(tbReconnectInterval.Text);
+                Settings.CaptureOnStartup = chkCaptureOnStartup.Checked;
                 Settings.ApiPort = int.Parse(tbApiPort.Text);
                 Settings.ApiEnabled = chkApiEnabled.Checked;
+                Settings.ApiExcludedTimesEnabled = chkApiExcludeTimesEnabled.Checked;
+                Settings.ApiExcludeTimeStart = DateTime.Parse(tbApiExcludeStart.Text);
+                Settings.ApiExcludeTimeEnd = DateTime.Parse(tbApiExcludeEnd.Text);
 
                 Settings.NotificationLevel =
                     (Form1.NotificationLevels) Enum.Parse(typeof(Form1.NotificationLevels), cbNotificationLevel.Text);
@@ -104,6 +125,18 @@ namespace HyperionScreenCap
                 }
             }
             return isValid;
+        }
+        private Boolean validatorDateTime(string input)
+        {
+            DateTime dt;
+            Boolean IsValid = false;
+            bool isDateTime = DateTime.TryParse(input, out dt);
+            if (isDateTime)
+            {
+                IsValid = true;
+            }
+
+            return IsValid;
         }
 
         private void tbProtoPort_Validating(object sender, CancelEventArgs e)
@@ -193,6 +226,22 @@ namespace HyperionScreenCap
             if (validatorInt(tbApiPort.Text, minValue, maxValue, false) == false)
             {
                 MessageBox.Show(@"Invalid integer filled for port");
+            }
+        }
+
+        private void tbExcludeStart_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (validatorDateTime(tbApiExcludeStart.Text) == false)
+            {
+                MessageBox.Show("Error in excluded API start time", "Error in excluded API start time", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void tbExcludeEnd_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (validatorDateTime(tbApiExcludeEnd.Text) == false)
+            {
+                MessageBox.Show("Error in excluded API end time", "Error in excluded API end time", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

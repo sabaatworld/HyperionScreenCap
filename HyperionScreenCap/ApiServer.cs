@@ -17,9 +17,12 @@ namespace HyperionScreenCap
             {
                 if (_server == null)
                 {
-                    _server = new RestServer();
-                    _server.Host = hostname;
-                    _server.Port = port;
+                    _server = new RestServer
+                    {
+                        Host = hostname,
+                        Port = port
+                    };
+
                     _server.Start();
                 }
             }
@@ -29,11 +32,7 @@ namespace HyperionScreenCap
 
         public void StopServer()
         {
-            if (_server != null)
-            {
-                _server.Stop();
-                _server = null;
-            }
+            _server?.Stop();
         }
 
         public void RestartServer(string hostname, string port)
@@ -50,8 +49,26 @@ namespace HyperionScreenCap
             {
                 context.Response.ContentType = ContentType.TEXT;
                 string responseText = "No valid API command received.";
-
                 string command = context.Request.QueryString["command"] ?? "";
+                string force = context.Request.QueryString["force"] ?? "false";
+
+                // Check for deactivate API between certain times
+                if (Settings.ApiExcludedTimesEnabled && force == "false")
+                {
+                    if ((DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
+                         DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
+                        ((Settings.ApiExcludeTimeStart.TimeOfDay > Settings.ApiExcludeTimeEnd.TimeOfDay) &&
+                         ((DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeStart.TimeOfDay &&
+                           DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
+                          (DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
+                           DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeEnd.TimeOfDay))))
+                    {
+                        responseText = "API exclude times enabled and within w time range.";
+                        context.Response.SendResponse(responseText);
+                        return context;
+                    }
+                }
+
                 if (!string.IsNullOrEmpty(command))
                 {
                     // Only process valid commands
@@ -61,9 +78,8 @@ namespace HyperionScreenCap
                         responseText = $"API command {command} completed successfully.";
                     }
                 }
-
-               context.Response.SendResponse(responseText);
-               return context;
+                context.Response.SendResponse(responseText);
+                return context;
             }
         }
     }
