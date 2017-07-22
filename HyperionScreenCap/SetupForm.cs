@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Reflection;
 using System.Windows.Forms;
 using SlimDX.Windows;
 
@@ -19,6 +20,8 @@ namespace HyperionScreenCap
             }
 
             loadSettings();
+
+            lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 
         private void loadSettings()

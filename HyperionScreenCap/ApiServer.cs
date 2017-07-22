@@ -52,30 +52,36 @@ namespace HyperionScreenCap
                 string command = context.Request.QueryString["command"] ?? "";
                 string force = context.Request.QueryString["force"] ?? "false";
 
-                // Check for deactivate API between certain times
-                if (Settings.ApiExcludedTimesEnabled && force == "false")
-                {
-                    if ((DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
-                         DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
-                        ((Settings.ApiExcludeTimeStart.TimeOfDay > Settings.ApiExcludeTimeEnd.TimeOfDay) &&
-                         ((DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeStart.TimeOfDay &&
-                           DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
-                          (DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
-                           DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeEnd.TimeOfDay))))
-                    {
-                        responseText = "API exclude times enabled and within w time range.";
-                        context.Response.SendResponse(responseText);
-                        return context;
-                    }
-                }
-
                 if (!string.IsNullOrEmpty(command))
                 {
                     // Only process valid commands
                     if (command == "ON" || command == "OFF")
                     {
+
+                        // Check for deactivate API between certain times
+                        if (Settings.ApiExcludedTimesEnabled && force.ToLower() == "false")
+                        {
+                            if ((DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
+                                 DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
+                                ((Settings.ApiExcludeTimeStart.TimeOfDay > Settings.ApiExcludeTimeEnd.TimeOfDay) &&
+                                 ((DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeStart.TimeOfDay &&
+                                   DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
+                                  (DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
+                                   DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeEnd.TimeOfDay))))
+                            {
+                                responseText = "API exclude times enabled and within time range.";
+                                context.Response.SendResponse(responseText);
+                                return context;
+                            }
+                        }
+
                         Form1.ToggleCapture(command);
                         responseText = $"API command {command} completed successfully.";
+                    }
+
+                    if (command == "STATE")
+                    {
+                        responseText = $"{Form1._captureEnabled}";
                     }
                 }
                 context.Response.SendResponse(responseText);

@@ -17,7 +17,7 @@ namespace HyperionScreenCap
         private static ApiServer _apiServer;
 
         public static NotifyIcon TrayIcon;
-        private static bool _captureEnabled;
+        public static bool _captureEnabled;
 
         public enum NotificationLevels
         {
@@ -49,7 +49,7 @@ namespace HyperionScreenCap
             trayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
             trayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), OnExit);
 
-            TrayIcon = new NotifyIcon {Text = @"Hyperion Screen Capture (Not Connected)"};
+            TrayIcon = new NotifyIcon {Text = @"Hyperion Screen Capture (Not Connected) {}"};
             TrayIcon.DoubleClick += TrayIcon_DoubleClick;
             TrayIcon.Icon = Resources.Hyperion_disabled;
 
@@ -105,14 +105,8 @@ namespace HyperionScreenCap
                     if (ProtoClient.IsConnected())
                     {
                         Notifications.Info($"Connected to Hyperion server on {Settings.HyperionServerIp}!");
-
-                        _captureEnabled = true;
-                        var t = new Thread(StartCapture) {IsBackground = true};
-                        t.Start();
+                        ToggleCapture("ON");
                     }
-
-                    TrayIcon.Icon = Resources.Hyperion_enabled;
-                    TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
                 }
 
                 if (Settings.ApiEnabled)
@@ -138,16 +132,18 @@ namespace HyperionScreenCap
       {
         if (_captureEnabled && command == "OFF")
         {
-          TrayIcon.Icon = Resources.Hyperion_disabled;
+        _captureEnabled = false;
+
+        TrayIcon.Icon = Resources.Hyperion_disabled;
           TrayIcon.Text = @"Hyperion Screen Capture (Disabled)";
           ProtoClient.ClearPriority(Settings.HyperionMessagePriority);
-          _captureEnabled = false;
         }
         else if (!_captureEnabled && command == "ON")
         {
-          TrayIcon.Icon = Resources.Hyperion_enabled;
+        _captureEnabled = true;
+
+        TrayIcon.Icon = Resources.Hyperion_enabled;
           TrayIcon.Text = @"Hyperion Screen Capture (Enabled)";
-          _captureEnabled = true;
           Thread.Sleep(50);
           var t = new Thread(StartCapture) {IsBackground = true};
           t.Start();
@@ -242,6 +238,7 @@ namespace HyperionScreenCap
             }
             catch (Exception ex)
             {
+                _captureEnabled = false;
                 Notifications.Error("Failed to take screenshot." + ex.Message);
             }
         }
