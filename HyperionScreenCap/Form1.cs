@@ -19,6 +19,8 @@ namespace HyperionScreenCap
         private static ApiServer _apiServer;
 
         public static NotifyIcon TrayIcon;
+        public static ContextMenuStrip TrayMenuIcons = new ContextMenuStrip();
+
         public static bool _captureEnabled;
 
         public enum NotificationLevels
@@ -35,27 +37,18 @@ namespace HyperionScreenCap
             InitializeComponent();
 
             // Add menu icons
-            var trayMenuIcons = new ContextMenuStrip();
-            trayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap());
-
-
-            // Create a simple tray menu with only one item.
-
-            for (int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++)
-            {
-                ((ToolStripMenuItem) trayMenuIcons.Items[0]).DropDownItems.Add($"#{i}",
-                    Resources.television__arrow.ToBitmap(), OnChangeMonitor);
-            }
-
-            trayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
-            trayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), OnExit);
+            TrayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap());
+            TrayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
+            TrayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), OnExit);
 
             TrayIcon = new NotifyIcon {Text = @"Hyperion Screen Capture (Not Connected) {}"};
             TrayIcon.DoubleClick += TrayIcon_DoubleClick;
+            TrayIcon.MouseClick += TrayIcon_Click;
             TrayIcon.Icon = Resources.Hyperion_disabled;
+            TrayIconUpdateMonitorIndexes();
 
             // Add menu to tray icon and show it.
-            TrayIcon.ContextMenuStrip = trayMenuIcons;
+            TrayIcon.ContextMenuStrip = TrayMenuIcons;
             //TrayIcon.ContextMenu = trayMenu;
 
             TrayIcon.Visible = true;
@@ -122,10 +115,40 @@ namespace HyperionScreenCap
                 _initLock = false;
             }
         }
+        private static void TrayIconUpdateMonitorIndexes()
+        {
+            int dropMenuCount = ((ToolStripMenuItem)TrayMenuIcons.Items[0]).DropDownItems.Count;
+
+            if (dropMenuCount > 0)
+            {
+                int count = 0;
+                while (count < dropMenuCount)
+                {
+                    try
+                    {
+                        ((ToolStripMenuItem) TrayMenuIcons.Items[0]).DropDownItems.RemoveAt(0);
+                    }
+                    catch (Exception) { }
+
+                    count++; 
+                }
+            }
+
+            for (int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++)
+            {
+                ((ToolStripMenuItem)TrayMenuIcons.Items[0]).DropDownItems.Add($"#{i}",
+                    Resources.television__arrow.ToBitmap(), OnChangeMonitor);
+            }
+        }
 
         private static void TrayIcon_DoubleClick(object sender, EventArgs e)
         {
             ToggleCapture(_captureEnabled ? "OFF" : "ON");
+        }
+
+        private static void TrayIcon_Click(object sender, EventArgs e)
+        {
+            TrayIconUpdateMonitorIndexes();
         }
 
         public static void ToggleCapture(string command)
@@ -150,7 +173,7 @@ namespace HyperionScreenCap
             }
         }
 
-        private void OnChangeMonitor(object sender, EventArgs e)
+        private static void OnChangeMonitor(object sender, EventArgs e)
         {
             var selectedMenuItem = sender as ToolStripDropDownItem;
             if (selectedMenuItem != null)
