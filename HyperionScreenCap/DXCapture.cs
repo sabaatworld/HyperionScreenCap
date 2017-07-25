@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
 using SlimDX.Direct3D9;
 using SlimDX.Windows;
@@ -8,7 +10,7 @@ namespace HyperionScreenCap
     public class DxScreenCapture
     {
         private readonly Device _d;
-
+        public int MonitorIndex = 0;
         public DxScreenCapture(int monitorIndex)
         {
             try
@@ -20,7 +22,8 @@ namespace HyperionScreenCap
                     PresentationInterval = PresentInterval.Immediate
                 };
 
-                _d = new Device(new Direct3D(), getMonitor(monitorIndex), DeviceType.Hardware, IntPtr.Zero,
+                MonitorIndex = GetMonitorIndex(monitorIndex);
+                _d = new Device(new Direct3D(), MonitorIndex, DeviceType.Hardware, IntPtr.Zero,
                     CreateFlags.SoftwareVertexProcessing, presentParams);
             }
             catch (Exception ex)
@@ -29,12 +32,12 @@ namespace HyperionScreenCap
             }
         }
 
-        public Surface CaptureScreen(int width, int height)
+        public Surface CaptureScreen(int width, int height, int monitorIndex)
         {
             try
             {
-                var s = Surface.CreateOffscreenPlain(_d, Screen.PrimaryScreen.Bounds.Width,
-                    Screen.PrimaryScreen.Bounds.Height,
+                var s = Surface.CreateOffscreenPlain(_d, Screen.AllScreens[monitorIndex].Bounds.Width,
+                    Screen.AllScreens[monitorIndex].Bounds.Height,
                     Format.A8R8G8B8, Pool.Scratch);
                 var b = Surface.CreateOffscreenPlain(_d, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
                     Pool.Scratch);
@@ -50,14 +53,37 @@ namespace HyperionScreenCap
             return null;
         }
 
-        private static int getMonitor(int monitorIndex)
+        public static int GetMonitorIndex(int monitorIndex)
         {
             var monitorArray = DisplayMonitor.EnumerateMonitors();
-            if (monitorArray.Length - 1 >= monitorIndex)
+
+            // For anything other than index 0 (first screen) we do a lookup in monitor array
+            if (monitorIndex == 0)
             {
-                return monitorArray[monitorIndex] != null ? monitorIndex : 0;
+                Debug.WriteLine($"Monitor index is 0, skipping lookup and using ==> device: {monitorArray[monitorIndex].DeviceName} | IsPrimary: {monitorArray[monitorIndex].IsPrimary} | Handle: {monitorArray[monitorIndex].Handle}");
+                return monitorIndex;
             }
-            return 0;
+
+            if (monitorArray.Any())
+            {
+                foreach (var monitor in monitorArray)
+                {
+                    Debug.WriteLine($"Found ==> device: {monitor.DeviceName} | IsPrimary: {monitor.IsPrimary} | Handle: {monitor.Handle}");
+                    var monitorShortname = monitor.DeviceName.Replace(@"\\.\DISPLAY", string.Empty);
+                    var dmMonitorIndex = 0;
+                    bool isdValidMonitorIndex = int.TryParse(monitorShortname, out dmMonitorIndex);
+                    if (isdValidMonitorIndex)
+                    {
+                        if (dmMonitorIndex == monitorIndex)
+                        {
+                            Debug.WriteLine($"Using ==> device: {monitor.DeviceName} | IsPrimary: {monitor.IsPrimary} | Handle: {monitor.Handle}");
+                            return dmMonitorIndex;
+                        }
+                    }
+                }
+            }
+
+            return monitorIndex;
         }
     }
 }

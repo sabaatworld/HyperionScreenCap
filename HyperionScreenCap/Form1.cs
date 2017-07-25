@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
@@ -35,14 +36,15 @@ namespace HyperionScreenCap
 
             // Add menu icons
             var trayMenuIcons = new ContextMenuStrip();
-            trayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap(), onChangeMonitor);
+            trayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap());
+
 
             // Create a simple tray menu with only one item.
 
             for (int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++)
             {
-                ((ToolStripMenuItem) trayMenuIcons.Items[0]).DropDownItems.Add(string.Format("#{0}", i),
-                    Resources.television__arrow.ToBitmap(), onChangeMonitor);
+                ((ToolStripMenuItem) trayMenuIcons.Items[0]).DropDownItems.Add($"#{i}",
+                    Resources.television__arrow.ToBitmap(), OnChangeMonitor);
             }
 
             trayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
@@ -75,7 +77,7 @@ namespace HyperionScreenCap
             SystemEvents.PowerModeChanged += PowerModeChanged;
         }
 
-        public static void Init(bool reInit = false)
+        public static void Init(bool reInit = false, bool forceOn = false)
         {
             if (!_initLock)
             {
@@ -98,7 +100,7 @@ namespace HyperionScreenCap
                 ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort,
                     Settings.HyperionMessagePriority);
 
-                if (Settings.CaptureOnStartup)
+                if (Settings.CaptureOnStartup || forceOn)
                 {
                     if (ProtoClient.IsConnected())
                     {
@@ -112,9 +114,9 @@ namespace HyperionScreenCap
                     _apiServer = new ApiServer();
                     _apiServer.StartServer("localhost", Settings.ApiPort.ToString());
                 }
-                else if (_apiServer != null)
+                else
                 {
-                    _apiServer.StopServer();
+                    _apiServer?.StopServer();
                 }
 
                 _initLock = false;
@@ -148,21 +150,32 @@ namespace HyperionScreenCap
             }
         }
 
-        private static void onChangeMonitor(object sender, EventArgs e)
+        private void OnChangeMonitor(object sender, EventArgs e)
         {
-            MenuItem selectedMenuItem = sender as MenuItem;
+            var selectedMenuItem = sender as ToolStripDropDownItem;
             if (selectedMenuItem != null)
             {
                 int newMonitorIndex;
-                bool isValidInteger = int.TryParse(selectedMenuItem.Text.Replace("#", string.Empty), out newMonitorIndex);
+                var selectedItem = selectedMenuItem.Text.Replace("#", string.Empty);
+                bool isValidInteger = int.TryParse(selectedItem, out newMonitorIndex);
                 if (isValidInteger)
                 {
+                    Debug.WriteLine($"Selected new monitor index: {newMonitorIndex}");
                     Settings.MonitorIndex = newMonitorIndex;
                     Settings.SaveSettings();
-                    Init(true);
+                    Init(true, true);
+                }
+                else
+                {
+                    Debug.WriteLine($"Selected monitor index was invalid integer: {selectedItem}");
                 }
             }
+            else
+            {
+                Debug.WriteLine("OnChangeMonitor selected item was null");
+            }
         }
+
 
         private static void OnSetup(object sender, EventArgs e)
         {
@@ -221,7 +234,7 @@ namespace HyperionScreenCap
                         continue;
                     }
 
-                    var s = _d.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight);
+                    var s = _d.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight,_d.MonitorIndex);
                     var dr = s.LockRectangle(LockFlags.None);
                     var ds = dr.Data;
                     var x = RemoveAlpha(ds);
