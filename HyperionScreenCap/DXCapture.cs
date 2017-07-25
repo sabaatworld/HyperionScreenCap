@@ -64,6 +64,10 @@ namespace HyperionScreenCap
                 return monitorIndex;
             }
 
+            // If we have only 1 monitor and monitor index is set higher fallback to first monitor
+            if (monitorArray.Count() == 1 && monitorIndex > 0)
+                return 0;
+
             if (monitorArray.Any())
             {
                 foreach (var monitor in monitorArray)
