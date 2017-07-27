@@ -26,15 +26,26 @@ Setup is done by modifying the HyperionScreenCap.exe.config file.
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <appSettings>
-    <add key="hyperionServerIP" value="10.1.2.83"/>
-    <add key="hyperionServerPort" value="19445"/>
-    <add key="hyperionMessagePriority" value="10"/> <!-- Lower number means higher priority -->
-    <add key="hyperionMessageDuration" value="1000"/> <!-- How long will each captured screenshot stay on LEDs -->
-    <add key="width"  value="64"/> <!-- Keep these values small -->
-    <add key="height" value="64"/> <!-- Keep these values small -->
-    <add key="captureInterval" value="60"/>
-    <add key="notificationLevel" value="None"/>
-    <add key="monitorIndex" value="0"/> <!-- 0 is the main monitor -->
+    <add key="hyperionServerIP" value="10.1.2.100" />
+    <add key="hyperionServerPort" value="19445" />
+    <add key="hyperionMessagePriority" value="100" />
+    <add key="hyperionServerIP2" value="0.0.0.0" />
+    <add key="hyperionServerPort2" value="19445" />
+    <add key="hyperionMessagePriority2" value="100" />
+    <add key="hyperionMessageDuration" value="1000" />
+    <add key="HyperionServerIndex" value="1" />
+    <add key="width" value="64" />
+    <add key="height" value="64" />
+    <add key="captureInterval" value="0" />
+    <add key="notificationLevel" value="Error" />
+    <add key="monitorIndex" value="1" />
+    <add key="reconnectInterval" value="5000" />
+    <add key="apiPort" value="29445" />
+    <add key="apiEnabled" value="False" />
+    <add key="apiExcludedTimesEnabled" value="False" />
+    <add key="apiExcludeTimeStart" value="27-7-2017 12:00:00" />
+    <add key="apiExcludeTimeEnd" value="27-7-2017 17:00:00" />
+    <add key="captureOnStartup" value="False" />
   </appSettings>
 <startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0,Profile=Client"/></startup>
 </configuration>
