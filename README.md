@@ -20,13 +20,13 @@ The program uses Direct3D9 to capture the screen, resize it and send it to the P
 
 ## Configuration
 
-Setup is done by modifying the HyperionScreenCap.exe.config file.
+Comes with setup form which is accessible via system tray, however manual config edit is also possible and below is an example HyperionScreenCap.exe.config :
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
   <appSettings>
-    <add key="hyperionServerIP" value="10.1.2.83"/>
+    <add key="hyperionServerIP" value="10.1.2.10"/>
     <add key="hyperionServerPort" value="19445"/>
     <add key="hyperionMessagePriority" value="10"/> <!-- Lower number means higher priority -->
     <add key="hyperionMessageDuration" value="1000"/> <!-- How long will each captured screenshot stay on LEDs -->
@@ -35,6 +35,11 @@ Setup is done by modifying the HyperionScreenCap.exe.config file.
     <add key="captureInterval" value="60"/>
     <add key="notificationLevel" value="None"/>
     <add key="monitorIndex" value="0"/> <!-- 0 is the main monitor -->
+    <add key="apiEnabled" value="False" />
+    <add key="apiExcludedTimesEnabled" value="False" />
+    <add key="apiExcludeTimeStart" value="23-7-2017 08:00:00" />
+    <add key="apiExcludeTimeEnd" value="23-7-2017 20:00:00" />
+    <add key="captureOnStartup" value="False" />
   </appSettings>
 <startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0,Profile=Client"/></startup>
 </configuration>
