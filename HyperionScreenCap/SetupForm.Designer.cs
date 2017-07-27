@@ -31,17 +31,27 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetupForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageGeneric = new System.Windows.Forms.TabPage();
-            this.chkCaptureOnStartup = new System.Windows.Forms.CheckBox();
+            this.cbHyperionServerIndex = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.tbIPHostName2 = new System.Windows.Forms.TextBox();
+            this.cbMessagePriority2 = new System.Windows.Forms.ComboBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.tbProtoPort2 = new System.Windows.Forms.TextBox();
+            this.grpHyperionServer1 = new System.Windows.Forms.GroupBox();
+            this.lblIPHostName = new System.Windows.Forms.Label();
+            this.tbIPHostName = new System.Windows.Forms.TextBox();
             this.cbMessagePriority = new System.Windows.Forms.ComboBox();
+            this.lblProtoPort = new System.Windows.Forms.Label();
             this.lblMessagePriority = new System.Windows.Forms.Label();
+            this.tbProtoPort = new System.Windows.Forms.TextBox();
+            this.chkCaptureOnStartup = new System.Windows.Forms.CheckBox();
             this.cbMonitorIndex = new System.Windows.Forms.ComboBox();
             this.lnlMonitorIndex = new System.Windows.Forms.Label();
             this.cbNotificationLevel = new System.Windows.Forms.ComboBox();
             this.lblNotificationLevel = new System.Windows.Forms.Label();
-            this.tbProtoPort = new System.Windows.Forms.TextBox();
-            this.lblProtoPort = new System.Windows.Forms.Label();
-            this.tbIPHostName = new System.Windows.Forms.TextBox();
-            this.lblIPHostName = new System.Windows.Forms.Label();
             this.tabPageAdvanced = new System.Windows.Forms.TabPage();
             this.grpDeactivate = new System.Windows.Forms.GroupBox();
             this.chkApiExcludeTimesEnabled = new System.Windows.Forms.CheckBox();
@@ -66,6 +76,8 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.grpHyperionServer1.SuspendLayout();
             this.tabPageAdvanced.SuspendLayout();
             this.grpDeactivate.SuspendLayout();
             this.SuspendLayout();
@@ -77,39 +89,155 @@
             this.tabControl1.Location = new System.Drawing.Point(2, 3);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(697, 296);
+            this.tabControl1.Size = new System.Drawing.Size(697, 318);
             this.tabControl1.TabIndex = 9;
             // 
             // tabPageGeneric
             // 
             this.tabPageGeneric.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageGeneric.Controls.Add(this.cbHyperionServerIndex);
+            this.tabPageGeneric.Controls.Add(this.label4);
+            this.tabPageGeneric.Controls.Add(this.groupBox1);
+            this.tabPageGeneric.Controls.Add(this.grpHyperionServer1);
             this.tabPageGeneric.Controls.Add(this.chkCaptureOnStartup);
-            this.tabPageGeneric.Controls.Add(this.cbMessagePriority);
-            this.tabPageGeneric.Controls.Add(this.lblMessagePriority);
             this.tabPageGeneric.Controls.Add(this.cbMonitorIndex);
             this.tabPageGeneric.Controls.Add(this.lnlMonitorIndex);
             this.tabPageGeneric.Controls.Add(this.cbNotificationLevel);
             this.tabPageGeneric.Controls.Add(this.lblNotificationLevel);
-            this.tabPageGeneric.Controls.Add(this.tbProtoPort);
-            this.tabPageGeneric.Controls.Add(this.lblProtoPort);
-            this.tabPageGeneric.Controls.Add(this.tbIPHostName);
-            this.tabPageGeneric.Controls.Add(this.lblIPHostName);
             this.tabPageGeneric.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneric.Name = "tabPageGeneric";
             this.tabPageGeneric.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGeneric.Size = new System.Drawing.Size(689, 270);
+            this.tabPageGeneric.Size = new System.Drawing.Size(689, 292);
             this.tabPageGeneric.TabIndex = 0;
             this.tabPageGeneric.Text = "Generic";
             // 
-            // chkCaptureOnStartup
+            // cbHyperionServerIndex
             // 
-            this.chkCaptureOnStartup.AutoSize = true;
-            this.chkCaptureOnStartup.Location = new System.Drawing.Point(9, 197);
-            this.chkCaptureOnStartup.Name = "chkCaptureOnStartup";
-            this.chkCaptureOnStartup.Size = new System.Drawing.Size(144, 17);
-            this.chkCaptureOnStartup.TabIndex = 19;
-            this.chkCaptureOnStartup.Text = "Start capture on first start";
-            this.chkCaptureOnStartup.UseVisualStyleBackColor = true;
+            this.cbHyperionServerIndex.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbHyperionServerIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbHyperionServerIndex.FormattingEnabled = true;
+            this.cbHyperionServerIndex.Items.AddRange(new object[] {
+            "1",
+            "2"});
+            this.cbHyperionServerIndex.Location = new System.Drawing.Point(201, 233);
+            this.cbHyperionServerIndex.Name = "cbHyperionServerIndex";
+            this.cbHyperionServerIndex.Size = new System.Drawing.Size(100, 21);
+            this.cbHyperionServerIndex.TabIndex = 23;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(17, 236);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(121, 13);
+            this.label4.TabIndex = 22;
+            this.label4.Text = "Hyperion starting server:";
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.tbIPHostName2);
+            this.groupBox1.Controls.Add(this.cbMessagePriority2);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.tbProtoPort2);
+            this.groupBox1.Location = new System.Drawing.Point(426, 20);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(256, 135);
+            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Hyperion server #2 (optional)";
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(17, 33);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(79, 13);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "IP / Hostname:";
+            // 
+            // tbIPHostName2
+            // 
+            this.tbIPHostName2.Location = new System.Drawing.Point(121, 31);
+            this.tbIPHostName2.Name = "tbIPHostName2";
+            this.tbIPHostName2.Size = new System.Drawing.Size(100, 20);
+            this.tbIPHostName2.TabIndex = 1;
+            // 
+            // cbMessagePriority2
+            // 
+            this.cbMessagePriority2.FormattingEnabled = true;
+            this.cbMessagePriority2.Items.AddRange(new object[] {
+            "10",
+            "20",
+            "50",
+            "100",
+            "200",
+            "500",
+            "750",
+            "1000"});
+            this.cbMessagePriority2.Location = new System.Drawing.Point(121, 101);
+            this.cbMessagePriority2.Name = "cbMessagePriority2";
+            this.cbMessagePriority2.Size = new System.Drawing.Size(100, 21);
+            this.cbMessagePriority2.TabIndex = 18;
+            this.cbMessagePriority2.Validating += new System.ComponentModel.CancelEventHandler(this.cbMessagePriority2_Validating);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(17, 68);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(29, 13);
+            this.label2.TabIndex = 11;
+            this.label2.Text = "Port:";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 104);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(38, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Priority";
+            // 
+            // tbProtoPort2
+            // 
+            this.tbProtoPort2.Location = new System.Drawing.Point(121, 66);
+            this.tbProtoPort2.Name = "tbProtoPort2";
+            this.tbProtoPort2.Size = new System.Drawing.Size(100, 20);
+            this.tbProtoPort2.TabIndex = 2;
+            this.tbProtoPort2.Validating += new System.ComponentModel.CancelEventHandler(this.tbProtoPort2_Validating);
+            // 
+            // grpHyperionServer1
+            // 
+            this.grpHyperionServer1.Controls.Add(this.lblIPHostName);
+            this.grpHyperionServer1.Controls.Add(this.tbIPHostName);
+            this.grpHyperionServer1.Controls.Add(this.cbMessagePriority);
+            this.grpHyperionServer1.Controls.Add(this.lblProtoPort);
+            this.grpHyperionServer1.Controls.Add(this.lblMessagePriority);
+            this.grpHyperionServer1.Controls.Add(this.tbProtoPort);
+            this.grpHyperionServer1.Location = new System.Drawing.Point(9, 20);
+            this.grpHyperionServer1.Name = "grpHyperionServer1";
+            this.grpHyperionServer1.Size = new System.Drawing.Size(292, 135);
+            this.grpHyperionServer1.TabIndex = 20;
+            this.grpHyperionServer1.TabStop = false;
+            this.grpHyperionServer1.Text = "Hyperion server #1";
+            // 
+            // lblIPHostName
+            // 
+            this.lblIPHostName.AutoSize = true;
+            this.lblIPHostName.Location = new System.Drawing.Point(17, 32);
+            this.lblIPHostName.Name = "lblIPHostName";
+            this.lblIPHostName.Size = new System.Drawing.Size(79, 13);
+            this.lblIPHostName.TabIndex = 9;
+            this.lblIPHostName.Text = "IP / Hostname:";
+            // 
+            // tbIPHostName
+            // 
+            this.tbIPHostName.Location = new System.Drawing.Point(121, 30);
+            this.tbIPHostName.Name = "tbIPHostName";
+            this.tbIPHostName.Size = new System.Drawing.Size(100, 20);
+            this.tbIPHostName.TabIndex = 1;
             // 
             // cbMessagePriority
             // 
@@ -123,36 +251,63 @@
             "500",
             "750",
             "1000"});
-            this.cbMessagePriority.Location = new System.Drawing.Point(110, 85);
+            this.cbMessagePriority.Location = new System.Drawing.Point(121, 100);
             this.cbMessagePriority.Name = "cbMessagePriority";
             this.cbMessagePriority.Size = new System.Drawing.Size(100, 21);
             this.cbMessagePriority.TabIndex = 18;
             this.cbMessagePriority.Validating += new System.ComponentModel.CancelEventHandler(this.cbMessagePriority_Validating);
             // 
+            // lblProtoPort
+            // 
+            this.lblProtoPort.AutoSize = true;
+            this.lblProtoPort.Location = new System.Drawing.Point(17, 67);
+            this.lblProtoPort.Name = "lblProtoPort";
+            this.lblProtoPort.Size = new System.Drawing.Size(29, 13);
+            this.lblProtoPort.TabIndex = 11;
+            this.lblProtoPort.Text = "Port:";
+            // 
             // lblMessagePriority
             // 
             this.lblMessagePriority.AutoSize = true;
-            this.lblMessagePriority.Location = new System.Drawing.Point(6, 88);
+            this.lblMessagePriority.Location = new System.Drawing.Point(17, 103);
             this.lblMessagePriority.Name = "lblMessagePriority";
             this.lblMessagePriority.Size = new System.Drawing.Size(38, 13);
             this.lblMessagePriority.TabIndex = 17;
             this.lblMessagePriority.Text = "Priority";
             // 
+            // tbProtoPort
+            // 
+            this.tbProtoPort.Location = new System.Drawing.Point(121, 65);
+            this.tbProtoPort.Name = "tbProtoPort";
+            this.tbProtoPort.Size = new System.Drawing.Size(100, 20);
+            this.tbProtoPort.TabIndex = 2;
+            this.tbProtoPort.Validating += new System.ComponentModel.CancelEventHandler(this.tbProtoPort_Validating);
+            // 
+            // chkCaptureOnStartup
+            // 
+            this.chkCaptureOnStartup.AutoSize = true;
+            this.chkCaptureOnStartup.Location = new System.Drawing.Point(20, 265);
+            this.chkCaptureOnStartup.Name = "chkCaptureOnStartup";
+            this.chkCaptureOnStartup.Size = new System.Drawing.Size(144, 17);
+            this.chkCaptureOnStartup.TabIndex = 19;
+            this.chkCaptureOnStartup.Text = "Start capture on first start";
+            this.chkCaptureOnStartup.UseVisualStyleBackColor = true;
+            // 
             // cbMonitorIndex
             // 
             this.cbMonitorIndex.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.cbMonitorIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbMonitorIndex.FormattingEnabled = true;
-            this.cbMonitorIndex.Location = new System.Drawing.Point(110, 155);
+            this.cbMonitorIndex.Location = new System.Drawing.Point(201, 199);
             this.cbMonitorIndex.Name = "cbMonitorIndex";
             this.cbMonitorIndex.Size = new System.Drawing.Size(100, 21);
             this.cbMonitorIndex.TabIndex = 16;
-            this.cbMonitorIndex.Text = "0";
             this.cbMonitorIndex.Validating += new System.ComponentModel.CancelEventHandler(this.cbMonitorIndex_Validating);
             // 
             // lnlMonitorIndex
             // 
             this.lnlMonitorIndex.AutoSize = true;
-            this.lnlMonitorIndex.Location = new System.Drawing.Point(6, 158);
+            this.lnlMonitorIndex.Location = new System.Drawing.Point(17, 202);
             this.lnlMonitorIndex.Name = "lnlMonitorIndex";
             this.lnlMonitorIndex.Size = new System.Drawing.Size(73, 13);
             this.lnlMonitorIndex.TabIndex = 15;
@@ -166,7 +321,7 @@
             "Info",
             "Error",
             "None"});
-            this.cbNotificationLevel.Location = new System.Drawing.Point(110, 120);
+            this.cbNotificationLevel.Location = new System.Drawing.Point(201, 164);
             this.cbNotificationLevel.Name = "cbNotificationLevel";
             this.cbNotificationLevel.Size = new System.Drawing.Size(100, 21);
             this.cbNotificationLevel.TabIndex = 3;
@@ -174,44 +329,11 @@
             // lblNotificationLevel
             // 
             this.lblNotificationLevel.AutoSize = true;
-            this.lblNotificationLevel.Location = new System.Drawing.Point(6, 123);
+            this.lblNotificationLevel.Location = new System.Drawing.Point(17, 167);
             this.lblNotificationLevel.Name = "lblNotificationLevel";
             this.lblNotificationLevel.Size = new System.Drawing.Size(88, 13);
             this.lblNotificationLevel.TabIndex = 13;
             this.lblNotificationLevel.Text = "Notification level:";
-            // 
-            // tbProtoPort
-            // 
-            this.tbProtoPort.Location = new System.Drawing.Point(110, 50);
-            this.tbProtoPort.Name = "tbProtoPort";
-            this.tbProtoPort.Size = new System.Drawing.Size(100, 20);
-            this.tbProtoPort.TabIndex = 2;
-            this.tbProtoPort.Validating += new System.ComponentModel.CancelEventHandler(this.tbProtoPort_Validating);
-            // 
-            // lblProtoPort
-            // 
-            this.lblProtoPort.AutoSize = true;
-            this.lblProtoPort.Location = new System.Drawing.Point(6, 52);
-            this.lblProtoPort.Name = "lblProtoPort";
-            this.lblProtoPort.Size = new System.Drawing.Size(29, 13);
-            this.lblProtoPort.TabIndex = 11;
-            this.lblProtoPort.Text = "Port:";
-            // 
-            // tbIPHostName
-            // 
-            this.tbIPHostName.Location = new System.Drawing.Point(110, 15);
-            this.tbIPHostName.Name = "tbIPHostName";
-            this.tbIPHostName.Size = new System.Drawing.Size(100, 20);
-            this.tbIPHostName.TabIndex = 1;
-            // 
-            // lblIPHostName
-            // 
-            this.lblIPHostName.AutoSize = true;
-            this.lblIPHostName.Location = new System.Drawing.Point(6, 17);
-            this.lblIPHostName.Name = "lblIPHostName";
-            this.lblIPHostName.Size = new System.Drawing.Size(79, 13);
-            this.lblIPHostName.TabIndex = 9;
-            this.lblIPHostName.Text = "IP / Hostname:";
             // 
             // tabPageAdvanced
             // 
@@ -233,7 +355,7 @@
             this.tabPageAdvanced.Location = new System.Drawing.Point(4, 22);
             this.tabPageAdvanced.Name = "tabPageAdvanced";
             this.tabPageAdvanced.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageAdvanced.Size = new System.Drawing.Size(689, 270);
+            this.tabPageAdvanced.Size = new System.Drawing.Size(689, 292);
             this.tabPageAdvanced.TabIndex = 1;
             this.tabPageAdvanced.Text = "Advanced";
             // 
@@ -411,7 +533,7 @@
             // 
             // btnSaveExit
             // 
-            this.btnSaveExit.Location = new System.Drawing.Point(563, 305);
+            this.btnSaveExit.Location = new System.Drawing.Point(563, 327);
             this.btnSaveExit.Name = "btnSaveExit";
             this.btnSaveExit.Size = new System.Drawing.Size(132, 45);
             this.btnSaveExit.TabIndex = 10;
@@ -423,7 +545,7 @@
             // 
             this.lblVersion.AutoSize = true;
             this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblVersion.Location = new System.Drawing.Point(9, 321);
+            this.lblVersion.Location = new System.Drawing.Point(14, 343);
             this.lblVersion.Name = "lblVersion";
             this.lblVersion.Size = new System.Drawing.Size(82, 13);
             this.lblVersion.TabIndex = 11;
@@ -433,7 +555,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(700, 353);
+            this.ClientSize = new System.Drawing.Size(700, 384);
             this.Controls.Add(this.lblVersion);
             this.Controls.Add(this.btnSaveExit);
             this.Controls.Add(this.tabControl1);
@@ -443,6 +565,10 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPageGeneric.ResumeLayout(false);
             this.tabPageGeneric.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.grpHyperionServer1.ResumeLayout(false);
+            this.grpHyperionServer1.PerformLayout();
             this.tabPageAdvanced.ResumeLayout(false);
             this.tabPageAdvanced.PerformLayout();
             this.grpDeactivate.ResumeLayout(false);
@@ -489,5 +615,15 @@
         private System.Windows.Forms.CheckBox chkApiExcludeTimesEnabled;
         private System.Windows.Forms.CheckBox chkCaptureOnStartup;
         private System.Windows.Forms.Label lblVersion;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TextBox tbIPHostName2;
+        private System.Windows.Forms.ComboBox cbMessagePriority2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.TextBox tbProtoPort2;
+        private System.Windows.Forms.GroupBox grpHyperionServer1;
+        private System.Windows.Forms.ComboBox cbHyperionServerIndex;
+        private System.Windows.Forms.Label label4;
     }
 }

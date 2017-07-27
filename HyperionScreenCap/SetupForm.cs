@@ -32,7 +32,13 @@ namespace HyperionScreenCap
                 tbIPHostName.Text = Settings.HyperionServerIp;
                 tbProtoPort.Text = Settings.HyperionServerPort.ToString();
                 cbMessagePriority.Text = Settings.HyperionMessagePriority.ToString();
+
+                tbIPHostName2.Text = Settings.HyperionServerIp2;
+                tbProtoPort2.Text = Settings.HyperionServerPort2.ToString();
+                cbMessagePriority2.Text = Settings.HyperionMessagePriority2.ToString();
+
                 tbMessageDuration.Text = Settings.HyperionMessageDuration.ToString();
+                cbHyperionServerIndex.Text = Settings.HyperionServerIndex.ToString();
                 tbCaptureWidth.Text = Settings.HyperionWidth.ToString();
                 tbCaptureHeight.Text = Settings.HyperionHeight.ToString();
                 tbCaptureInterval.Text = Settings.CaptureInterval.ToString();
@@ -78,9 +84,16 @@ namespace HyperionScreenCap
                 Settings.HyperionServerIp = tbIPHostName.Text;
                 Settings.HyperionServerPort = int.Parse(tbProtoPort.Text);
                 Settings.HyperionMessagePriority = int.Parse(cbMessagePriority.Text);
+
+                Settings.HyperionServerIp2 = tbIPHostName2.Text;
+                Settings.HyperionServerPort2 = int.Parse(tbProtoPort2.Text);
+                Settings.HyperionMessagePriority2 = int.Parse(cbMessagePriority2.Text);
+
                 Settings.HyperionMessageDuration = int.Parse(tbMessageDuration.Text);
                 Settings.HyperionWidth = int.Parse(tbCaptureWidth.Text);
                 Settings.HyperionHeight = int.Parse(tbCaptureHeight.Text);
+                Settings.HyperionServerIndex = int.Parse(cbHyperionServerIndex.Text);
+
                 Settings.CaptureInterval = int.Parse(tbCaptureInterval.Text);
                 Settings.MonitorIndex = int.Parse(cbMonitorIndex.Text);
                 Settings.ReconnectInterval = int.Parse(tbReconnectInterval.Text);
@@ -246,6 +259,26 @@ namespace HyperionScreenCap
             if (ValidatorDateTime(tbApiExcludeEnd.Text) == false)
             {
                 MessageBox.Show("Error in excluded API end time", "Error in excluded API end time", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void tbProtoPort2_Validating(object sender, CancelEventArgs e)
+        {
+            const int minValue = 1;
+            const int maxValue = 65535;
+            if (ValidatorInt(tbProtoPort2.Text, minValue, maxValue, false) == false)
+            {
+                MessageBox.Show(@"Invalid integer filled for port");
+            }
+        }
+
+        private void cbMessagePriority2_Validating(object sender, CancelEventArgs e)
+        {
+            const int minValue = 0;
+            const int maxValue = 0;
+            if (ValidatorInt(cbMessagePriority2.Text, minValue, maxValue, false) == false)
+            {
+                MessageBox.Show(@"Invalid integer filled for message priority");
             }
         }
     }

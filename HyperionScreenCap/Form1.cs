@@ -35,9 +35,21 @@ namespace HyperionScreenCap
         public Form1()
         {
             InitializeComponent();
+            Settings.LoadSetttings();
 
             // Add menu icons
             TrayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap());
+
+            if (!string.IsNullOrEmpty(Settings.HyperionServerIp2) && Settings.HyperionServerIp2 != "0.0.0.0")
+            {
+                TrayMenuIcons.Items.Add("Change hyperion server", Resources.hyperion_logo.ToBitmap());
+                ((ToolStripMenuItem) TrayMenuIcons.Items[1]).DropDownItems.Add("#1",
+                    Resources.hyperion_logo.ToBitmap(), OnChangeHyperionServer);
+                ((ToolStripMenuItem) TrayMenuIcons.Items[1]).DropDownItems.Add("#2",
+                    Resources.hyperion_logo.ToBitmap(), OnChangeHyperionServer);
+
+            }
+
             TrayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
             TrayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), OnExit);
 
@@ -53,7 +65,6 @@ namespace HyperionScreenCap
 
             TrayIcon.Visible = true;
 
-            Settings.LoadSetttings();
 
             if (Settings.HyperionServerIp == "0.0.0.0")
             {
@@ -90,8 +101,13 @@ namespace HyperionScreenCap
                 }
 
                 _protoClient = new ProtoClient();
-                ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort,
+
+                if(Settings.HyperionServerIndex == 1)
+                    ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort,
                     Settings.HyperionMessagePriority);
+                else if (Settings.HyperionServerIndex == 2 && Settings.HyperionServerIp2 != "0.0.0.0")
+                    ProtoClient.Init(Settings.HyperionServerIp2, Settings.HyperionServerPort2,
+                        Settings.HyperionMessagePriority2);
 
                 if (Settings.CaptureOnStartup || forceOn)
                 {
@@ -196,6 +212,25 @@ namespace HyperionScreenCap
             else
             {
                 Debug.WriteLine("OnChangeMonitor selected item was null");
+            }
+        }
+
+
+        private static void OnChangeHyperionServer(object sender, EventArgs e)
+        {
+            var selectedMenuItem = sender as ToolStripDropDownItem;
+            if (selectedMenuItem != null)
+            {
+                int hyperionServerIndex;
+                var selectedItem = selectedMenuItem.Text.Replace("#", string.Empty);
+                bool isValidInteger = int.TryParse(selectedItem, out hyperionServerIndex);
+                if (isValidInteger)
+                {
+                    Debug.WriteLine($"Selected hyperion server #{hyperionServerIndex}");
+                    Settings.HyperionServerIndex = hyperionServerIndex;
+                    Settings.SaveSettings();
+                    Init(true, true);
+                }
             }
         }
 

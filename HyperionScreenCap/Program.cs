@@ -34,6 +34,7 @@ namespace HyperionScreenCap
                     // ignored
                 }
             }
+
             _mainForm = new Form1();
             Application.Run(_mainForm);
         }

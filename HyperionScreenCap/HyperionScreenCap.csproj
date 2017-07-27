@@ -168,6 +168,7 @@
     <None Include="Resources\Hyperion-enabled.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\hyperion-logo.ico" />
     <None Include="FodyWeavers.xml" />
     <Content Include="Installation Files\InstallScript.iss" />
     <Content Include="Installation Files\scripts\isxdl\isxdl.dll" />
