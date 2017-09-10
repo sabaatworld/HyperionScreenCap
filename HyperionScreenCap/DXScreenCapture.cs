@@ -7,50 +7,36 @@ using SlimDX.Windows;
 
 namespace HyperionScreenCap
 {
-    public class DxScreenCapture
+    public class DxScreenCapture : IDisposable
     {
         private readonly Device _d;
         public int MonitorIndex = 0;
+
         public DxScreenCapture(int monitorIndex)
         {
-            try
+            var presentParams = new PresentParameters
             {
-                var presentParams = new PresentParameters
-                {
-                    Windowed = true,
-                    SwapEffect = SwapEffect.Discard,
-                    PresentationInterval = PresentInterval.Immediate
-                };
+                Windowed = true,
+                SwapEffect = SwapEffect.Discard,
+                PresentationInterval = PresentInterval.Immediate
+            };
 
-                MonitorIndex = GetMonitorIndex(monitorIndex);
-                _d = new Device(new Direct3D(), MonitorIndex, DeviceType.Hardware, IntPtr.Zero,
-                    CreateFlags.SoftwareVertexProcessing, presentParams);
-            }
-            catch (Exception ex)
-            {
-                Notifications.Error(ex.Message);
-            }
+            MonitorIndex = GetMonitorIndex(monitorIndex);
+            _d = new Device(new Direct3D(), MonitorIndex, DeviceType.Hardware, IntPtr.Zero,
+                CreateFlags.SoftwareVertexProcessing, presentParams);
         }
 
         public Surface CaptureScreen(int width, int height, int monitorIndex)
         {
-            try
-            {
-                var s = Surface.CreateOffscreenPlain(_d, Screen.AllScreens[monitorIndex].Bounds.Width,
-                    Screen.AllScreens[monitorIndex].Bounds.Height,
-                    Format.A8R8G8B8, Pool.Scratch);
-                var b = Surface.CreateOffscreenPlain(_d, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
-                    Pool.Scratch);
-                _d.GetFrontBufferData(0, s);
-                Surface.FromSurface(b, s, Filter.Triangle, 0);
-                s.Dispose();
-                return b;
-            }
-            catch (Exception ex)
-            {
-                Notifications.Error(ex.Message);
-            }
-            return null;
+            var s = Surface.CreateOffscreenPlain(_d, Screen.AllScreens[monitorIndex].Bounds.Width,
+                Screen.AllScreens[monitorIndex].Bounds.Height,
+                Format.A8R8G8B8, Pool.Scratch);
+            var b = Surface.CreateOffscreenPlain(_d, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
+                Pool.Scratch);
+            _d.GetFrontBufferData(0, s);
+            Surface.FromSurface(b, s, Filter.Triangle, 0);
+            s.Dispose();
+            return b;
         }
 
         public static int GetMonitorIndex(int monitorIndex)
@@ -88,6 +74,21 @@ namespace HyperionScreenCap
             }
 
             return monitorIndex;
+        }
+
+        public void Dispose()
+        {
+            if(_d != null)
+            {
+                try
+                {
+                    _d.Dispose();
+                }
+                catch
+                {
+                    // Ignore exceptions during dispose()
+                }
+            }
         }
     }
 }

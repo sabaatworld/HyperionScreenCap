@@ -6,6 +6,7 @@ using Microsoft.Win32;
 using SlimDX;
 using SlimDX.Direct3D9;
 using SlimDX.Windows;
+using HyperionScreenCap.Config;
 
 namespace HyperionScreenCap
 {
@@ -245,10 +246,19 @@ namespace HyperionScreenCap
             try
             {
                 _d = new DxScreenCapture(Settings.MonitorIndex);
+            }
+            catch ( Exception ex )
+            {
+                _captureEnabled = false;
+                Notifications.Error("Failed to initialize screen capture: " + ex.Message);
+            }
 
-                while (_captureEnabled)
+            int captureAttempt = 1;
+            while (_captureEnabled)
+            {
+                try
                 {
-                    if (!ProtoClient.IsConnected())
+                    if ( !ProtoClient.IsConnected() )
                     {
                         // Reconnect every 5s (default)
                         ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort,
@@ -257,7 +267,7 @@ namespace HyperionScreenCap
                         continue;
                     }
 
-                    var s = _d.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight,_d.MonitorIndex);
+                    var s = _d.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight, _d.MonitorIndex);
                     var dr = s.LockRectangle(LockFlags.None);
                     var ds = dr.Data;
                     var x = RemoveAlpha(ds);
@@ -270,24 +280,33 @@ namespace HyperionScreenCap
 
                     // Add small delay to reduce cpu usage (200FPS max)
                     Thread.Sleep(Settings.CaptureInterval);
+
+                    // Reset attempt count
+                    captureAttempt = 1;
                 }
+                catch ( Exception ex )
+                {
+                    if ( ++captureAttempt == AppConstants.MAX_CAPTURE_ATTEMPTS )
+                    {
+                        _captureEnabled = false;
+                        Notifications.Error("Error occured during capture: " + ex.Message);
+                    }
+                    else
+                    {
+                        Thread.Sleep(AppConstants.CAPTURE_FAILED_COOLDOWN_MILLIS);
+                    }
+                }
+            }
 
-                _d = null;
-            }
-            catch (Exception ex)
-            {
-                _captureEnabled = false;       
-                Notifications.Error("Error occured during capture: " + ex.Message);
-            }
+            _d.Dispose();
+            _d = null;
         }
-
-        #endregion DXCapture
 
         private static byte[] RemoveAlpha(DataStream ia)
         {
             var newImage = new byte[(ia.Length * 3 / 4)];
             int counter = 0;
-            while (ia.Position < ia.Length)
+            while ( ia.Position < ia.Length )
             {
                 var a = new byte[4];
                 ia.Read(a, 0, 4);
@@ -300,6 +319,8 @@ namespace HyperionScreenCap
             }
             return newImage;
         }
+
+        #endregion DXCapture
 
         #region PowerModeChanged Event
 
