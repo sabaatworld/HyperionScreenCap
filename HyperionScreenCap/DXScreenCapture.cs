@@ -28,15 +28,16 @@ namespace HyperionScreenCap
 
         public Surface CaptureScreen(int width, int height, int monitorIndex)
         {
-            var s = Surface.CreateOffscreenPlain(_d, Screen.AllScreens[monitorIndex].Bounds.Width,
+            using ( var s = Surface.CreateOffscreenPlain(_d, Screen.AllScreens[monitorIndex].Bounds.Width,
                 Screen.AllScreens[monitorIndex].Bounds.Height,
-                Format.A8R8G8B8, Pool.Scratch);
-            var b = Surface.CreateOffscreenPlain(_d, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
-                Pool.Scratch);
-            _d.GetFrontBufferData(0, s);
-            Surface.FromSurface(b, s, Filter.Triangle, 0);
-            s.Dispose();
-            return b;
+                Format.A8R8G8B8, Pool.Scratch) )
+            {
+                var b = Surface.CreateOffscreenPlain(_d, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
+                    Pool.Scratch);
+                _d.GetFrontBufferData(0, s);
+                Surface.FromSurface(b, s, Filter.Triangle, 0);
+                return b;
+            }
         }
 
         public static int GetMonitorIndex(int monitorIndex)
