@@ -18,9 +18,9 @@ namespace HyperionScreenCap.Config
         public const int CAPTURE_FAILED_COOLDOWN_MILLIS = 3000;
 
         /// <summary>
-        /// Amount of time to wait on system resume event before restarting screen capture.
+        /// Amount of time to wait before resuming screen capture.
         /// </summary>
-        public const int SYSTEM_RESUME_GRACE_MILLIS = 5000;
+        public const int CAPTURE_RESUME_GRACE_MILLIS = 5000;
 
         /// <summary>
         /// Tray icon tooltip message displayed when Hyperion server is not connected.

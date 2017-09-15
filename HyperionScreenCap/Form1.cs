@@ -23,6 +23,8 @@ namespace HyperionScreenCap
 
         public static bool _captureEnabled;
 
+        public static bool _needResumeCapture = false;
+
         public enum NotificationLevels
         {
             None,
@@ -68,6 +70,7 @@ namespace HyperionScreenCap
 
             // PowerModeChanged Handler
             SystemEvents.PowerModeChanged += PowerModeChanged;
+            SystemEvents.SessionSwitch += SessionSwitched;
         }
 
         private static void DisconnectProtoClient()
@@ -87,7 +90,8 @@ namespace HyperionScreenCap
                 if (reInit)
                 {
                     _captureEnabled = false;
-                    Thread.Sleep(500);
+                    // Wait maxium amount of time to ensure that capture is disabled
+                    Thread.Sleep(500 + Settings.CaptureInterval + AppConstants.CAPTURE_FAILED_COOLDOWN_MILLIS);
 
                     if (ProtoClient.Initialized)
                     {
@@ -322,7 +326,7 @@ namespace HyperionScreenCap
 
         #endregion DXCapture
 
-        #region PowerModeChanged Event
+        #region PowerMode & SessionSwitch Events
 
         private void PowerModeChanged(object sender, PowerModeChangedEventArgs powerMode)
         {
@@ -331,18 +335,49 @@ namespace HyperionScreenCap
                 case PowerModes.Resume:
                     // We try to disable capture on suspend but if capture is still enabled
                     // then restart after grace period
-                    if ( _captureEnabled )
-                    {
-                        ToggleCapture("OFF");
-                        Thread.Sleep(AppConstants.SYSTEM_RESUME_GRACE_MILLIS);
-                        ToggleCapture("ON");
-                    }
+                    ResumeCapture();
                     break;
 
                 case PowerModes.Suspend:
-                    ToggleCapture("OFF");
-                    ProtoClient.Disconnect();
+                    SuspendCapture();
                     break;
+            }
+        }
+
+        private void SessionSwitched(object sender, SessionSwitchEventArgs switchEvent)
+        {
+            switch(switchEvent.Reason)
+            {
+                case SessionSwitchReason.SessionUnlock:
+                    Console.WriteLine("Unlock");
+                    ResumeCapture();
+                    break;
+
+                case SessionSwitchReason.SessionLock:
+                    Console.WriteLine("Lock");
+                    SuspendCapture();
+                    break;
+            }
+        }
+
+        private void ResumeCapture()
+        {
+            if ( _needResumeCapture )
+            {
+                _needResumeCapture = false;
+                ToggleCapture("OFF");
+                Thread.Sleep(AppConstants.CAPTURE_RESUME_GRACE_MILLIS);
+                ToggleCapture("ON");
+            }
+        }
+
+        private void SuspendCapture()
+        {
+            if ( _captureEnabled )
+            {
+                _needResumeCapture = true;
+                ToggleCapture("OFF");
+                ProtoClient.Disconnect();
             }
         }
 

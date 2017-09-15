@@ -106,9 +106,9 @@
             this.chkCaptureOnStartup.AutoSize = true;
             this.chkCaptureOnStartup.Location = new System.Drawing.Point(9, 197);
             this.chkCaptureOnStartup.Name = "chkCaptureOnStartup";
-            this.chkCaptureOnStartup.Size = new System.Drawing.Size(144, 17);
+            this.chkCaptureOnStartup.Size = new System.Drawing.Size(145, 17);
             this.chkCaptureOnStartup.TabIndex = 19;
-            this.chkCaptureOnStartup.Text = "Start capture on first start";
+            this.chkCaptureOnStartup.Text = "Auto-start screen capture";
             this.chkCaptureOnStartup.UseVisualStyleBackColor = true;
             // 
             // cbMessagePriority
@@ -335,7 +335,7 @@
             // lblReconnectInterval
             // 
             this.lblReconnectInterval.AutoSize = true;
-            this.lblReconnectInterval.Location = new System.Drawing.Point(10, 175);
+            this.lblReconnectInterval.Location = new System.Drawing.Point(7, 175);
             this.lblReconnectInterval.Name = "lblReconnectInterval";
             this.lblReconnectInterval.Size = new System.Drawing.Size(122, 13);
             this.lblReconnectInterval.TabIndex = 8;
@@ -352,7 +352,7 @@
             // lblCaptureInterval
             // 
             this.lblCaptureInterval.AutoSize = true;
-            this.lblCaptureInterval.Location = new System.Drawing.Point(10, 130);
+            this.lblCaptureInterval.Location = new System.Drawing.Point(7, 131);
             this.lblCaptureInterval.Name = "lblCaptureInterval";
             this.lblCaptureInterval.Size = new System.Drawing.Size(106, 13);
             this.lblCaptureInterval.TabIndex = 6;

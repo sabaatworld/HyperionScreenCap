@@ -34,29 +34,24 @@ namespace HyperionScreenCap
         {
             var setting = Config.AppSettings.Settings;
 
-            setting["hyperionServerIP"].Value = HyperionServerIp;
-            setting["hyperionServerPort"].Value = HyperionServerPort.ToString();
-            setting["hyperionMessagePriority"].Value = HyperionMessagePriority.ToString();
-            setting["hyperionMessageDuration"].Value = HyperionMessageDuration.ToString();
-            setting["width"].Value = HyperionWidth.ToString();
-            setting["height"].Value = HyperionHeight.ToString();
-            setting["captureInterval"].Value = CaptureInterval.ToString();
-            setting["monitorIndex"].Value = MonitorIndex.ToString();
-            setting["reconnectInterval"].Value = ReconnectInterval.ToString();
-            setting["notificationLevel"].Value = NotificationLevel.ToString();
-            if (setting["captureOnStartup"] != null)
-                setting["captureOnStartup"].Value = CaptureOnStartup.ToString();
+            setting.Clear();
+            setting.Add("hyperionServerIP", HyperionServerIp);
+            setting.Add("hyperionServerPort", HyperionServerPort.ToString());
+            setting.Add("hyperionMessagePriority", HyperionMessagePriority.ToString());
+            setting.Add("hyperionMessageDuration", HyperionMessageDuration.ToString());
+            setting.Add("width", HyperionWidth.ToString());
+            setting.Add("height", HyperionHeight.ToString());
+            setting.Add("captureInterval", CaptureInterval.ToString());
+            setting.Add("monitorIndex", MonitorIndex.ToString());
+            setting.Add("reconnectInterval", ReconnectInterval.ToString());
+            setting.Add("notificationLevel", NotificationLevel.ToString());
 
-            if (setting["apiPort"] != null)
-                setting["apiPort"].Value = ApiPort.ToString();
-            if (setting["apiEnabled"] != null)
-                setting["apiEnabled"].Value = ApiEnabled.ToString();
-            if (setting["apiExcludedTimesEnabled"] != null)
-                setting["apiExcludedTimesEnabled"].Value = ApiExcludedTimesEnabled.ToString();
-            if (setting["apiExcludeTimeStart"] != null)
-                setting["apiExcludeTimeStart"].Value = ApiExcludeTimeStart.ToString();
-            if (setting["apiExcludeTimeEnd"] != null)
-                setting["apiExcludeTimeEnd"].Value = ApiExcludeTimeEnd.ToString();
+            setting.Add("captureOnStartup", CaptureOnStartup.ToString());
+            setting.Add("apiPort", ApiPort.ToString());
+            setting.Add("apiEnabled", ApiEnabled.ToString());
+            setting.Add("apiExcludedTimesEnabled", ApiExcludedTimesEnabled.ToString());
+            setting.Add("apiExcludeTimeStart", ApiExcludeTimeStart.ToString());
+            setting.Add("apiExcludeTimeEnd", ApiExcludeTimeEnd.ToString());
 
             Config.Save(ConfigurationSaveMode.Modified);
         }
@@ -76,9 +71,9 @@ namespace HyperionScreenCap
                 CaptureInterval = int.Parse(setting["captureInterval"].Value);
                 MonitorIndex = int.Parse(setting["monitorIndex"].Value);
                 ReconnectInterval = int.Parse(setting["reconnectInterval"].Value);
+
                 if (setting["captureOnStartup"] != null)
                     CaptureOnStartup = bool.Parse(setting["captureOnStartup"].Value);
-
                 if (setting["apiPort"] != null)
                     ApiPort = int.Parse(setting["apiPort"].Value);
                 if (setting["apiEnabled"] != null)
