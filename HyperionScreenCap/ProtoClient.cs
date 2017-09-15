@@ -3,6 +3,8 @@ using System.IO;
 using System.Net.Sockets;
 using Google.ProtocolBuffers;
 using proto;
+using System.Threading;
+using HyperionScreenCap.Config;
 
 namespace HyperionScreenCap
 {
@@ -25,8 +27,8 @@ namespace HyperionScreenCap
             _hyperionPriority = priority;
             _socket = new TcpClient
             {
-                SendTimeout = 5000,
-                ReceiveTimeout = 5000
+                SendTimeout = AppConstants.PROTO_CLIENT_SOCKET_TIMEOUT,
+                ReceiveTimeout = AppConstants.PROTO_CLIENT_SOCKET_TIMEOUT
             };
 
             try
@@ -53,6 +55,7 @@ namespace HyperionScreenCap
 
         public static void Disconnect()
         {
+            _stream?.Dispose();
             _socket?.Close();
             _socket = null;
             Initialized = false;
@@ -80,6 +83,8 @@ namespace HyperionScreenCap
         {
             try
             {
+                ClearPriority(priority);
+                Thread.Sleep(50);
                 ClearPriority(priority);
             } catch (Exception ex)
             {

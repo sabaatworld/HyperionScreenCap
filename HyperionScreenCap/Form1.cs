@@ -15,15 +15,15 @@ namespace HyperionScreenCap
         #region Variables
 
         private static bool _initLock;
-        private static DxScreenCapture _dxScreenCapture;
+        private static Dx9ScreenCapture _dxScreenCapture;
         private static ApiServer _apiServer;
 
         public static NotifyIcon TrayIcon;
         public static ContextMenuStrip TrayMenuIcons = new ContextMenuStrip();
 
-        public static bool _captureEnabled;
-
-        public static bool _needResumeCapture = false;
+        private static bool _captureSuspended = false;
+        private static bool _captureEnabled = false;
+        private static Thread _captureThread;
 
         public enum NotificationLevels
         {
@@ -73,13 +73,6 @@ namespace HyperionScreenCap
             SystemEvents.SessionSwitch += SessionSwitched;
         }
 
-        private static void DisconnectProtoClient()
-        {
-            ProtoClient.Disconnect();
-            Thread.Sleep(500);
-            TrayIcon.Text = AppConstants.TRAY_ICON_MSG_NOT_CONNECTED;
-        }
-
         public static void Init(bool reInit = false, bool forceOn = false)
         {
             if (!_initLock)
@@ -89,26 +82,13 @@ namespace HyperionScreenCap
                 // Stop current capture first on reinit
                 if (reInit)
                 {
-                    _captureEnabled = false;
-                    // Wait maxium amount of time to ensure that capture is disabled
-                    Thread.Sleep(500 + Settings.CaptureInterval + AppConstants.CAPTURE_FAILED_COOLDOWN_MILLIS);
-
-                    if (ProtoClient.Initialized)
-                    {
-                        DisconnectProtoClient();
-                    }
+                    TerminateScreenCapture();
+                    DisconnectProtoClient();
                 }
-
-                ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort,
-                    Settings.HyperionMessagePriority);
 
                 if (Settings.CaptureOnStartup || forceOn)
                 {
-                    if (ProtoClient.IsConnected())
-                    {
-                        Notifications.Info($"Connected to Hyperion server on {Settings.HyperionServerIp}!");
-                        ToggleCapture("ON");
-                    }
+                    ToggleCapture("ON");
                 }
 
                 if (Settings.ApiEnabled)
@@ -124,6 +104,7 @@ namespace HyperionScreenCap
                 _initLock = false;
             }
         }
+
         private static void TrayIconUpdateMonitorIndexes()
         {
             int dropMenuCount = ((ToolStripMenuItem)TrayMenuIcons.Items[0]).DropDownItems.Count;
@@ -152,7 +133,7 @@ namespace HyperionScreenCap
 
         private static void TrayIcon_DoubleClick(object sender, EventArgs e)
         {
-            ToggleCapture(_captureEnabled ? "OFF" : "ON");
+            ToggleCapture(IsScreenCaptureRunning() ? "OFF" : "ON");
         }
 
         private static void TrayIcon_Click(object sender, EventArgs e)
@@ -162,23 +143,42 @@ namespace HyperionScreenCap
 
         public static void ToggleCapture(string command)
         {
-            if (_captureEnabled && command == "OFF")
+            Debug.WriteLine("Toggle Command: " + command);
+            if ( command == "OFF" )
             {
-                _captureEnabled = false;
+                TerminateScreenCapture();
 
                 TrayIcon.Icon = Resources.Hyperion_disabled;
                 TrayIcon.Text = AppConstants.TRAY_ICON_MSG_CAPTURE_DISABLED;
                 ProtoClient.TryClearPriority(Settings.HyperionMessagePriority);
+                DisconnectProtoClient();
             }
-            else if (!_captureEnabled && command == "ON")
+            else if ( command == "ON" )
             {
-                _captureEnabled = true;
-
                 TrayIcon.Icon = Resources.Hyperion_enabled;
                 TrayIcon.Text = AppConstants.TRAY_ICON_MSG_CAPTURE_ENABLED;
-                var t = new Thread(StartCapture) {IsBackground = true};
-                t.Start();
+                _captureEnabled = true;
+                _captureThread = new Thread(TryStartCapture) { IsBackground = true };
+                _captureThread.Start();
             }
+        }
+
+        private static void DisconnectProtoClient()
+        {
+            ProtoClient.Disconnect();
+            Thread.Sleep(500);
+            TrayIcon.Text = AppConstants.TRAY_ICON_MSG_NOT_CONNECTED;
+        }
+
+        public static bool IsScreenCaptureRunning()
+        {
+            return _captureThread != null && _captureThread.IsAlive;
+        }
+
+        private static void TerminateScreenCapture()
+        {
+            _captureEnabled = false;
+            Thread.Sleep(Settings.CaptureInterval + AppConstants.CAPTURE_FAILED_COOLDOWN_MILLIS + 500);
         }
 
         private static void OnChangeMonitor(object sender, EventArgs e)
@@ -207,7 +207,6 @@ namespace HyperionScreenCap
             }
         }
 
-
         private static void OnSetup(object sender, EventArgs e)
         {
             SetupForm setupForm = new SetupForm();
@@ -225,9 +224,7 @@ namespace HyperionScreenCap
             // Send clear priority
             if (ProtoClient.Initialized)
             {
-                _captureEnabled = false;
-                ProtoClient.TryClearPriority(Settings.HyperionMessagePriority);
-                Thread.Sleep(50);
+                TerminateScreenCapture();
                 ProtoClient.TryClearPriority(Settings.HyperionMessagePriority);
                 DisconnectProtoClient();
             }
@@ -248,11 +245,22 @@ namespace HyperionScreenCap
 
         #region DXCapture
 
+        private static void TryStartCapture()
+        {
+            try
+            {
+                StartCapture();
+            } finally
+            {
+                _dxScreenCapture?.Dispose();
+            }
+        }
+
         private static void StartCapture()
         {
             try
             {
-                _dxScreenCapture = new DxScreenCapture(Settings.MonitorIndex);
+                _dxScreenCapture = new Dx9ScreenCapture(Settings.MonitorIndex);
             }
             catch ( Exception ex )
             {
@@ -269,6 +277,11 @@ namespace HyperionScreenCap
                     {
                         ProtoClient.Disconnect();
                         ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort, Settings.HyperionMessagePriority);
+                        // Double checking since sometimes exceptions are not thrown on initialization
+                        if ( ProtoClient.IsConnected() )
+                            Notifications.Info($"Connected to Hyperion server on {Settings.HyperionServerIp}!");
+                        else
+                            throw new Exception($"Failed to connect to Hyperion server on {Settings.HyperionServerIp}!");
                     }
 
                     var s = _dxScreenCapture.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight, _dxScreenCapture.MonitorIndex);
@@ -290,8 +303,14 @@ namespace HyperionScreenCap
                 }
                 catch ( Exception ex )
                 {
+                    if ( ex is ThreadAbortException )
+                    {
+                        throw ex;
+                    }
+
                     if ( ++captureAttempt == AppConstants.MAX_CAPTURE_ATTEMPTS )
                     {
+                        _captureEnabled = false;
                         Notifications.Error("Error occured during capture: " + ex.Message);
                         ToggleCapture("OFF");
                     }
@@ -301,9 +320,6 @@ namespace HyperionScreenCap
                     }
                 }
             }
-
-            _dxScreenCapture.Dispose();
-            _dxScreenCapture = null;
         }
 
         private static byte[] RemoveAlpha(DataStream ia)
@@ -333,8 +349,6 @@ namespace HyperionScreenCap
             switch(powerMode.Mode)
             {
                 case PowerModes.Resume:
-                    // We try to disable capture on suspend but if capture is still enabled
-                    // then restart after grace period
                     ResumeCapture();
                     break;
 
@@ -349,12 +363,10 @@ namespace HyperionScreenCap
             switch(switchEvent.Reason)
             {
                 case SessionSwitchReason.SessionUnlock:
-                    Console.WriteLine("Unlock");
                     ResumeCapture();
                     break;
 
                 case SessionSwitchReason.SessionLock:
-                    Console.WriteLine("Lock");
                     SuspendCapture();
                     break;
             }
@@ -362,10 +374,9 @@ namespace HyperionScreenCap
 
         private void ResumeCapture()
         {
-            if ( _needResumeCapture )
+            if ( _captureSuspended )
             {
-                _needResumeCapture = false;
-                ToggleCapture("OFF");
+                _captureSuspended = false;
                 Thread.Sleep(AppConstants.CAPTURE_RESUME_GRACE_MILLIS);
                 ToggleCapture("ON");
             }
@@ -373,11 +384,10 @@ namespace HyperionScreenCap
 
         private void SuspendCapture()
         {
-            if ( _captureEnabled )
+            if ( IsScreenCaptureRunning() )
             {
-                _needResumeCapture = true;
+                _captureSuspended = true;
                 ToggleCapture("OFF");
-                ProtoClient.Disconnect();
             }
         }
 

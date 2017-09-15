@@ -7,12 +7,13 @@ using SlimDX.Windows;
 
 namespace HyperionScreenCap
 {
-    public class DxScreenCapture : IDisposable
+    public class Dx9ScreenCapture : IDisposable
     {
-        private readonly Device _d;
+        private readonly Device _device;
+        private Direct3D _direct3D;
         public int MonitorIndex = 0;
 
-        public DxScreenCapture(int monitorIndex)
+        public Dx9ScreenCapture(int monitorIndex)
         {
             var presentParams = new PresentParameters
             {
@@ -22,19 +23,20 @@ namespace HyperionScreenCap
             };
 
             MonitorIndex = GetMonitorIndex(monitorIndex);
-            _d = new Device(new Direct3D(), MonitorIndex, DeviceType.Hardware, IntPtr.Zero,
+            _direct3D = new Direct3D();
+            _device = new Device(_direct3D, MonitorIndex, DeviceType.Hardware, IntPtr.Zero,
                 CreateFlags.SoftwareVertexProcessing, presentParams);
         }
 
         public Surface CaptureScreen(int width, int height, int monitorIndex)
         {
-            using ( var s = Surface.CreateOffscreenPlain(_d, Screen.AllScreens[monitorIndex].Bounds.Width,
+            using ( var s = Surface.CreateOffscreenPlain(_device, Screen.AllScreens[monitorIndex].Bounds.Width,
                 Screen.AllScreens[monitorIndex].Bounds.Height,
                 Format.A8R8G8B8, Pool.Scratch) )
             {
-                var b = Surface.CreateOffscreenPlain(_d, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
+                var b = Surface.CreateOffscreenPlain(_device, Settings.HyperionWidth, Settings.HyperionHeight, Format.A8R8G8B8,
                     Pool.Scratch);
-                _d.GetFrontBufferData(0, s);
+                _device.GetFrontBufferData(0, s);
                 Surface.FromSurface(b, s, Filter.Triangle, 0);
                 return b;
             }
@@ -79,17 +81,8 @@ namespace HyperionScreenCap
 
         public void Dispose()
         {
-            if(_d != null)
-            {
-                try
-                {
-                    _d.Dispose();
-                }
-                catch
-                {
-                    // Ignore exceptions during dispose()
-                }
-            }
+            _device?.Dispose();
+            _direct3D?.Dispose();
         }
     }
 }

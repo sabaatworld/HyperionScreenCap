@@ -102,7 +102,7 @@
   <ItemGroup>
     <Compile Include="ApiServer.cs" />
     <Compile Include="Config\AppConstants.cs" />
-    <Compile Include="DXScreenCapture.cs" />
+    <Compile Include="DX9ScreenCapture.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -81,7 +81,7 @@ namespace HyperionScreenCap
 
                     if (command == "STATE")
                     {
-                        responseText = $"{Form1._captureEnabled}";
+                        responseText = $"{Form1.IsScreenCaptureRunning()}";
                     }
                 }
                 context.Response.SendResponse(responseText);

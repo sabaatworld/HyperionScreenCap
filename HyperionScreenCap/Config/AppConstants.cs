@@ -23,6 +23,11 @@ namespace HyperionScreenCap.Config
         public const int CAPTURE_RESUME_GRACE_MILLIS = 5000;
 
         /// <summary>
+        /// The send and receive timeout for the socket used by the Proto client.
+        /// </summary>
+        public const int PROTO_CLIENT_SOCKET_TIMEOUT = 2500;
+
+        /// <summary>
         /// Tray icon tooltip message displayed when Hyperion server is not connected.
         /// </summary>
         public const string TRAY_ICON_MSG_NOT_CONNECTED = "Hyperion Screen Capture (Not Connected)";
