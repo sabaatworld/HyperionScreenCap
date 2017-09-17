@@ -7,13 +7,13 @@ using SlimDX.Windows;
 
 namespace HyperionScreenCap
 {
-    public class Dx9ScreenCapture : IDisposable
+    public class DX9ScreenCapture : IDisposable
     {
         private readonly Device _device;
         private Direct3D _direct3D;
         public int MonitorIndex = 0;
 
-        public Dx9ScreenCapture(int monitorIndex)
+        public DX9ScreenCapture(int monitorIndex)
         {
             var presentParams = new PresentParameters
             {

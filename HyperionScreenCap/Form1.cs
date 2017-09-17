@@ -7,6 +7,7 @@ using SlimDX;
 using SlimDX.Direct3D9;
 using SlimDX.Windows;
 using HyperionScreenCap.Config;
+using System.Drawing;
 
 namespace HyperionScreenCap
 {
@@ -15,7 +16,8 @@ namespace HyperionScreenCap
         #region Variables
 
         private static bool _initLock;
-        private static Dx9ScreenCapture _dxScreenCapture;
+        private static DX9ScreenCapture _dx9ScreenCapture;
+        private static DX11ScreenCapture _dx11ScreenCapture;
         private static ApiServer _apiServer;
 
         public static NotifyIcon TrayIcon;
@@ -143,7 +145,6 @@ namespace HyperionScreenCap
 
         public static void ToggleCapture(string command)
         {
-            Debug.WriteLine("Toggle Command: " + command);
             if ( command == "OFF" )
             {
                 TerminateScreenCapture();
@@ -172,7 +173,7 @@ namespace HyperionScreenCap
 
         public static bool IsScreenCaptureRunning()
         {
-            return _captureThread != null && _captureThread.IsAlive;
+            return _captureThread != null && _captureThread.IsAlive && _captureEnabled;
         }
 
         private static void TerminateScreenCapture()
@@ -252,7 +253,8 @@ namespace HyperionScreenCap
                 StartCapture();
             } finally
             {
-                _dxScreenCapture?.Dispose();
+                _dx9ScreenCapture?.Dispose();
+                _dx11ScreenCapture?.Dispose();
             }
         }
 
@@ -260,13 +262,18 @@ namespace HyperionScreenCap
         {
             try
             {
-                _dxScreenCapture = new Dx9ScreenCapture(Settings.MonitorIndex);
+                _dx9ScreenCapture = new DX9ScreenCapture(Settings.MonitorIndex);
+                _dx11ScreenCapture = new DX11ScreenCapture(0, 0, 64); // TODO make this dynamic
             }
             catch ( Exception ex )
             {
                 Notifications.Error("Failed to initialize screen capture: " + ex.Message);
                 ToggleCapture("OFF");
             }
+
+            // Use the following to figure out how much time each Hyperion update requires
+            bool debugCaptureTime = false; // TODO make this configurable
+            Stopwatch stopwatch = new Stopwatch();
 
             int captureAttempt = 1;
             while (_captureEnabled)
@@ -284,30 +291,53 @@ namespace HyperionScreenCap
                             throw new Exception($"Failed to connect to Hyperion server on {Settings.HyperionServerIp}!");
                     }
 
-                    var s = _dxScreenCapture.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight, _dxScreenCapture.MonitorIndex);
-                    var dr = s.LockRectangle(LockFlags.None);
-                    var ds = dr.Data;
-                    var x = RemoveAlpha(ds);
+                    byte[] imageData;
+                    int imageWidth, imageHeight;
+                    bool dx9Capture = false; // TODO make this configurable
 
-                    s.UnlockRectangle();
-                    s.Dispose();
-                    ds.Dispose();
+                    if ( debugCaptureTime )
+                        stopwatch.Start();
 
-                    ProtoClient.SendImageToServer(x);
+                    if ( dx9Capture )
+                    {
+                        var s = _dx9ScreenCapture.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight, _dx9ScreenCapture.MonitorIndex);
+                        var dr = s.LockRectangle(LockFlags.None);
+                        var ds = dr.Data;
+                        imageData = RemoveAlpha(ds);
+                        s.UnlockRectangle();
+                        s.Dispose();
+                        ds.Dispose();
+                        imageWidth = Settings.HyperionWidth;
+                        imageHeight = Settings.HyperionHeight;
+                    }
+                    else
+                    {
+                        imageData = _dx11ScreenCapture.Capture();
+                        imageWidth = _dx11ScreenCapture.CaptureWidth;
+                        imageHeight = _dx11ScreenCapture.CaptureHeight;
+                    }
+
+                    // Uncomment the following to enable debugging
+                    // MiscUtils.SaveRGBArrayToImageFile(imageData, imageWidth, imageHeight);
+
+                    ProtoClient.SendImageToServer(imageData, imageWidth, imageHeight);
+
+                    if(debugCaptureTime)
+                    {
+                        stopwatch.Stop();
+                        Debug.WriteLine("Hyperion update took: " + stopwatch.ElapsedMilliseconds);
+                        stopwatch.Reset();
+                    }
 
                     // Add small delay to reduce cpu usage (200FPS max)
-                    Thread.Sleep(Settings.CaptureInterval);
+                    if(Settings.CaptureInterval > 0)
+                        Thread.Sleep(Settings.CaptureInterval);
 
                     // Reset attempt count
                     captureAttempt = 1;
                 }
                 catch ( Exception ex )
                 {
-                    if ( ex is ThreadAbortException )
-                    {
-                        throw ex;
-                    }
-
                     if ( ++captureAttempt == AppConstants.MAX_CAPTURE_ATTEMPTS )
                     {
                         _captureEnabled = false;

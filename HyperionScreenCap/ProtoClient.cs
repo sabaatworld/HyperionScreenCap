@@ -61,12 +61,12 @@ namespace HyperionScreenCap
             Initialized = false;
         }
 
-        public static void SendImageToServer(byte[] pixeldata)
+        public static void SendImageToServer(byte[] pixeldata, int width, int height)
         {
             var imageRequest = ImageRequest.CreateBuilder()
                 .SetImagedata(ByteString.CopyFrom(pixeldata))
-                .SetImageheight(Settings.HyperionHeight)
-                .SetImagewidth(Settings.HyperionWidth)
+                .SetImageheight(height)
+                .SetImagewidth(width)
                 .SetPriority(_hyperionPriority)
                 .SetDuration(Settings.HyperionMessageDuration)
                 .Build();
