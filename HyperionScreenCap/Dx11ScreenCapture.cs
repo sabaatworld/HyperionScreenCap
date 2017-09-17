@@ -10,12 +10,15 @@ using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 
 namespace HyperionScreenCap
 {
     class DX11ScreenCapture : IDisposable
     {
-        private const int ACQUIRE_FRAME_TIMEOUT = 5000; //TODO make timeout configurable
+        private const int ACQUIRE_FRAME_TIMEOUT = 1000; //TODO make timeout configurable
+
+        private const int REPEAT_TRANSMISSION_EXPLICIT_DELAY = 10;
 
         private Factory1 _factory;
         private Adapter _adapter;
@@ -32,7 +35,15 @@ namespace HyperionScreenCap
         public int CaptureWidth { get; private set; }
         public int CaptureHeight { get; private set; }
 
-        public DX11ScreenCapture(int adapterIndex = 0, int monitorIndex = 0, int scalingFactor = 2)
+        private FixedSizeConcurrentQueue<SharpDX.DXGI.Resource> _frameAcquisitionQueue;
+        private int _frameAcquisitionSleepTime;
+        private bool _continueFrameAcquisition;
+        private SharpDXException _frameAcquisitionException;
+
+        private long _lastScreenUpdate;
+        private byte[] _capturedBytes;
+
+        public DX11ScreenCapture(int adapterIndex = 0, int monitorIndex = 0, int scalingFactor = 2, int frameAcquisitionFrequency = 30)
         {
             int mipLevels;
             if ( scalingFactor == 1 )
@@ -72,7 +83,7 @@ namespace HyperionScreenCap
                 BindFlags = BindFlags.None,
                 Format = Format.B8G8R8A8_UNorm,
                 Width = CaptureWidth,
-                Height = CaptureWidth,
+                Height = CaptureHeight,
                 OptionFlags = ResourceOptionFlags.None,
                 MipLevels = 1,
                 ArraySize = 1,
@@ -100,48 +111,93 @@ namespace HyperionScreenCap
 
             // Duplicate the output
             _duplicatedOutput = _output1.DuplicateOutput(_device);
+
+            // Initialize a queue onto which acquired frames will be pushed
+            _frameAcquisitionQueue = new FixedSizeConcurrentQueue<SharpDX.DXGI.Resource>(1);
+            _frameAcquisitionSleepTime = 1 / frameAcquisitionFrequency;
         }
 
-        public byte[] Capture()
+        public void StartFrameAcquisition()
         {
-            SharpDX.DXGI.Resource screenResource = null;
-            OutputDuplicateFrameInformation duplicateFrameInformation;
+            _continueFrameAcquisition = true;
 
-            try
+            var thread = new Thread(AcquireFrames);
+            thread.Start();
+        }
+
+        public void StopFrameAcquisition()
+        {
+            _continueFrameAcquisition = false;
+            Thread.Sleep(_frameAcquisitionSleepTime + ACQUIRE_FRAME_TIMEOUT + 10); // Wait for thread to complete
+            _frameAcquisitionQueue.Enqueue(null); // Force dispose object in the queue
+        }
+
+        private void AcquireFrames()
+        {
+            while ( _continueFrameAcquisition )
             {
+                SharpDX.DXGI.Resource screenResource = null;
+                OutputDuplicateFrameInformation duplicateFrameInformation;
+
                 // Try to get duplicated frame within given time
-                _duplicatedOutput.AcquireNextFrame(ACQUIRE_FRAME_TIMEOUT, out duplicateFrameInformation, out screenResource);
-
-                // Check if scaling is used
-                if ( CaptureWidth != _width )
+                //TODO try catch
+                try
                 {
-                    // Copy resource into memory that can be accessed by the CPU
-                    using ( var screenTexture2D = screenResource.QueryInterface<Texture2D>() )
-                        _device.ImmediateContext.CopySubresourceRegion(screenTexture2D, 0, null, _smallerTexture, 0);
-
-                    // Generates the mipmap of the screen
-                    _device.ImmediateContext.GenerateMips(_smallerTextureView);
-
-                    // Copy the mipmap of smallerTexture (size/ scalingFactor) to the staging texture: 1 for /2, 2 for /4...etc
-                    _device.ImmediateContext.CopySubresourceRegion(_smallerTexture, _scalingFactorLog2, null, _stagingTexture, 0);
+                    _duplicatedOutput.AcquireNextFrame(ACQUIRE_FRAME_TIMEOUT, out duplicateFrameInformation, out screenResource);
+                    _frameAcquisitionException = null;
                 }
-                else
+                catch ( SharpDXException ex )
                 {
-                    // Copy resource into memory that can be accessed by the CPU
-                    using ( var screenTexture2D = screenResource.QueryInterface<Texture2D>() )
-                        _device.ImmediateContext.CopyResource(screenTexture2D, _stagingTexture);
+                    _frameAcquisitionException = ex;
                 }
+                finally
+                {
+                    _duplicatedOutput.ReleaseFrame();
+                }
+                _frameAcquisitionQueue.Enqueue(screenResource);
 
-                // Get the desktop capture texture
-                var mapSource = _device.ImmediateContext.MapSubresource(_stagingTexture, 0, MapMode.Read, SharpDX.Direct3D11.MapFlags.None);
-                byte[] rgbBytes = ToRGBArray(mapSource);
-                return rgbBytes;
+                Thread.Sleep(_frameAcquisitionSleepTime);
             }
-            finally
+        }
+
+        public byte[] GetFrame()
+        {
+            // TODO Check for acquire exception
+            // Handle screenResouce null cause of queue empty
+
+            SharpDX.DXGI.Resource screenResource;
+
+            Thread.Sleep(_frameAcquisitionSleepTime); //TODO remove
+            bool frameAvailable = _frameAcquisitionQueue.TryDequeue(out screenResource);
+
+            if ( !frameAvailable )
+                return new byte[0];
+
+            // Check if scaling is used
+            if ( CaptureWidth != _width )
             {
-                screenResource?.Dispose();
-                _duplicatedOutput.ReleaseFrame();
+                // Copy resource to Texture2D resource for generating mipmaps
+                using ( var screenTexture2D = screenResource.QueryInterface<Texture2D>() )
+                    _device.ImmediateContext.CopySubresourceRegion(screenTexture2D, 0, null, _smallerTexture, 0);
+
+                // Generates the mipmap of the screen
+                _device.ImmediateContext.GenerateMips(_smallerTextureView);
+
+                // Copy the mipmap of smallerTexture (size/ scalingFactor) to the staging texture: 1 for /2, 2 for /4...etc
+                // Staging texture is meant to be CPU accessible
+                _device.ImmediateContext.CopySubresourceRegion(_smallerTexture, _scalingFactorLog2, null, _stagingTexture, 0);
             }
+            else
+            {
+                // Copy resource into memory that can be accessed by the CPU
+                using ( var screenTexture2D = screenResource.QueryInterface<Texture2D>() )
+                    _device.ImmediateContext.CopyResource(screenTexture2D, _stagingTexture);
+            }
+
+            // Get the desktop capture texture
+            var mapSource = _device.ImmediateContext.MapSubresource(_stagingTexture, 0, MapMode.Read, SharpDX.Direct3D11.MapFlags.None);
+            _capturedBytes = ToRGBArray(mapSource);
+            return _capturedBytes;
         }
 
         /// <summary>
@@ -186,6 +242,9 @@ namespace HyperionScreenCap
 
         public void Dispose()
         {
+            if ( _continueFrameAcquisition )
+                StopFrameAcquisition();
+
             _duplicatedOutput?.Dispose();
             _output1?.Dispose();
             _output?.Dispose();
@@ -195,6 +254,7 @@ namespace HyperionScreenCap
             _device?.Dispose();
             _adapter?.Dispose();
             _factory?.Dispose();
+            _capturedBytes = null;
         }
     }
 }

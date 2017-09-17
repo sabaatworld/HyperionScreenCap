@@ -19,7 +19,6 @@ namespace HyperionScreenCap
         public static void SaveRGBArrayToImageFile(byte[] rgbData, int imageWidth, int imageHeight, string filename = "rgb_debug.png")
         {
             Bitmap pic = new Bitmap(imageWidth, imageHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-            Color c;
 
             int i = 0;
             for ( int y = 0; y < imageHeight; y++ )

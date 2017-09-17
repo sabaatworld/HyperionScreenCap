@@ -263,17 +263,14 @@ namespace HyperionScreenCap
             try
             {
                 _dx9ScreenCapture = new DX9ScreenCapture(Settings.MonitorIndex);
-                _dx11ScreenCapture = new DX11ScreenCapture(0, 0, 64); // TODO make this dynamic
+                _dx11ScreenCapture = new DX11ScreenCapture(0, 0, 32); // TODO make this dynamic
+                _dx11ScreenCapture.StartFrameAcquisition();
             }
             catch ( Exception ex )
             {
                 Notifications.Error("Failed to initialize screen capture: " + ex.Message);
                 ToggleCapture("OFF");
             }
-
-            // Use the following to figure out how much time each Hyperion update requires
-            bool debugCaptureTime = false; // TODO make this configurable
-            Stopwatch stopwatch = new Stopwatch();
 
             int captureAttempt = 1;
             while (_captureEnabled)
@@ -295,9 +292,6 @@ namespace HyperionScreenCap
                     int imageWidth, imageHeight;
                     bool dx9Capture = false; // TODO make this configurable
 
-                    if ( debugCaptureTime )
-                        stopwatch.Start();
-
                     if ( dx9Capture )
                     {
                         var s = _dx9ScreenCapture.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight, _dx9ScreenCapture.MonitorIndex);
@@ -312,7 +306,7 @@ namespace HyperionScreenCap
                     }
                     else
                     {
-                        imageData = _dx11ScreenCapture.Capture();
+                        imageData = _dx11ScreenCapture.GetFrame();
                         imageWidth = _dx11ScreenCapture.CaptureWidth;
                         imageHeight = _dx11ScreenCapture.CaptureHeight;
                     }
@@ -322,15 +316,9 @@ namespace HyperionScreenCap
 
                     ProtoClient.SendImageToServer(imageData, imageWidth, imageHeight);
 
-                    if(debugCaptureTime)
-                    {
-                        stopwatch.Stop();
-                        Debug.WriteLine("Hyperion update took: " + stopwatch.ElapsedMilliseconds);
-                        stopwatch.Reset();
-                    }
-
                     // Add small delay to reduce cpu usage (200FPS max)
-                    Thread.Sleep(Settings.CaptureInterval);
+                    if(Settings.CaptureInterval > 0)
+                        Thread.Sleep(Settings.CaptureInterval);
 
                     // Reset attempt count
                     captureAttempt = 1;
