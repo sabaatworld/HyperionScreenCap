@@ -39,6 +39,26 @@ namespace HyperionScreenCap
         public int CaptureWidth { get; private set; }
         public int CaptureHeight { get; private set; }
 
+        public static String GetAvailableMonitors()
+        {
+            StringBuilder response = new StringBuilder();
+            using ( Factory1 factory = new Factory1() )
+            {
+                int adapterIndex = 0;
+                foreach(Adapter adapter in factory.Adapters)
+                {
+                    response.Append($"Adapter Index {adapterIndex++}: {adapter.Description.Description}\n");
+                    int outputIndex = 0;
+                    foreach(Output output in adapter.Outputs)
+                    {
+                        response.Append($"\tMonitor Index {outputIndex++}: {output.Description.DeviceName}");
+                        response.Append($" {output.Description.DesktopBounds.Right}×{output.Description.DesktopBounds.Bottom}\n");
+                    }
+                    response.Append("\n");
+                }
+            }
+            return response.ToString();
+        }
 
         public DX11ScreenCapture(int adapterIndex = 0, int monitorIndex = 0, int scalingFactor = 2, int maxCaptureRate = MAX_CAPTURE_RATE)
         {

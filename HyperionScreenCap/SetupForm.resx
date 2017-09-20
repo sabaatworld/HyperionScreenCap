@@ -117,6 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="tbHelp.Text" xml:space="preserve">
+    <value>==DirectX 11 Configuration Options==
+
+Maximum FPS: The maxium number of updates per second that should be sent to Hyperion.
+
+Frame Capture Timeout: Millis after which desktop capture attempt times out. Note that in case of errors the capture may be attempted again after a cooldown period.
+
+Image Scaling Factor: A factor by which the size of the desktop image should be reduced before sending to Hyperion. For example: If your monitor resolution is 3840x2160; an image scaling factor of 64 will result in an image of 60x33 being sent to Hyperion.
+
+Adapter Index: A zero based index that indentifies a GPU on your machine.
+
+Monitor Index: A zero based index that indentifies a display connected to your selected adapter.</value>
+  </data>
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="$this.Icon" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
