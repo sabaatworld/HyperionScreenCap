@@ -159,7 +159,7 @@
             // lblDx9Desc
             // 
             this.lblDx9Desc.AutoSize = true;
-            this.lblDx9Desc.Location = new System.Drawing.Point(233, 10);
+            this.lblDx9Desc.Location = new System.Drawing.Point(234, 10);
             this.lblDx9Desc.Name = "lblDx9Desc";
             this.lblDx9Desc.Size = new System.Drawing.Size(348, 96);
             this.lblDx9Desc.TabIndex = 3;
@@ -188,7 +188,7 @@
             // lblDx11Desc
             // 
             this.lblDx11Desc.AutoSize = true;
-            this.lblDx11Desc.Location = new System.Drawing.Point(233, 159);
+            this.lblDx11Desc.Location = new System.Drawing.Point(234, 159);
             this.lblDx11Desc.Name = "lblDx11Desc";
             this.lblDx11Desc.Size = new System.Drawing.Size(355, 96);
             this.lblDx11Desc.TabIndex = 2;

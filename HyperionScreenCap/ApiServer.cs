@@ -59,15 +59,15 @@ namespace HyperionScreenCap
                     {
 
                         // Check for deactivate API between certain times
-                        if (Settings.ApiExcludedTimesEnabled && force.ToLower() == "false")
+                        if (SettingsManager.ApiExcludedTimesEnabled && force.ToLower() == "false")
                         {
-                            if ((DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
-                                 DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
-                                ((Settings.ApiExcludeTimeStart.TimeOfDay > Settings.ApiExcludeTimeEnd.TimeOfDay) &&
-                                 ((DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeStart.TimeOfDay &&
-                                   DateTime.Now.TimeOfDay <= Settings.ApiExcludeTimeEnd.TimeOfDay) ||
-                                  (DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeStart.TimeOfDay &&
-                                   DateTime.Now.TimeOfDay >= Settings.ApiExcludeTimeEnd.TimeOfDay))))
+                            if ((DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
+                                 DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
+                                ((SettingsManager.ApiExcludeTimeStart.TimeOfDay > SettingsManager.ApiExcludeTimeEnd.TimeOfDay) &&
+                                 ((DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
+                                   DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
+                                  (DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
+                                   DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeEnd.TimeOfDay))))
                             {
                                 responseText = "API exclude times enabled and within time range.";
                                 context.Response.SendResponse(responseText);
@@ -75,13 +75,13 @@ namespace HyperionScreenCap
                             }
                         }
 
-                        Form1.ToggleCapture(command);
+                        MainForm.ToggleCapture(command);
                         responseText = $"API command {command} completed successfully.";
                     }
 
                     if (command == "STATE")
                     {
-                        responseText = $"{Form1.IsScreenCaptureRunning()}";
+                        responseText = $"{MainForm.IsScreenCaptureRunning()}";
                     }
                 }
                 context.Response.SendResponse(responseText);

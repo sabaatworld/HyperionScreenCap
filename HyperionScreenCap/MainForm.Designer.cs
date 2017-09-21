@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace HyperionScreenCap
 {
-    partial class Form1
+    partial class MainForm
     {
         /// <summary>
         /// Required designer variable.

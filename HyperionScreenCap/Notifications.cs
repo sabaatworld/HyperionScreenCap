@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HyperionScreenCap.Model;
+using System;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap
@@ -7,15 +8,15 @@ namespace HyperionScreenCap
     {
         public static void Error(string errorMsg)
         {
-            if (Settings.NotificationLevel != Form1.NotificationLevels.Info &&
-                Settings.NotificationLevel != Form1.NotificationLevels.Error) return;
-            Form1.TrayIcon.ShowBalloonTip(3000, "", errorMsg, ToolTipIcon.Error);
+            if (SettingsManager.NotificationLevel != NotificationLevel.Info &&
+                SettingsManager.NotificationLevel != NotificationLevel.Error) return;
+            MainForm.TrayIcon.ShowBalloonTip(3000, "", errorMsg, ToolTipIcon.Error);
         }
 
         public static void Info(string infoMsg)
         {
-            if (Settings.NotificationLevel != Form1.NotificationLevels.Info) return;
-            Form1.TrayIcon.ShowBalloonTip(1000, "", infoMsg, ToolTipIcon.Info);
+            if (SettingsManager.NotificationLevel != NotificationLevel.Info) return;
+            MainForm.TrayIcon.ShowBalloonTip(1000, "", infoMsg, ToolTipIcon.Info);
             Console.WriteLine(infoMsg);
         }
     }

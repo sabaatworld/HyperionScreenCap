@@ -3,17 +3,12 @@ using System.ComponentModel;
 using System.Reflection;
 using System.Windows.Forms;
 using SlimDX.Windows;
+using HyperionScreenCap.Model;
 
 namespace HyperionScreenCap
 {
     public partial class SetupForm : Form
     {
-
-        public enum CaptureMethod
-        {
-            DX9,
-            DX11
-        }
 
         public SetupForm()
         {
@@ -35,38 +30,29 @@ namespace HyperionScreenCap
         {
             try
             {
-                Settings.LoadSetttings();
-                tbIPHostName.Text = Settings.HyperionServerIp;
-                tbProtoPort.Text = Settings.HyperionServerPort.ToString();
-                cbMessagePriority.Text = Settings.HyperionMessagePriority.ToString();
-                tbMessageDuration.Text = Settings.HyperionMessageDuration.ToString();
-                tbCaptureWidth.Text = Settings.HyperionWidth.ToString();
-                tbCaptureHeight.Text = Settings.HyperionHeight.ToString();
-                tbCaptureInterval.Text = Settings.CaptureInterval.ToString();
-                cbMonitorIndex.Text = Settings.MonitorIndex.ToString();
-                chkCaptureOnStartup.Checked = Settings.CaptureOnStartup;
-                tbApiPort.Text = Settings.ApiPort.ToString();
-                chkApiEnabled.Checked = Settings.ApiEnabled;
-                chkApiExcludeTimesEnabled.Checked = Settings.ApiExcludedTimesEnabled;
-                tbApiExcludeStart.Text = Settings.ApiExcludeTimeStart.ToString("HH:mm");
-                tbApiExcludeEnd.Text = Settings.ApiExcludeTimeEnd.ToString("HH:mm");
-
-                if ( Settings.CaptureMethod.Equals("DX9") )
-                {
-                    rbcmDx9.Checked = true;
-                    rbcmDx11.Checked = false;
-                }
-                else
-                {
-                    rbcmDx9.Checked = false;
-                    rbcmDx11.Checked = true;
-                }
-                tbDx11MaxFps.Text = Settings.Dx11MaxFps.ToString();
-                tbDx11FrameCaptureTimeout.Text = Settings.Dx11FrameCaptureTimeout.ToString();
+                SettingsManager.LoadSetttings();
+                tbIPHostName.Text = SettingsManager.HyperionServerIp;
+                tbProtoPort.Text = SettingsManager.HyperionServerPort.ToString();
+                cbMessagePriority.Text = SettingsManager.HyperionMessagePriority.ToString();
+                tbMessageDuration.Text = SettingsManager.HyperionMessageDuration.ToString();
+                tbCaptureWidth.Text = SettingsManager.HyperionWidth.ToString();
+                tbCaptureHeight.Text = SettingsManager.HyperionHeight.ToString();
+                tbCaptureInterval.Text = SettingsManager.CaptureInterval.ToString();
+                cbMonitorIndex.Text = SettingsManager.MonitorIndex.ToString();
+                chkCaptureOnStartup.Checked = SettingsManager.CaptureOnStartup;
+                tbApiPort.Text = SettingsManager.ApiPort.ToString();
+                chkApiEnabled.Checked = SettingsManager.ApiEnabled;
+                chkApiExcludeTimesEnabled.Checked = SettingsManager.ApiExcludedTimesEnabled;
+                tbApiExcludeStart.Text = SettingsManager.ApiExcludeTimeStart.ToString("HH:mm");
+                tbApiExcludeEnd.Text = SettingsManager.ApiExcludeTimeEnd.ToString("HH:mm");
+                rbcmDx9.Checked = SettingsManager.CaptureMethod == CaptureMethod.DX9;
+                rbcmDx11.Checked = SettingsManager.CaptureMethod == CaptureMethod.DX11;
+                tbDx11MaxFps.Text = SettingsManager.Dx11MaxFps.ToString();
+                tbDx11FrameCaptureTimeout.Text = SettingsManager.Dx11FrameCaptureTimeout.ToString();
 
                 RestoreComboBoxValues();
 
-                cbNotificationLevel.Text = Settings.NotificationLevel.ToString();
+                cbNotificationLevel.Text = SettingsManager.NotificationLevel.ToString();
             }
             catch ( Exception ex )
             {
@@ -79,14 +65,14 @@ namespace HyperionScreenCap
             int scalingFactorIndexToSelect = 0;
             foreach ( object obj in cbDx11ImgScalingFactor.Items )
             {
-                if ( obj.Equals(Settings.Dx11ImageScalingFactor.ToString()) )
+                if ( obj.Equals(SettingsManager.Dx11ImageScalingFactor.ToString()) )
                     break;
                 scalingFactorIndexToSelect++;
             }
             cbDx11ImgScalingFactor.SelectedIndex = scalingFactorIndexToSelect;
 
-            cbDx11AdapterIndex.SelectedIndex = Settings.Dx11AdapterIndex;
-            cbDx11MonitorIndex.SelectedIndex = Settings.Dx11MonitorIndex;
+            cbDx11AdapterIndex.SelectedIndex = SettingsManager.Dx11AdapterIndex;
+            cbDx11MonitorIndex.SelectedIndex = SettingsManager.Dx11MonitorIndex;
         }
 
         private void btnSaveExit_Click(object sender, EventArgs e)
@@ -111,32 +97,32 @@ namespace HyperionScreenCap
                 }
 
 
-                Settings.HyperionServerIp = tbIPHostName.Text;
-                Settings.HyperionServerPort = int.Parse(tbProtoPort.Text);
-                Settings.HyperionMessagePriority = int.Parse(cbMessagePriority.Text);
-                Settings.HyperionMessageDuration = int.Parse(tbMessageDuration.Text);
-                Settings.HyperionWidth = int.Parse(tbCaptureWidth.Text);
-                Settings.HyperionHeight = int.Parse(tbCaptureHeight.Text);
-                Settings.CaptureInterval = int.Parse(tbCaptureInterval.Text);
-                Settings.MonitorIndex = int.Parse(cbMonitorIndex.Text);
-                Settings.CaptureOnStartup = chkCaptureOnStartup.Checked;
-                Settings.ApiPort = int.Parse(tbApiPort.Text);
-                Settings.ApiEnabled = chkApiEnabled.Checked;
-                Settings.ApiExcludedTimesEnabled = chkApiExcludeTimesEnabled.Checked;
-                Settings.ApiExcludeTimeStart = DateTime.Parse(tbApiExcludeStart.Text);
-                Settings.ApiExcludeTimeEnd = DateTime.Parse(tbApiExcludeEnd.Text);
-                Settings.CaptureMethod = rbcmDx9.Checked ? CaptureMethod.DX9.ToString() : CaptureMethod.DX11.ToString();
-                Settings.Dx11MaxFps = int.Parse(tbDx11MaxFps.Text);
-                Settings.Dx11FrameCaptureTimeout = int.Parse(tbDx11FrameCaptureTimeout.Text);
-                Settings.Dx11ImageScalingFactor = int.Parse(cbDx11ImgScalingFactor.SelectedItem.ToString());
-                Settings.Dx11AdapterIndex = cbDx11AdapterIndex.SelectedIndex;
-                Settings.Dx11MonitorIndex = cbDx11MonitorIndex.SelectedIndex;
+                SettingsManager.HyperionServerIp = tbIPHostName.Text;
+                SettingsManager.HyperionServerPort = int.Parse(tbProtoPort.Text);
+                SettingsManager.HyperionMessagePriority = int.Parse(cbMessagePriority.Text);
+                SettingsManager.HyperionMessageDuration = int.Parse(tbMessageDuration.Text);
+                SettingsManager.HyperionWidth = int.Parse(tbCaptureWidth.Text);
+                SettingsManager.HyperionHeight = int.Parse(tbCaptureHeight.Text);
+                SettingsManager.CaptureInterval = int.Parse(tbCaptureInterval.Text);
+                SettingsManager.MonitorIndex = int.Parse(cbMonitorIndex.Text);
+                SettingsManager.CaptureOnStartup = chkCaptureOnStartup.Checked;
+                SettingsManager.ApiPort = int.Parse(tbApiPort.Text);
+                SettingsManager.ApiEnabled = chkApiEnabled.Checked;
+                SettingsManager.ApiExcludedTimesEnabled = chkApiExcludeTimesEnabled.Checked;
+                SettingsManager.ApiExcludeTimeStart = DateTime.Parse(tbApiExcludeStart.Text);
+                SettingsManager.ApiExcludeTimeEnd = DateTime.Parse(tbApiExcludeEnd.Text);
+                SettingsManager.CaptureMethod = rbcmDx9.Checked ? CaptureMethod.DX9 : CaptureMethod.DX11;
+                SettingsManager.Dx11MaxFps = int.Parse(tbDx11MaxFps.Text);
+                SettingsManager.Dx11FrameCaptureTimeout = int.Parse(tbDx11FrameCaptureTimeout.Text);
+                SettingsManager.Dx11ImageScalingFactor = int.Parse(cbDx11ImgScalingFactor.SelectedItem.ToString());
+                SettingsManager.Dx11AdapterIndex = cbDx11AdapterIndex.SelectedIndex;
+                SettingsManager.Dx11MonitorIndex = cbDx11MonitorIndex.SelectedIndex;
 
-                Settings.NotificationLevel =
-                    (Form1.NotificationLevels) Enum.Parse(typeof(Form1.NotificationLevels), cbNotificationLevel.Text);
+                SettingsManager.NotificationLevel =
+                    (NotificationLevel) Enum.Parse(typeof(NotificationLevel), cbNotificationLevel.Text);
 
-                Settings.SaveSettings();
-                Form1.Init(true);
+                SettingsManager.SaveSettings();
+                MainForm.Init(true);
             }
             catch ( Exception ex )
             {

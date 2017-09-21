@@ -8,10 +8,11 @@ using SlimDX.Direct3D9;
 using SlimDX.Windows;
 using HyperionScreenCap.Config;
 using System.Drawing;
+using HyperionScreenCap.Model;
 
 namespace HyperionScreenCap
 {
-    public partial class Form1 : Form
+    public partial class MainForm : Form
     {
         #region Variables
 
@@ -27,16 +28,9 @@ namespace HyperionScreenCap
         private static bool _captureEnabled = false;
         private static Thread _captureThread;
 
-        public enum NotificationLevels
-        {
-            None,
-            Info,
-            Error
-        }
-
         #endregion Variables
 
-        public Form1()
+        public MainForm()
         {
             InitializeComponent();
 
@@ -57,9 +51,9 @@ namespace HyperionScreenCap
 
             TrayIcon.Visible = true;
 
-            Settings.LoadSetttings();
+            SettingsManager.LoadSetttings();
 
-            if (Settings.HyperionServerIp == "0.0.0.0")
+            if (SettingsManager.HyperionServerIp == "0.0.0.0")
             {
                 MessageBox.Show(@"No configuration found, please setup in the next window.");
                 SetupForm setupForm = new SetupForm();
@@ -88,15 +82,15 @@ namespace HyperionScreenCap
                     DisconnectProtoClient();
                 }
 
-                if (Settings.CaptureOnStartup || forceOn)
+                if (SettingsManager.CaptureOnStartup || forceOn)
                 {
                     ToggleCapture("ON");
                 }
 
-                if (Settings.ApiEnabled)
+                if (SettingsManager.ApiEnabled)
                 {
                     _apiServer = new ApiServer();
-                    _apiServer.StartServer("localhost", Settings.ApiPort.ToString());
+                    _apiServer.StartServer("localhost", SettingsManager.ApiPort.ToString());
                 }
                 else
                 {
@@ -151,7 +145,7 @@ namespace HyperionScreenCap
 
                 TrayIcon.Icon = Resources.Hyperion_disabled;
                 TrayIcon.Text = AppConstants.TRAY_ICON_MSG_CAPTURE_DISABLED;
-                ProtoClient.TryClearPriority(Settings.HyperionMessagePriority);
+                ProtoClient.TryClearPriority(SettingsManager.HyperionMessagePriority);
                 DisconnectProtoClient();
             }
             else if ( command == "ON" )
@@ -179,7 +173,7 @@ namespace HyperionScreenCap
         private static void TerminateScreenCapture()
         {
             _captureEnabled = false;
-            Thread.Sleep(Settings.CaptureInterval + AppConstants.CAPTURE_FAILED_COOLDOWN_MILLIS + 500);
+            Thread.Sleep(SettingsManager.CaptureInterval + AppConstants.CAPTURE_FAILED_COOLDOWN_MILLIS + 500);
         }
 
         private static void OnChangeMonitor(object sender, EventArgs e)
@@ -193,8 +187,8 @@ namespace HyperionScreenCap
                 if (isValidInteger)
                 {
                     Debug.WriteLine($"Selected new monitor index: {newMonitorIndex}");
-                    Settings.MonitorIndex = newMonitorIndex;
-                    Settings.SaveSettings();
+                    SettingsManager.MonitorIndex = newMonitorIndex;
+                    SettingsManager.SaveSettings();
                     Init(true, true);
                 }
                 else
@@ -226,11 +220,11 @@ namespace HyperionScreenCap
             if (ProtoClient.Initialized)
             {
                 TerminateScreenCapture();
-                ProtoClient.TryClearPriority(Settings.HyperionMessagePriority);
+                ProtoClient.TryClearPriority(SettingsManager.HyperionMessagePriority);
                 DisconnectProtoClient();
             }
 
-            if (Settings.ApiEnabled)
+            if (SettingsManager.ApiEnabled)
                 _apiServer.StopServer();
 
             Environment.Exit(0);
@@ -250,7 +244,7 @@ namespace HyperionScreenCap
         {
             try
             {
-                StartCapture(SetupForm.CaptureMethod.DX9.ToString().Equals(Settings.CaptureMethod));
+                StartCapture(CaptureMethod.DX9.ToString().Equals(SettingsManager.CaptureMethod));
             }
             finally
             {
@@ -263,8 +257,8 @@ namespace HyperionScreenCap
         {
             try
             {
-                _dx9ScreenCapture = new DX9ScreenCapture(Settings.MonitorIndex);
-                _dx11ScreenCapture = new DX11ScreenCapture(Settings.Dx11AdapterIndex, Settings.Dx11MonitorIndex, Settings.Dx11ImageScalingFactor);
+                _dx9ScreenCapture = new DX9ScreenCapture(SettingsManager.MonitorIndex);
+                _dx11ScreenCapture = new DX11ScreenCapture(SettingsManager.Dx11AdapterIndex, SettingsManager.Dx11MonitorIndex, SettingsManager.Dx11ImageScalingFactor);
             }
             catch ( Exception ex )
             {
@@ -284,12 +278,12 @@ namespace HyperionScreenCap
                     if ( !ProtoClient.IsConnected() )
                     {
                         ProtoClient.Disconnect();
-                        ProtoClient.Init(Settings.HyperionServerIp, Settings.HyperionServerPort, Settings.HyperionMessagePriority);
+                        ProtoClient.Init(SettingsManager.HyperionServerIp, SettingsManager.HyperionServerPort, SettingsManager.HyperionMessagePriority);
                         // Double checking since sometimes exceptions are not thrown on initialization
                         if ( ProtoClient.IsConnected() )
-                            Notifications.Info($"Connected to Hyperion server on {Settings.HyperionServerIp}!");
+                            Notifications.Info($"Connected to Hyperion server on {SettingsManager.HyperionServerIp}!");
                         else
-                            throw new Exception($"Failed to connect to Hyperion server on {Settings.HyperionServerIp}!");
+                            throw new Exception($"Failed to connect to Hyperion server on {SettingsManager.HyperionServerIp}!");
                     }
 
                     byte[] imageData;
@@ -300,15 +294,15 @@ namespace HyperionScreenCap
 
                     if ( dx9Capture )
                     {
-                        var s = _dx9ScreenCapture.CaptureScreen(Settings.HyperionWidth, Settings.HyperionHeight, _dx9ScreenCapture.MonitorIndex);
+                        var s = _dx9ScreenCapture.CaptureScreen(SettingsManager.HyperionWidth, SettingsManager.HyperionHeight, _dx9ScreenCapture.MonitorIndex);
                         var dr = s.LockRectangle(LockFlags.None);
                         var ds = dr.Data;
                         imageData = RemoveAlpha(ds);
                         s.UnlockRectangle();
                         s.Dispose();
                         ds.Dispose();
-                        imageWidth = Settings.HyperionWidth;
-                        imageHeight = Settings.HyperionHeight;
+                        imageWidth = SettingsManager.HyperionWidth;
+                        imageHeight = SettingsManager.HyperionHeight;
                     }
                     else
                     {
@@ -330,8 +324,8 @@ namespace HyperionScreenCap
                     }
 
                     // Add small delay to reduce cpu usage (200FPS max)
-                    if ( dx9Capture && Settings.CaptureInterval > 0 )
-                        Thread.Sleep(Settings.CaptureInterval);
+                    if ( dx9Capture && SettingsManager.CaptureInterval > 0 )
+                        Thread.Sleep(SettingsManager.CaptureInterval);
 
                     // Reset attempt count
                     captureAttempt = 1;

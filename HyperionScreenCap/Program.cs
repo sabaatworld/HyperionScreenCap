@@ -7,10 +7,15 @@ namespace HyperionScreenCap
 {
     internal static class Program
     {
+        static Program()
+        {
+            CosturaUtility.Initialize();
+        }
+
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool SetProcessDPIAware();
 
-        private static Form1 _mainForm;
+        private static MainForm _mainForm;
 
         /// <summary>
         /// The main entry point for the application.
@@ -34,7 +39,7 @@ namespace HyperionScreenCap
                     // ignored
                 }
             }
-            _mainForm = new Form1();
+            _mainForm = new MainForm();
             Application.Run(_mainForm);
         }
 
