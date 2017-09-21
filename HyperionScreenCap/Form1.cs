@@ -41,7 +41,7 @@ namespace HyperionScreenCap
             InitializeComponent();
 
             // Add menu icons
-            TrayMenuIcons.Items.Add("Change monitor index", Resources.television__pencil.ToBitmap());
+            TrayMenuIcons.Items.Add("Change DX9 monitor index", Resources.television__pencil.ToBitmap());
             TrayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
             TrayMenuIcons.Items.Add("Exit", Resources.cross.ToBitmap(), OnExit);
 

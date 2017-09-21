@@ -174,8 +174,11 @@ namespace HyperionScreenCap
                     if ( duplicateFrameInformation.LastPresentTime == 0 && _lastCapturedFrame != null )
                         return _lastCapturedFrame;
                 }
-                catch (SharpDXException ex)
+                catch ( SharpDXException ex )
                 {
+                    if ( ex.ResultCode.Code == SharpDX.DXGI.ResultCode.WaitTimeout.Code && _lastCapturedFrame != null )
+                        return _lastCapturedFrame;
+
                     if ( ex.ResultCode.Code == SharpDX.DXGI.ResultCode.AccessLost.Code )
                         _desktopDuplicatorInvalid = true;
 
@@ -266,6 +269,8 @@ namespace HyperionScreenCap
             _device?.Dispose();
             _adapter?.Dispose();
             _factory?.Dispose();
+
+            _lastCapturedFrame = null;
         }
     }
 }

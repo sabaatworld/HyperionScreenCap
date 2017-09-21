@@ -47,6 +47,8 @@
             this.tbIPHostName = new System.Windows.Forms.TextBox();
             this.lblIPHostName = new System.Windows.Forms.Label();
             this.tabPageAdvanced = new System.Windows.Forms.TabPage();
+            this.lblShowDisplaysMsg = new System.Windows.Forms.Label();
+            this.lblShowDx11Displays = new System.Windows.Forms.LinkLabel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.cbDx11MonitorIndex = new System.Windows.Forms.ComboBox();
             this.lblDx11MonitorIndex = new System.Windows.Forms.Label();
@@ -81,8 +83,6 @@
             this.tbHelp = new System.Windows.Forms.TextBox();
             this.btnSaveExit = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.lblShowDx11Displays = new System.Windows.Forms.LinkLabel();
-            this.lblShowDisplaysMsg = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
             this.gbCaptureApi.SuspendLayout();
@@ -130,9 +130,9 @@
             // 
             this.gbCaptureApi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gbCaptureApi.Controls.Add(this.tableLayoutPanel2);
-            this.gbCaptureApi.Location = new System.Drawing.Point(1137, 18);
+            this.gbCaptureApi.Location = new System.Drawing.Point(1063, 18);
             this.gbCaptureApi.Name = "gbCaptureApi";
-            this.gbCaptureApi.Size = new System.Drawing.Size(683, 251);
+            this.gbCaptureApi.Size = new System.Drawing.Size(757, 356);
             this.gbCaptureApi.TabIndex = 6;
             this.gbCaptureApi.TabStop = false;
             this.gbCaptureApi.Text = "Screen Capture Method";
@@ -140,8 +140,8 @@
             // tableLayoutPanel2
             // 
             this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 31.46233F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 68.53767F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 30.23256F));
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 69.76744F));
             this.tableLayoutPanel2.Controls.Add(this.lblDx9Desc, 1, 0);
             this.tableLayoutPanel2.Controls.Add(this.rbcmDx11, 0, 1);
             this.tableLayoutPanel2.Controls.Add(this.rbcmDx9, 0, 0);
@@ -153,26 +153,26 @@
             this.tableLayoutPanel2.RowCount = 2;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(677, 214);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(751, 319);
             this.tableLayoutPanel2.TabIndex = 0;
             // 
             // lblDx9Desc
             // 
             this.lblDx9Desc.AutoSize = true;
-            this.lblDx9Desc.Location = new System.Drawing.Point(219, 10);
+            this.lblDx9Desc.Location = new System.Drawing.Point(233, 10);
             this.lblDx9Desc.Name = "lblDx9Desc";
-            this.lblDx9Desc.Size = new System.Drawing.Size(286, 64);
+            this.lblDx9Desc.Size = new System.Drawing.Size(348, 96);
             this.lblDx9Desc.TabIndex = 3;
-            this.lblDx9Desc.Text = "Moderate CPU usage\r\nLow GPU Usage";
+            this.lblDx9Desc.Text = "Moderate CPU usage\r\nLow GPU Usage\r\nLow FPS Desktop Capture\r\n";
             // 
             // rbcmDx11
             // 
             this.rbcmDx11.AutoSize = true;
-            this.rbcmDx11.Location = new System.Drawing.Point(13, 110);
+            this.rbcmDx11.Location = new System.Drawing.Point(13, 162);
             this.rbcmDx11.Name = "rbcmDx11";
-            this.rbcmDx11.Size = new System.Drawing.Size(184, 36);
+            this.rbcmDx11.Size = new System.Drawing.Size(201, 100);
             this.rbcmDx11.TabIndex = 8;
-            this.rbcmDx11.Text = "DirectX 11";
+            this.rbcmDx11.Text = "DirectX 11\r\n(Beta)\r\nWin 7 SP1+";
             this.rbcmDx11.UseVisualStyleBackColor = true;
             // 
             // rbcmDx9
@@ -180,19 +180,19 @@
             this.rbcmDx9.AutoSize = true;
             this.rbcmDx9.Location = new System.Drawing.Point(13, 13);
             this.rbcmDx9.Name = "rbcmDx9";
-            this.rbcmDx9.Size = new System.Drawing.Size(168, 36);
+            this.rbcmDx9.Size = new System.Drawing.Size(168, 68);
             this.rbcmDx9.TabIndex = 7;
-            this.rbcmDx9.Text = "DirectX 9";
+            this.rbcmDx9.Text = "DirectX 9\r\nWin XP+";
             this.rbcmDx9.UseVisualStyleBackColor = true;
             // 
             // lblDx11Desc
             // 
             this.lblDx11Desc.AutoSize = true;
-            this.lblDx11Desc.Location = new System.Drawing.Point(219, 107);
+            this.lblDx11Desc.Location = new System.Drawing.Point(233, 159);
             this.lblDx11Desc.Name = "lblDx11Desc";
-            this.lblDx11Desc.Size = new System.Drawing.Size(294, 64);
+            this.lblDx11Desc.Size = new System.Drawing.Size(355, 96);
             this.lblDx11Desc.TabIndex = 2;
-            this.lblDx11Desc.Text = "Negligible CPU usage\r\nVery Low GPU usage";
+            this.lblDx11Desc.Text = "Negligible CPU usage\r\nVery Low GPU usage\r\nHigh FPS Desktop Capture";
             // 
             // chkCaptureOnStartup
             // 
@@ -312,6 +312,29 @@
             this.tabPageAdvanced.Size = new System.Drawing.Size(1839, 648);
             this.tabPageAdvanced.TabIndex = 1;
             this.tabPageAdvanced.Text = "Advanced";
+            // 
+            // lblShowDisplaysMsg
+            // 
+            this.lblShowDisplaysMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShowDisplaysMsg.AutoSize = true;
+            this.lblShowDisplaysMsg.Location = new System.Drawing.Point(1486, 594);
+            this.lblShowDisplaysMsg.Name = "lblShowDisplaysMsg";
+            this.lblShowDisplaysMsg.Size = new System.Drawing.Size(337, 32);
+            this.lblShowDisplaysMsg.TabIndex = 22;
+            this.lblShowDisplaysMsg.Text = "to view monitors for DX11";
+            // 
+            // lblShowDx11Displays
+            // 
+            this.lblShowDx11Displays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShowDx11Displays.AutoSize = true;
+            this.lblShowDx11Displays.Cursor = System.Windows.Forms.Cursors.Default;
+            this.lblShowDx11Displays.Location = new System.Drawing.Point(1352, 595);
+            this.lblShowDx11Displays.Name = "lblShowDx11Displays";
+            this.lblShowDx11Displays.Size = new System.Drawing.Size(141, 32);
+            this.lblShowDx11Displays.TabIndex = 21;
+            this.lblShowDx11Displays.TabStop = true;
+            this.lblShowDx11Displays.Text = "Click here";
+            this.lblShowDx11Displays.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblShowDx11Displays_LinkClicked);
             // 
             // tableLayoutPanel1
             // 
@@ -742,29 +765,6 @@
             this.lblVersion.Size = new System.Drawing.Size(185, 32);
             this.lblVersion.TabIndex = 11;
             this.lblVersion.Text = "Version: X.X";
-            // 
-            // lblShowDx11Displays
-            // 
-            this.lblShowDx11Displays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblShowDx11Displays.AutoSize = true;
-            this.lblShowDx11Displays.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblShowDx11Displays.Location = new System.Drawing.Point(1352, 595);
-            this.lblShowDx11Displays.Name = "lblShowDx11Displays";
-            this.lblShowDx11Displays.Size = new System.Drawing.Size(141, 32);
-            this.lblShowDx11Displays.TabIndex = 21;
-            this.lblShowDx11Displays.TabStop = true;
-            this.lblShowDx11Displays.Text = "Click here";
-            this.lblShowDx11Displays.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblShowDx11Displays_LinkClicked);
-            // 
-            // lblShowDisplaysMsg
-            // 
-            this.lblShowDisplaysMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.lblShowDisplaysMsg.AutoSize = true;
-            this.lblShowDisplaysMsg.Location = new System.Drawing.Point(1486, 594);
-            this.lblShowDisplaysMsg.Name = "lblShowDisplaysMsg";
-            this.lblShowDisplaysMsg.Size = new System.Drawing.Size(337, 32);
-            this.lblShowDisplaysMsg.TabIndex = 22;
-            this.lblShowDisplaysMsg.Text = "to view monitors for DX11";
             // 
             // SetupForm
             // 
