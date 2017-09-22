@@ -2,7 +2,7 @@
 
 Windows screen capture program for the [Hyperion](https://github.com/tvdzwan/hyperion) open-source Ambilight project.
 
-The program uses Direct3D9 to capture the screen, resize it and send it to the ProtoBuffer interface of Hyperion.
+The program uses DirectX 9/11 to capture the screen, resize it and send it to the ProtoBuffer interface of Hyperion.
 
 ## Download
 [SetupHyperionScreenCap.exe](https://github.com/sabaatworld/HyperionScreenCap/releases/download/v2.0/SetupHyperionScreenCap.exe)
@@ -19,6 +19,8 @@ The program uses Direct3D9 to capture the screen, resize it and send it to the P
 
 
 ## Configuration
+
+Help for DirectX 11 configuration options is available in the 'Help' tab of the setup window. The defaults for most of the settings should work fine. If you are using a display less than 4K resolution, make sure that you set image scaling factor correctly or else a very small image would be sent to Hyperion.
 
 Comes with a setup form which is accessible via system tray; however you can also manually edit the 'user.config' file under '%APPDATA%\HyperionScreenCap' directory. Here is an example of the config file:
 
