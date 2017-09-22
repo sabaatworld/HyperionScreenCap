@@ -34,6 +34,12 @@ PrivilegesRequired=admin
 AppVerName=2.0
 UninstallDisplayName=Hyperion Screen Capture
 UninstallDisplayIcon={app}\HyperionScreenCap.exe
+VersionInfoVersion=2.0
+VersionInfoCompany=sabaatworld
+VersionInfoDescription=Hyperion Screen Capture
+VersionInfoProductName=HyperionScreenCap
+VersionInfoProductVersion=2.0
+VersionInfoCopyright=Copyright © 2017
 
 [Languages]
 Name: en; MessagesFile: compiler:Default.isl
