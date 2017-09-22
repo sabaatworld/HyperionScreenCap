@@ -20,28 +20,77 @@ The program uses Direct3D9 to capture the screen, resize it and send it to the P
 
 ## Configuration
 
-Comes with setup form which is accessible via system tray, however manual config edit is also possible and below is an example HyperionScreenCap.exe.config :
+Comes with a setup form which is accessible via system tray; however you can also manually edit the 'user.config' file under '%APPDATA%\HyperionScreenCap' directory. Here is an example of the config file:
 
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <configuration>
-  <appSettings>
-    <add key="hyperionServerIP" value="0.0.0.0"/> <!-- IP / hostname -->
-    <add key="hyperionServerPort" value="19445"/> <!-- Protobuffer port -->
-    <add key="hyperionMessagePriority" value="10"/> <!-- Lower number means higher priority -->
-    <add key="hyperionMessageDuration" value="1000"/> <!-- How long will each captured screenshot stay on LEDs -->
-    <add key="width"  value="64"/> <!-- Keep these values small -->
-    <add key="height" value="64"/> <!-- Keep these values small -->
-    <add key="captureInterval" value="5"/> <!-- Image capture interval -->
-    <add key="notificationLevel" value="Info"/> <!-- Info/Error/None -->
-    <add key="monitorIndex" value="0"/> <!-- 0 is the main monitor -->
-    <add key="captureMethod" value="DX9"/> <!-- Can be either DX9 or DX11 -->
-    <add key="dx11MaxFps" value="60"/> <!-- Maximum number of updates per second to be sent to Hyperion -->
-    <add key="dx11FrameCaptureTimeout" value="2000"/> <!-- Timeout for each frame capture attempt -->
-    <add key="dx11ImageScalingFactor" value="64"/> <!-- Factor by which captured image should be scaled. Can be any power of 2. -->
-    <add key="dx11AdapterIndex" value="0"/> <!-- Zero based GPU index -->
-    <add key="dx11MonitorIndex" value="0"/> <!-- Zero based display index -->
-  </appSettings>
-<startup><supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0,Profile=Client"/></startup>
+    <userSettings>
+        <HyperionScreenCap.Properties.Settings>
+            <setting name="hyperionServerIP" serializeAs="String">
+                <value>0.0.0.0</value>
+            </setting>
+            <setting name="hyperionServerPort" serializeAs="String">
+                <value>19445</value>
+            </setting>
+            <setting name="hyperionMessagePriority" serializeAs="String">
+                <value>10</value>
+            </setting>
+            <setting name="hyperionMessageDuration" serializeAs="String">
+                <value>1500</value>
+            </setting>
+            <setting name="width" serializeAs="String">
+                <value>64</value>
+            </setting>
+            <setting name="height" serializeAs="String">
+                <value>64</value>
+            </setting>
+            <setting name="captureInterval" serializeAs="String">
+                <value>5</value>
+            </setting>
+            <setting name="notificationLevel" serializeAs="String">
+                <value>Info</value>
+            </setting>
+            <setting name="monitorIndex" serializeAs="String">
+                <value>0</value>
+            </setting>
+            <setting name="captureMethod" serializeAs="String">
+                <value>DX11</value>
+            </setting>
+            <setting name="dx11MaxFps" serializeAs="String">
+                <value>60</value>
+            </setting>
+            <setting name="dx11FrameCaptureTimeout" serializeAs="String">
+                <value>1250</value>
+            </setting>
+            <setting name="dx11ImageScalingFactor" serializeAs="String">
+                <value>64</value>
+            </setting>
+            <setting name="dx11AdapterIndex" serializeAs="String">
+                <value>0</value>
+            </setting>
+            <setting name="dx11MonitorIndex" serializeAs="String">
+                <value>0</value>
+            </setting>
+            <setting name="captureOnStartup" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="apiPort" serializeAs="String">
+                <value>0</value>
+            </setting>
+            <setting name="apiEnabled" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="apiExcludedTimesEnabled" serializeAs="String">
+                <value>False</value>
+            </setting>
+            <setting name="apiExcludeTimeStart" serializeAs="String">
+                <value>09/22/2017 10:00:00</value>
+            </setting>
+            <setting name="apiExcludeTimeEnd" serializeAs="String">
+                <value>09/22/2017 22:00:00</value>
+            </setting>
+        </HyperionScreenCap.Properties.Settings>
+    </userSettings>
 </configuration>
 ```
