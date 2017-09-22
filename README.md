@@ -96,3 +96,8 @@ Comes with a setup form which is accessible via system tray; however you can als
     </userSettings>
 </configuration>
 ```
+## Screenshots
+
+![Setup Window Generic Tab](Screenshots/setup-generic.JPG)
+![Setup Window Advanced Tab](Screenshots/setup-advanced.JPG)
+![Setup Window Help Tab](Screenshots/setup-help.JPG)
