@@ -18,44 +18,46 @@
 ; Do not use the same AppId value in installers for other applications.
 AppId={{EB137069-4865-4E77-8AC3-00E4399B1359}
 AppName=Hyperion Screen Capture
-AppVersion=1.0
-;AppVerName=Hyperion Screen Capture 1.0
-AppPublisher=Djhansel
-AppPublisherURL=https://github.com/djhansel/HyperionScreenCap
-AppSupportURL=https://github.com/djhansel/HyperionScreenCap
-AppUpdatesURL=https://github.com/djhansel/HyperionScreenCap
+AppVersion=2.0
+AppPublisher=sabaatworld
+AppPublisherURL=https://github.com/sabaatworld/HyperionScreenCap
+AppSupportURL=https://github.com/sabaatworld/HyperionScreenCap/issues
+AppUpdatesURL=https://github.com/sabaatworld/HyperionScreenCap
 DefaultDirName={pf}\Hyperion Screen Capture
-DisableProgramGroupPage=yes
+DisableProgramGroupPage=true
 LicenseFile=License.txt
 OutputBaseFilename=SetupHyperionScreenCap
 SetupIconFile=../Resources/Hyperion-enabled.ico
 Compression=lzma
-SolidCompression=yes
+SolidCompression=true
 PrivilegesRequired=admin
+AppVerName=2.0
+UninstallDisplayName=Hyperion Screen Capture
+UninstallDisplayIcon={app}\HyperionScreenCap.exe
 
 [Languages]
-Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: en; MessagesFile: compiler:Default.isl
 
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked
 
 [Files]
-Source: "..\bin\x86\Release\HyperionScreenCap.exe"; DestDir: "{app}"; Flags: ignoreversion
-Source: "..\bin\x86\Release\HyperionScreenCap.exe.config"; DestDir: "{app}"; Flags: ignoreversion
-;Source: "..\bin\x86\Release\SlimDX.dll"; DestDir: "{app}"; Flags: ignoreversion
+Source: ..\bin\x86\Release\HyperionScreenCap.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\x86\Release\HyperionScreenCap.exe.config; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\x86\Release\SlimDX.dll; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
-; direct X installer 
-Source: "src\dxwebsetup.exe"; Flags: dontcopy
+; direct X installer
+Source: src\dxwebsetup.exe; Flags: dontcopy
 
 
 [Icons]
-Name: "{commonprograms}\Hyperion Screen Capture"; Filename: "{app}\HyperionScreenCap.exe"
-Name: "{commondesktop}\Hyperion Screen Capture"; Filename: "{app}\HyperionScreenCap.exe"; Tasks: desktopicon
+Name: {commonprograms}\Hyperion Screen Capture; Filename: {app}\HyperionScreenCap.exe
+Name: {commondesktop}\Hyperion Screen Capture; Filename: {app}\HyperionScreenCap.exe; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\HyperionScreenCap.exe"; Description: "{cm:LaunchProgram,Hyperion Screen Capture}"; Flags: nowait postinstall skipifsilent
+Filename: {app}\HyperionScreenCap.exe; Description: {cm:LaunchProgram,Hyperion Screen Capture}; Flags: nowait postinstall skipifsilent
 
 [CustomMessages]
 win_sp_title=Windows %1 Service Pack %2
