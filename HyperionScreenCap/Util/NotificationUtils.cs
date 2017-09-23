@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace HyperionScreenCap
 {
-    internal static class Notifications
+    internal static class NotificationUtils
     {
         public static void Error(string errorMsg)
         {

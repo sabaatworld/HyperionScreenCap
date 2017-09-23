@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -41,6 +42,12 @@ namespace HyperionScreenCap.Config
         /// Tray icon tooltip message displayed when screen capture is enabled.
         /// </summary>
         public const string TRAY_ICON_MSG_CAPTURE_ENABLED = "Hyperion Screen Capture (Enabled)";
+
+        /// <summary>
+        /// File name for debugging screen captured by this application.
+        /// </summary>
+        public static string DEBUG_IMAGE_FILE_NAME = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
+            + Path.DirectorySeparatorChar + "hyperion-capture-debug.png";
 
     }
 }

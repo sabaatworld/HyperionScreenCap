@@ -742,7 +742,7 @@
             this.tbHelp.Size = new System.Drawing.Size(1833, 642);
             this.tbHelp.TabIndex = 0;
             this.tbHelp.TabStop = false;
-            this.tbHelp.Text = resources.GetString("tbHelp.Text");
+            this.tbHelp.Text = "<Help content is in SetupFormHelp.txt resource>";
             // 
             // btnSaveExit
             // 
@@ -768,6 +768,7 @@
             // 
             // SetupForm
             // 
+            this.AcceptButton = this.btnSaveExit;
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1867, 842);

@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using SlimDX.Windows;
 using HyperionScreenCap.Model;
+using System.IO;
 
 namespace HyperionScreenCap
 {
@@ -23,6 +24,7 @@ namespace HyperionScreenCap
 
             LoadSettings();
 
+            tbHelp.Text = Resources.SetupFormHelp;
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
         }
 

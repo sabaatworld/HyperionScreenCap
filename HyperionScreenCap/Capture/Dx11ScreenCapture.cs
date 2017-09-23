@@ -1,4 +1,5 @@
-﻿using SharpDX;
+﻿using HyperionScreenCap.Capture;
+using SharpDX;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
 using System;
@@ -14,11 +15,8 @@ using System.Threading;
 
 namespace HyperionScreenCap
 {
-    class DX11ScreenCapture : IDisposable
+    class DX11ScreenCapture : ScreenCapture
     {
-        private const int ACQUIRE_FRAME_TIMEOUT = 1000; //TODO make timeout configurable
-        private const int MAX_CAPTURE_RATE = 60; // TODO make this configurable
-
         private Factory1 _factory;
         private Adapter _adapter;
         private Output _output;
@@ -35,9 +33,10 @@ namespace HyperionScreenCap
         private int _minCaptureTime;
         private Stopwatch _captureTimer;
         private bool _desktopDuplicatorInvalid;
+        private int _frameCaptureTimeout;
 
-        public int CaptureWidth { get; private set; }
-        public int CaptureHeight { get; private set; }
+        public int CaptureWidth { get; }
+        public int CaptureHeight { get; }
 
         public static String GetAvailableMonitors()
         {
@@ -60,7 +59,7 @@ namespace HyperionScreenCap
             return response.ToString();
         }
 
-        public DX11ScreenCapture(int adapterIndex = 0, int monitorIndex = 0, int scalingFactor = 2, int maxCaptureRate = MAX_CAPTURE_RATE)
+        public DX11ScreenCapture(int adapterIndex, int monitorIndex, int scalingFactor, int maxFps, int frameCaptureTimeout)
         {
             int mipLevels;
             if ( scalingFactor == 1 )
@@ -126,7 +125,8 @@ namespace HyperionScreenCap
             _smallerTexture = new Texture2D(_device, smallerTextureDesc);
             _smallerTextureView = new ShaderResourceView(_device, _smallerTexture);
 
-            _minCaptureTime = 1000 / maxCaptureRate;
+            _minCaptureTime = 1000 / maxFps;
+            _frameCaptureTimeout = frameCaptureTimeout;
             _captureTimer = new Stopwatch();
 
             InitDesktopDuplicator();
@@ -152,10 +152,6 @@ namespace HyperionScreenCap
             byte[] response = ManagedCapture();
             _captureTimer.Stop();
 
-            int elapsedMillis = Convert.ToInt32(_captureTimer.ElapsedMilliseconds);
-            if ( elapsedMillis < _minCaptureTime )
-                Thread.Sleep(_minCaptureTime - elapsedMillis);
-
             return response;
         }
 
@@ -169,7 +165,7 @@ namespace HyperionScreenCap
                 try
                 {
                     // Try to get duplicated frame within given time
-                    _duplicatedOutput.AcquireNextFrame(ACQUIRE_FRAME_TIMEOUT, out duplicateFrameInformation, out screenResource);
+                    _duplicatedOutput.AcquireNextFrame(_frameCaptureTimeout, out duplicateFrameInformation, out screenResource);
 
                     if ( duplicateFrameInformation.LastPresentTime == 0 && _lastCapturedFrame != null )
                         return _lastCapturedFrame;
@@ -256,6 +252,15 @@ namespace HyperionScreenCap
                 sourcePtr = IntPtr.Add(sourcePtr, mapSource.RowPitch);
             }
             return bytes;
+        }
+
+        public void DelayNextCapture()
+        {
+            int remainingFrameTime = _minCaptureTime - (int)_captureTimer.ElapsedMilliseconds;
+            if ( remainingFrameTime > 0 )
+            {
+                Thread.Sleep(remainingFrameTime);
+            }
         }
 
         public void Dispose()

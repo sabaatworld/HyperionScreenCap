@@ -4,16 +4,23 @@ using System.Linq;
 using System.Windows.Forms;
 using SlimDX.Direct3D9;
 using SlimDX.Windows;
+using HyperionScreenCap.Capture;
+using SlimDX;
+using System.Threading;
 
 namespace HyperionScreenCap
 {
-    public class DX9ScreenCapture : IDisposable
+    public class DX9ScreenCapture : ScreenCapture
     {
         private readonly Device _device;
         private Direct3D _direct3D;
-        public int MonitorIndex = 0;
+        private int _monitorIndex;
+        private int _captureInterval;
 
-        public DX9ScreenCapture(int monitorIndex)
+        public int CaptureWidth { get; }
+        public int CaptureHeight { get; }
+
+        public DX9ScreenCapture(int monitorIndex, int captureWidth, int captureHeight, int captureInterval)
         {
             var presentParams = new PresentParameters
             {
@@ -22,27 +29,62 @@ namespace HyperionScreenCap
                 PresentationInterval = PresentInterval.Immediate
             };
 
-            MonitorIndex = GetMonitorIndex(monitorIndex);
+            _monitorIndex = GetMonitorIndex(monitorIndex);
             _direct3D = new Direct3D();
-            _device = new Device(_direct3D, MonitorIndex, DeviceType.Hardware, IntPtr.Zero,
+            _device = new Device(_direct3D, _monitorIndex, DeviceType.Hardware, IntPtr.Zero,
                 CreateFlags.SoftwareVertexProcessing, presentParams);
+            CaptureWidth = captureHeight;
+            CaptureHeight = captureHeight;
+            _captureInterval = captureInterval;
         }
 
-        public Surface CaptureScreen(int width, int height, int monitorIndex)
+        public byte[] Capture()
         {
-            using ( var s = Surface.CreateOffscreenPlain(_device, Screen.AllScreens[monitorIndex].Bounds.Width,
-                Screen.AllScreens[monitorIndex].Bounds.Height,
+            byte[] imageToSend;
+            using ( var s = GetCaptureSurface() )
+            {
+                var dr = s.LockRectangle(LockFlags.None);
+                using ( var ds = dr.Data )
+                {
+                    imageToSend = RemoveAlpha(ds);
+                }
+                s.UnlockRectangle();
+            }
+            return imageToSend;
+        }
+
+        private Surface GetCaptureSurface()
+        {
+            using ( var s = Surface.CreateOffscreenPlain(_device, Screen.AllScreens[_monitorIndex].Bounds.Width,
+                Screen.AllScreens[_monitorIndex].Bounds.Height,
                 Format.A8R8G8B8, Pool.Scratch) )
             {
-                var b = Surface.CreateOffscreenPlain(_device, SettingsManager.HyperionWidth, SettingsManager.HyperionHeight, Format.A8R8G8B8,
-                    Pool.Scratch);
+                var b = Surface.CreateOffscreenPlain(_device, CaptureWidth, CaptureHeight, Format.A8R8G8B8, Pool.Scratch);
                 _device.GetFrontBufferData(0, s);
                 Surface.FromSurface(b, s, Filter.Triangle, 0);
                 return b;
             }
         }
 
-        public static int GetMonitorIndex(int monitorIndex)
+        private static byte[] RemoveAlpha(DataStream ia)
+        {
+            var newImage = new byte[(ia.Length * 3 / 4)];
+            int counter = 0;
+            while ( ia.Position < ia.Length )
+            {
+                var a = new byte[4];
+                ia.Read(a, 0, 4);
+                newImage[counter] = (a[2]);
+                counter++;
+                newImage[counter] = (a[1]);
+                counter++;
+                newImage[counter] = (a[0]);
+                counter++;
+            }
+            return newImage;
+        }
+
+        private static int GetMonitorIndex(int monitorIndex)
         {
             var monitorArray = DisplayMonitor.EnumerateMonitors();
 
@@ -79,10 +121,23 @@ namespace HyperionScreenCap
             return monitorIndex;
         }
 
+        public void DelayNextCapture()
+        {
+            if ( _captureInterval > 0 )
+            {
+                Thread.Sleep(_captureInterval);
+            }
+        }
+
         public void Dispose()
         {
             _device?.Dispose();
             _direct3D?.Dispose();
+        }
+
+        public void DelayNextCapture(int elapsedCaptureTime)
+        {
+            throw new NotImplementedException();
         }
     }
 }

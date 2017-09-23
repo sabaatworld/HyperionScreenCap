@@ -1,4 +1,5 @@
-﻿using System;
+﻿using HyperionScreenCap.Config;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -16,7 +17,7 @@ namespace HyperionScreenCap
         /// <param name="imageWidth">The width of the image.</param>
         /// <param name="imageHeight">The height of the image.</param>
         /// <param name="filename">Name of the imgae file written to disk.</param>
-        public static void SaveRGBArrayToImageFile(byte[] rgbData, int imageWidth, int imageHeight, string filename = "rgb_debug.png")
+        public static void SaveRGBArrayToImageFile(byte[] rgbData, int imageWidth, int imageHeight, string filename)
         {
             Bitmap pic = new Bitmap(imageWidth, imageHeight, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 

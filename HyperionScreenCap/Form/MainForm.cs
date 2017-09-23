@@ -9,6 +9,7 @@ using SlimDX.Windows;
 using HyperionScreenCap.Config;
 using System.Drawing;
 using HyperionScreenCap.Model;
+using HyperionScreenCap.Capture;
 
 namespace HyperionScreenCap
 {
@@ -17,8 +18,7 @@ namespace HyperionScreenCap
         #region Variables
 
         private static bool _initLock;
-        private static DX9ScreenCapture _dx9ScreenCapture;
-        private static DX11ScreenCapture _dx11ScreenCapture;
+        private static ScreenCapture _screenCapture;
         private static ApiServer _apiServer;
 
         public static NotifyIcon TrayIcon;
@@ -27,6 +27,7 @@ namespace HyperionScreenCap
         private static bool _captureSuspended = false;
         private static bool _captureEnabled = false;
         private static Thread _captureThread;
+        private static long _dx11MinFrameCaptureTime;
 
         #endregion Variables
 
@@ -244,89 +245,67 @@ namespace HyperionScreenCap
         {
             try
             {
-                StartCapture(CaptureMethod.DX9.ToString().Equals(SettingsManager.CaptureMethod));
-            }
-            finally
-            {
-                _dx9ScreenCapture?.Dispose();
-                _dx11ScreenCapture?.Dispose();
-            }
-        }
+                switch(SettingsManager.CaptureMethod)
+                {
+                    case CaptureMethod.DX9:
+                        _screenCapture = new DX9ScreenCapture(SettingsManager.MonitorIndex, SettingsManager.HyperionWidth, SettingsManager.HyperionHeight, 
+                            SettingsManager.CaptureInterval);
+                        break;
 
-        private static void StartCapture(bool dx9Capture)
-        {
-            try
-            {
-                _dx9ScreenCapture = new DX9ScreenCapture(SettingsManager.MonitorIndex);
-                _dx11ScreenCapture = new DX11ScreenCapture(SettingsManager.Dx11AdapterIndex, SettingsManager.Dx11MonitorIndex, SettingsManager.Dx11ImageScalingFactor);
+                    case CaptureMethod.DX11:
+                        _screenCapture = new DX11ScreenCapture(SettingsManager.Dx11AdapterIndex, SettingsManager.Dx11MonitorIndex, SettingsManager.Dx11ImageScalingFactor,
+                            SettingsManager.Dx11MaxFps, SettingsManager.Dx11FrameCaptureTimeout);
+                        break;
+
+                    default:
+                        throw new NotImplementedException($"The capture method {SettingsManager.CaptureMethod} is not supported yet");
+                }
             }
             catch ( Exception ex )
             {
-                Notifications.Error("Failed to initialize screen capture: " + ex.Message);
-                ToggleCapture("OFF");
+                NotificationUtils.Error("Failed to initialize screen capture: " + ex.Message);
             }
 
-            // Use the following to figure out how much time each Hyperion update requires
-            bool debugCaptureTime = false;
-            Stopwatch stopwatch = new Stopwatch();
+            try // Properly dispose screenCapture object when turning off capture
+            {
+                StartCapture();
+            }
+            finally
+            {
+                _screenCapture.Dispose();
+            }
 
+            ToggleCapture("OFF");
+        }
+
+        private static void StartCapture()
+        {
+            _dx11MinFrameCaptureTime = 1000 / SettingsManager.Dx11MaxFps;
             int captureAttempt = 1;
             while ( _captureEnabled )
             {
-                try
+                try // This block will help retry capture before giving up
                 {
                     if ( !ProtoClient.IsConnected() )
                     {
                         ProtoClient.Disconnect();
                         ProtoClient.Init(SettingsManager.HyperionServerIp, SettingsManager.HyperionServerPort, SettingsManager.HyperionMessagePriority);
-                        // Double checking since sometimes exceptions are not thrown on initialization
+                        // Double checking since sometimes exceptions are not thrown even if connection fails
                         if ( ProtoClient.IsConnected() )
-                            Notifications.Info($"Connected to Hyperion server on {SettingsManager.HyperionServerIp}!");
+                            NotificationUtils.Info($"Connected to Hyperion server on {SettingsManager.HyperionServerIp}!");
                         else
                             throw new Exception($"Failed to connect to Hyperion server on {SettingsManager.HyperionServerIp}!");
                     }
 
-                    byte[] imageData;
-                    int imageWidth, imageHeight;
+                    byte[] imageData = _screenCapture.Capture();
 
-                    if ( debugCaptureTime )
-                        stopwatch.Start();
 
-                    if ( dx9Capture )
-                    {
-                        var s = _dx9ScreenCapture.CaptureScreen(SettingsManager.HyperionWidth, SettingsManager.HyperionHeight, _dx9ScreenCapture.MonitorIndex);
-                        var dr = s.LockRectangle(LockFlags.None);
-                        var ds = dr.Data;
-                        imageData = RemoveAlpha(ds);
-                        s.UnlockRectangle();
-                        s.Dispose();
-                        ds.Dispose();
-                        imageWidth = SettingsManager.HyperionWidth;
-                        imageHeight = SettingsManager.HyperionHeight;
-                    }
-                    else
-                    {
-                        imageData = _dx11ScreenCapture.Capture();
-                        imageWidth = _dx11ScreenCapture.CaptureWidth;
-                        imageHeight = _dx11ScreenCapture.CaptureHeight;
-                    }
+                    ProtoClient.SendImageToServer(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight);
 
                     // Uncomment the following to enable debugging
-                    // MiscUtils.SaveRGBArrayToImageFile(imageData, imageWidth, imageHeight);
+                    // MiscUtils.SaveRGBArrayToImageFile(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight, AppConstants.DEBUG_IMAGE_FILE_NAME);
 
-                    ProtoClient.SendImageToServer(imageData, imageWidth, imageHeight);
-
-                    if ( debugCaptureTime )
-                    {
-                        stopwatch.Stop();
-                        Debug.WriteLine("Hyperion update took: " + stopwatch.ElapsedMilliseconds);
-                        stopwatch.Reset();
-                    }
-
-                    // Add small delay to reduce cpu usage (200FPS max)
-                    if ( dx9Capture && SettingsManager.CaptureInterval > 0 )
-                        Thread.Sleep(SettingsManager.CaptureInterval);
-
+                    _screenCapture.DelayNextCapture();
                     // Reset attempt count
                     captureAttempt = 1;
                 }
@@ -334,9 +313,8 @@ namespace HyperionScreenCap
                 {
                     if ( ++captureAttempt == AppConstants.MAX_CAPTURE_ATTEMPTS )
                     {
-                        _captureEnabled = false;
-                        Notifications.Error("Error occured during capture: " + ex.Message);
-                        ToggleCapture("OFF");
+                        NotificationUtils.Error("Error occured during capture: " + ex.Message);
+                        return;
                     }
                     else
                     {
@@ -344,24 +322,6 @@ namespace HyperionScreenCap
                     }
                 }
             }
-        }
-
-        private static byte[] RemoveAlpha(DataStream ia)
-        {
-            var newImage = new byte[(ia.Length * 3 / 4)];
-            int counter = 0;
-            while ( ia.Position < ia.Length )
-            {
-                var a = new byte[4];
-                ia.Read(a, 0, 4);
-                newImage[counter] = (a[2]);
-                counter++;
-                newImage[counter] = (a[1]);
-                counter++;
-                newImage[counter] = (a[0]);
-                counter++;
-            }
-            return newImage;
         }
 
         #endregion DXCapture

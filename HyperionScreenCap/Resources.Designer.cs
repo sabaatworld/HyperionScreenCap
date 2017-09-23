@@ -111,6 +111,21 @@ namespace HyperionScreenCap {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ==DirectX 11 Configuration Options==
+        ///
+        ///Maximum FPS: The maxium number of updates per second that should be sent to Hyperion.
+        ///
+        ///Frame Capture Timeout: Millis after which desktop capture attempt times out. Note that in case of errors the capture may be attempted again after a cooldown period. This value should always be lower than the &quot;Message Duration&quot; in order to avoid flickering when screen does not update.
+        ///
+        ///Image Scaling Factor: A factor by which the size of the desktop image should be reduced before  [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SetupFormHelp {
+            get {
+                return ResourceManager.GetString("SetupFormHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
         internal static System.Drawing.Icon television__arrow {

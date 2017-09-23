@@ -88,7 +88,7 @@ namespace HyperionScreenCap
                 ClearPriority(priority);
             } catch (Exception ex)
             {
-                Notifications.Error($"Failed to clear priority. {ex.Message}");
+                NotificationUtils.Error($"Failed to clear priority. {ex.Message}");
             }
         }
 
