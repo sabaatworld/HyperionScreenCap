@@ -6,18 +6,12 @@ en.directxruntime_title=DirectX End-User Runtime
 
 en.directxruntime_size=1 MB - 95.6 MB
 
-[Files]
-;includes dxwebsetup.exe in setup executable so that we don't need to download it
-Source: "src\dxwebsetup.exe"; Flags: dontcopy
-
 [Code]
 const
 	directxruntime_url = 'http://download.microsoft.com/download/1/7/1/1718CCC4-6315-4D8E-9543-8E28A4E18C4C/dxwebsetup.exe';
 
 procedure directxruntime();
 begin
-	ExtractTemporaryFile('dxwebsetup.exe');
-
 	AddProduct('dxwebsetup.exe',
 		'/Q',
 		CustomMessage('directxruntime_title'),

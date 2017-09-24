@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2.0.0.%2a</ApplicationVersion>
+    <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -244,7 +244,6 @@
     <Content Include="Installation Files\scripts\products\vcredist2015.iss" />
     <Content Include="Installation Files\scripts\products\wic.iss" />
     <Content Include="Installation Files\scripts\products\winversion.iss" />
-    <Content Include="Installation Files\src\dxwebsetup.exe" />
     <None Include="Resources\gear.ico" />
     <None Include="Resources\cross.ico" />
     <None Include="Resources\television--arrow.ico" />
@@ -252,6 +251,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Installation Files\Output\" />
+    <Folder Include="Installation Files\src\" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.0,Profile=Client">

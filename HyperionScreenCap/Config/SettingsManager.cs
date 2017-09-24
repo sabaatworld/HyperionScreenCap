@@ -20,6 +20,8 @@ namespace HyperionScreenCap
         public static int CaptureInterval;
         public static int MonitorIndex;
         public static bool CaptureOnStartup;
+        public static bool PauseOnUserSwitch;
+        public static bool PauseOnSystemSuspend;
 
         // API
         public static int ApiPort = 29445;
@@ -49,6 +51,8 @@ namespace HyperionScreenCap
             Properties.Settings.Default.monitorIndex = MonitorIndex;
             Properties.Settings.Default.notificationLevel = NotificationLevel;
             Properties.Settings.Default.captureOnStartup = CaptureOnStartup;
+            Properties.Settings.Default.pauseOnUserSwitch = PauseOnUserSwitch;
+            Properties.Settings.Default.pauseOnSystemSuspend = PauseOnSystemSuspend;
             Properties.Settings.Default.apiPort = ApiPort;
             Properties.Settings.Default.apiEnabled = ApiEnabled;
             Properties.Settings.Default.apiExcludedTimesEnabled = ApiExcludedTimesEnabled;
@@ -75,6 +79,8 @@ namespace HyperionScreenCap
             MonitorIndex = Properties.Settings.Default.monitorIndex;
             NotificationLevel = Properties.Settings.Default.notificationLevel;
             CaptureOnStartup = Properties.Settings.Default.captureOnStartup;
+            PauseOnUserSwitch = Properties.Settings.Default.pauseOnUserSwitch;
+            PauseOnSystemSuspend = Properties.Settings.Default.pauseOnSystemSuspend;
             ApiPort = Properties.Settings.Default.apiPort;
             ApiEnabled = Properties.Settings.Default.apiEnabled;
             ApiExcludedTimesEnabled = Properties.Settings.Default.apiExcludedTimesEnabled;

@@ -169,7 +169,7 @@ namespace HyperionScreenCap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("64")]
+        [global::System.Configuration.DefaultSettingValueAttribute("32")]
         public int dx11ImageScalingFactor {
             get {
                 return ((int)(this["dx11ImageScalingFactor"]));
@@ -272,6 +272,30 @@ namespace HyperionScreenCap.Properties {
             }
             set {
                 this["apiExcludeTimeEnd"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool pauseOnUserSwitch {
+            get {
+                return ((bool)(this["pauseOnUserSwitch"]));
+            }
+            set {
+                this["pauseOnUserSwitch"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool pauseOnSystemSuspend {
+            get {
+                return ((bool)(this["pauseOnSystemSuspend"]));
+            }
+            set {
+                this["pauseOnSystemSuspend"] = value;
             }
         }
     }

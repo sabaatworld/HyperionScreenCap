@@ -31,13 +31,16 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetupForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageGeneric = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.chkCaptureOnStartup = new System.Windows.Forms.CheckBox();
+            this.chkPauseSuspend = new System.Windows.Forms.CheckBox();
+            this.chkPauseUserSwitch = new System.Windows.Forms.CheckBox();
             this.gbCaptureApi = new System.Windows.Forms.GroupBox();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.lblDx9Desc = new System.Windows.Forms.Label();
             this.rbcmDx11 = new System.Windows.Forms.RadioButton();
             this.rbcmDx9 = new System.Windows.Forms.RadioButton();
             this.lblDx11Desc = new System.Windows.Forms.Label();
-            this.chkCaptureOnStartup = new System.Windows.Forms.CheckBox();
             this.cbMessagePriority = new System.Windows.Forms.ComboBox();
             this.lblMessagePriority = new System.Windows.Forms.Label();
             this.cbNotificationLevel = new System.Windows.Forms.ComboBox();
@@ -85,6 +88,7 @@
             this.lblVersion = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
             this.gbCaptureApi.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabPageAdvanced.SuspendLayout();
@@ -108,8 +112,8 @@
             // tabPageGeneric
             // 
             this.tabPageGeneric.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageGeneric.Controls.Add(this.tableLayoutPanel3);
             this.tabPageGeneric.Controls.Add(this.gbCaptureApi);
-            this.tabPageGeneric.Controls.Add(this.chkCaptureOnStartup);
             this.tabPageGeneric.Controls.Add(this.cbMessagePriority);
             this.tabPageGeneric.Controls.Add(this.lblMessagePriority);
             this.tabPageGeneric.Controls.Add(this.cbNotificationLevel);
@@ -125,6 +129,56 @@
             this.tabPageGeneric.Size = new System.Drawing.Size(1839, 648);
             this.tabPageGeneric.TabIndex = 0;
             this.tabPageGeneric.Text = "Generic";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.chkCaptureOnStartup, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.chkPauseSuspend, 0, 2);
+            this.tableLayoutPanel3.Controls.Add(this.chkPauseUserSwitch, 0, 1);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(22, 440);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(628, 186);
+            this.tableLayoutPanel3.TabIndex = 20;
+            // 
+            // chkCaptureOnStartup
+            // 
+            this.chkCaptureOnStartup.AutoSize = true;
+            this.chkCaptureOnStartup.Location = new System.Drawing.Point(8, 7);
+            this.chkCaptureOnStartup.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkCaptureOnStartup.Name = "chkCaptureOnStartup";
+            this.chkCaptureOnStartup.Size = new System.Drawing.Size(496, 36);
+            this.chkCaptureOnStartup.TabIndex = 5;
+            this.chkCaptureOnStartup.Text = "Start Screen Capture Automatically";
+            this.chkCaptureOnStartup.UseVisualStyleBackColor = true;
+            // 
+            // chkPauseSuspend
+            // 
+            this.chkPauseSuspend.AutoSize = true;
+            this.chkPauseSuspend.Location = new System.Drawing.Point(8, 107);
+            this.chkPauseSuspend.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkPauseSuspend.Name = "chkPauseSuspend";
+            this.chkPauseSuspend.Size = new System.Drawing.Size(394, 36);
+            this.chkPauseSuspend.TabIndex = 19;
+            this.chkPauseSuspend.Text = "Pause on System Suspend";
+            this.chkPauseSuspend.UseVisualStyleBackColor = true;
+            // 
+            // chkPauseUserSwitch
+            // 
+            this.chkPauseUserSwitch.AutoSize = true;
+            this.chkPauseUserSwitch.Location = new System.Drawing.Point(8, 57);
+            this.chkPauseUserSwitch.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkPauseUserSwitch.Name = "chkPauseUserSwitch";
+            this.chkPauseUserSwitch.Size = new System.Drawing.Size(330, 36);
+            this.chkPauseUserSwitch.TabIndex = 18;
+            this.chkPauseUserSwitch.Text = "Pause on User Switch";
+            this.chkPauseUserSwitch.UseVisualStyleBackColor = true;
             // 
             // gbCaptureApi
             // 
@@ -193,17 +247,6 @@
             this.lblDx11Desc.Size = new System.Drawing.Size(355, 96);
             this.lblDx11Desc.TabIndex = 2;
             this.lblDx11Desc.Text = "Negligible CPU usage\r\nVery Low GPU usage\r\nHigh FPS Desktop Capture";
-            // 
-            // chkCaptureOnStartup
-            // 
-            this.chkCaptureOnStartup.AutoSize = true;
-            this.chkCaptureOnStartup.Location = new System.Drawing.Point(24, 470);
-            this.chkCaptureOnStartup.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.chkCaptureOnStartup.Name = "chkCaptureOnStartup";
-            this.chkCaptureOnStartup.Size = new System.Drawing.Size(370, 36);
-            this.chkCaptureOnStartup.TabIndex = 5;
-            this.chkCaptureOnStartup.Text = "Auto-start screen capture";
-            this.chkCaptureOnStartup.UseVisualStyleBackColor = true;
             // 
             // cbMessagePriority
             // 
@@ -784,6 +827,8 @@
             this.tabControl1.ResumeLayout(false);
             this.tabPageGeneric.ResumeLayout(false);
             this.tabPageGeneric.PerformLayout();
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.tableLayoutPanel3.PerformLayout();
             this.gbCaptureApi.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -856,5 +901,8 @@
         private System.Windows.Forms.TextBox tbHelp;
         private System.Windows.Forms.LinkLabel lblShowDx11Displays;
         private System.Windows.Forms.Label lblShowDisplaysMsg;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
+        private System.Windows.Forms.CheckBox chkPauseSuspend;
+        private System.Windows.Forms.CheckBox chkPauseUserSwitch;
     }
 }

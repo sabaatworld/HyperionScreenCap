@@ -16,7 +16,6 @@ namespace HyperionScreenCap
             InitializeComponent();
 
             // Automatically set the monitor index
-
             for ( int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++ )
             {
                 cbMonitorIndex.Items.Add(i);
@@ -42,6 +41,8 @@ namespace HyperionScreenCap
                 tbCaptureInterval.Text = SettingsManager.CaptureInterval.ToString();
                 cbMonitorIndex.Text = SettingsManager.MonitorIndex.ToString();
                 chkCaptureOnStartup.Checked = SettingsManager.CaptureOnStartup;
+                chkPauseUserSwitch.Checked = SettingsManager.PauseOnUserSwitch;
+                chkPauseSuspend.Checked = SettingsManager.PauseOnSystemSuspend;
                 tbApiPort.Text = SettingsManager.ApiPort.ToString();
                 chkApiEnabled.Checked = SettingsManager.ApiEnabled;
                 chkApiExcludeTimesEnabled.Checked = SettingsManager.ApiExcludedTimesEnabled;
@@ -98,7 +99,6 @@ namespace HyperionScreenCap
                     return;
                 }
 
-
                 SettingsManager.HyperionServerIp = tbIPHostName.Text;
                 SettingsManager.HyperionServerPort = int.Parse(tbProtoPort.Text);
                 SettingsManager.HyperionMessagePriority = int.Parse(cbMessagePriority.Text);
@@ -108,6 +108,8 @@ namespace HyperionScreenCap
                 SettingsManager.CaptureInterval = int.Parse(tbCaptureInterval.Text);
                 SettingsManager.MonitorIndex = int.Parse(cbMonitorIndex.Text);
                 SettingsManager.CaptureOnStartup = chkCaptureOnStartup.Checked;
+                SettingsManager.PauseOnUserSwitch = chkPauseUserSwitch.Checked;
+                SettingsManager.PauseOnSystemSuspend = chkPauseSuspend.Checked;
                 SettingsManager.ApiPort = int.Parse(tbApiPort.Text);
                 SettingsManager.ApiEnabled = chkApiEnabled.Checked;
                 SettingsManager.ApiExcludedTimesEnabled = chkApiExcludeTimesEnabled.Checked;

@@ -4,7 +4,6 @@ using Grapevine.Server;
 using Grapevine.Server.Attributes;
 using Grapevine.Shared;
 
-
 namespace HyperionScreenCap
 {
     class ApiServer
@@ -75,7 +74,7 @@ namespace HyperionScreenCap
                             }
                         }
 
-                        MainForm.ToggleCapture(command);
+                        MainForm.ToggleCapture((MainForm.CaptureCommand) Enum.Parse(typeof(MainForm.CaptureCommand), command));
                         responseText = $"API command {command} completed successfully.";
                     }
 

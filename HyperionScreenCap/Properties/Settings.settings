@@ -39,7 +39,7 @@
       <Value Profile="(Default)">1250</Value>
     </Setting>
     <Setting Name="dx11ImageScalingFactor" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">64</Value>
+      <Value Profile="(Default)">32</Value>
     </Setting>
     <Setting Name="dx11AdapterIndex" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
@@ -64,6 +64,12 @@
     </Setting>
     <Setting Name="apiExcludeTimeEnd" Type="System.DateTime" Scope="User">
       <Value Profile="(Default)">01/01/2001 22:00:00</Value>
+    </Setting>
+    <Setting Name="pauseOnUserSwitch" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="pauseOnSystemSuspend" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>
