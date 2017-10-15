@@ -26,7 +26,7 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
-    <ApplicationVersion>2.1.0.%2a</ApplicationVersion>
+    <ApplicationVersion>2.2.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
@@ -114,7 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiServer.cs" />
-    <Compile Include="Capture\ScreenCapture.cs" />
+    <Compile Include="Capture\IScreenCapture.cs" />
     <Compile Include="Config\AppConstants.cs" />
     <Compile Include="Capture\Dx11ScreenCapture.cs" />
     <Compile Include="Capture\Dx9ScreenCapture.cs" />

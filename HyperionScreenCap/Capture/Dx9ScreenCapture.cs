@@ -10,12 +10,13 @@ using System.Threading;
 
 namespace HyperionScreenCap
 {
-    public class DX9ScreenCapture : ScreenCapture
+    public class DX9ScreenCapture : IScreenCapture
     {
         private readonly Device _device;
         private Direct3D _direct3D;
         private int _monitorIndex;
         private int _captureInterval;
+        private bool _disposed;
 
         public int CaptureWidth { get; }
         public int CaptureHeight { get; }
@@ -36,6 +37,7 @@ namespace HyperionScreenCap
             CaptureWidth = captureHeight;
             CaptureHeight = captureHeight;
             _captureInterval = captureInterval;
+            _disposed = false;
         }
 
         public byte[] Capture()
@@ -133,11 +135,12 @@ namespace HyperionScreenCap
         {
             _device?.Dispose();
             _direct3D?.Dispose();
+            _disposed = true;
         }
 
-        public void DelayNextCapture(int elapsedCaptureTime)
+        public bool IsDisposed()
         {
-            throw new NotImplementedException();
+            return _disposed;
         }
     }
 }

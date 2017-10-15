@@ -86,6 +86,10 @@
             this.tbHelp = new System.Windows.Forms.TextBox();
             this.btnSaveExit = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -95,6 +99,9 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.grpDeactivate.SuspendLayout();
             this.tabPageHelp.SuspendLayout();
+            this.tableLayoutPanel4.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -341,13 +348,8 @@
             // tabPageAdvanced
             // 
             this.tabPageAdvanced.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageAdvanced.Controls.Add(this.lblShowDisplaysMsg);
-            this.tabPageAdvanced.Controls.Add(this.lblShowDx11Displays);
+            this.tabPageAdvanced.Controls.Add(this.tableLayoutPanel4);
             this.tabPageAdvanced.Controls.Add(this.tableLayoutPanel1);
-            this.tabPageAdvanced.Controls.Add(this.grpDeactivate);
-            this.tabPageAdvanced.Controls.Add(this.lblApiPort);
-            this.tabPageAdvanced.Controls.Add(this.tbApiPort);
-            this.tabPageAdvanced.Controls.Add(this.chkApiEnabled);
             this.tabPageAdvanced.Location = new System.Drawing.Point(10, 48);
             this.tabPageAdvanced.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tabPageAdvanced.Name = "tabPageAdvanced";
@@ -360,7 +362,7 @@
             // 
             this.lblShowDisplaysMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShowDisplaysMsg.AutoSize = true;
-            this.lblShowDisplaysMsg.Location = new System.Drawing.Point(1486, 594);
+            this.lblShowDisplaysMsg.Location = new System.Drawing.Point(567, 9);
             this.lblShowDisplaysMsg.Name = "lblShowDisplaysMsg";
             this.lblShowDisplaysMsg.Size = new System.Drawing.Size(337, 32);
             this.lblShowDisplaysMsg.TabIndex = 22;
@@ -371,7 +373,7 @@
             this.lblShowDx11Displays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShowDx11Displays.AutoSize = true;
             this.lblShowDx11Displays.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblShowDx11Displays.Location = new System.Drawing.Point(1352, 595);
+            this.lblShowDx11Displays.Location = new System.Drawing.Point(433, 10);
             this.lblShowDx11Displays.Name = "lblShowDx11Displays";
             this.lblShowDx11Displays.Size = new System.Drawing.Size(141, 32);
             this.lblShowDx11Displays.TabIndex = 21;
@@ -404,7 +406,7 @@
             this.tableLayoutPanel1.Controls.Add(this.tbDx11MaxFps, 1, 5);
             this.tableLayoutPanel1.Controls.Add(this.lblDx11AdapterIndex, 0, 8);
             this.tableLayoutPanel1.Controls.Add(this.cbDx11ImgScalingFactor, 1, 7);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(30, 19);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(11, 19);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 10;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -418,7 +420,7 @@
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(819, 623);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(838, 623);
             this.tableLayoutPanel1.TabIndex = 19;
             // 
             // cbDx11MonitorIndex
@@ -437,7 +439,7 @@
             "7",
             "8",
             "9"});
-            this.cbDx11MonitorIndex.Location = new System.Drawing.Point(509, 478);
+            this.cbDx11MonitorIndex.Location = new System.Drawing.Point(521, 478);
             this.cbDx11MonitorIndex.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cbDx11MonitorIndex.Name = "cbDx11MonitorIndex";
             this.cbDx11MonitorIndex.Size = new System.Drawing.Size(260, 39);
@@ -455,7 +457,7 @@
             // 
             // tbDx11FrameCaptureTimeout
             // 
-            this.tbDx11FrameCaptureTimeout.Location = new System.Drawing.Point(509, 320);
+            this.tbDx11FrameCaptureTimeout.Location = new System.Drawing.Point(521, 320);
             this.tbDx11FrameCaptureTimeout.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbDx11FrameCaptureTimeout.Name = "tbDx11FrameCaptureTimeout";
             this.tbDx11FrameCaptureTimeout.Size = new System.Drawing.Size(260, 38);
@@ -478,7 +480,7 @@
             "7",
             "8",
             "9"});
-            this.cbDx11AdapterIndex.Location = new System.Drawing.Point(509, 425);
+            this.cbDx11AdapterIndex.Location = new System.Drawing.Point(521, 425);
             this.cbDx11AdapterIndex.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cbDx11AdapterIndex.Name = "cbDx11AdapterIndex";
             this.cbDx11AdapterIndex.Size = new System.Drawing.Size(260, 39);
@@ -496,7 +498,7 @@
             // 
             // tbMessageDuration
             // 
-            this.tbMessageDuration.Location = new System.Drawing.Point(509, 7);
+            this.tbMessageDuration.Location = new System.Drawing.Point(521, 7);
             this.tbMessageDuration.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbMessageDuration.Name = "tbMessageDuration";
             this.tbMessageDuration.Size = new System.Drawing.Size(260, 38);
@@ -515,7 +517,7 @@
             // 
             // tbCaptureWidth
             // 
-            this.tbCaptureWidth.Location = new System.Drawing.Point(509, 59);
+            this.tbCaptureWidth.Location = new System.Drawing.Point(521, 59);
             this.tbCaptureWidth.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbCaptureWidth.Name = "tbCaptureWidth";
             this.tbCaptureWidth.Size = new System.Drawing.Size(260, 38);
@@ -534,7 +536,7 @@
             // 
             // tbCaptureHeight
             // 
-            this.tbCaptureHeight.Location = new System.Drawing.Point(509, 111);
+            this.tbCaptureHeight.Location = new System.Drawing.Point(521, 111);
             this.tbCaptureHeight.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbCaptureHeight.Name = "tbCaptureHeight";
             this.tbCaptureHeight.Size = new System.Drawing.Size(260, 38);
@@ -566,7 +568,7 @@
             this.cbMonitorIndex.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
             this.cbMonitorIndex.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbMonitorIndex.FormattingEnabled = true;
-            this.cbMonitorIndex.Location = new System.Drawing.Point(509, 163);
+            this.cbMonitorIndex.Location = new System.Drawing.Point(521, 163);
             this.cbMonitorIndex.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cbMonitorIndex.Name = "cbMonitorIndex";
             this.cbMonitorIndex.Size = new System.Drawing.Size(260, 39);
@@ -575,7 +577,7 @@
             // 
             // tbCaptureInterval
             // 
-            this.tbCaptureInterval.Location = new System.Drawing.Point(509, 216);
+            this.tbCaptureInterval.Location = new System.Drawing.Point(521, 216);
             this.tbCaptureInterval.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbCaptureInterval.Name = "tbCaptureInterval";
             this.tbCaptureInterval.Size = new System.Drawing.Size(260, 38);
@@ -614,7 +616,7 @@
             // 
             // tbDx11MaxFps
             // 
-            this.tbDx11MaxFps.Location = new System.Drawing.Point(509, 268);
+            this.tbDx11MaxFps.Location = new System.Drawing.Point(521, 268);
             this.tbDx11MaxFps.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbDx11MaxFps.Name = "tbDx11MaxFps";
             this.tbDx11MaxFps.Size = new System.Drawing.Size(260, 38);
@@ -658,7 +660,7 @@
             "128",
             "256",
             "512"});
-            this.cbDx11ImgScalingFactor.Location = new System.Drawing.Point(509, 372);
+            this.cbDx11ImgScalingFactor.Location = new System.Drawing.Point(521, 372);
             this.cbDx11ImgScalingFactor.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.cbDx11ImgScalingFactor.Name = "cbDx11ImgScalingFactor";
             this.cbDx11ImgScalingFactor.Size = new System.Drawing.Size(260, 39);
@@ -671,11 +673,11 @@
             this.grpDeactivate.Controls.Add(this.lblEnd);
             this.grpDeactivate.Controls.Add(this.tbApiExcludeStart);
             this.grpDeactivate.Controls.Add(this.lblStart);
-            this.grpDeactivate.Location = new System.Drawing.Point(1053, 126);
+            this.grpDeactivate.Location = new System.Drawing.Point(15, 59);
             this.grpDeactivate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.grpDeactivate.Name = "grpDeactivate";
             this.grpDeactivate.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.grpDeactivate.Size = new System.Drawing.Size(765, 253);
+            this.grpDeactivate.Size = new System.Drawing.Size(774, 162);
             this.grpDeactivate.TabIndex = 17;
             this.grpDeactivate.TabStop = false;
             this.grpDeactivate.Text = "Disable API control during specified time range";
@@ -683,7 +685,7 @@
             // chkApiExcludeTimesEnabled
             // 
             this.chkApiExcludeTimesEnabled.AutoSize = true;
-            this.chkApiExcludeTimesEnabled.Location = new System.Drawing.Point(37, 55);
+            this.chkApiExcludeTimesEnabled.Location = new System.Drawing.Point(16, 55);
             this.chkApiExcludeTimesEnabled.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.chkApiExcludeTimesEnabled.Name = "chkApiExcludeTimesEnabled";
             this.chkApiExcludeTimesEnabled.Size = new System.Drawing.Size(159, 36);
@@ -693,7 +695,7 @@
             // 
             // tbApiExcludeEnd
             // 
-            this.tbApiExcludeEnd.Location = new System.Drawing.Point(203, 179);
+            this.tbApiExcludeEnd.Location = new System.Drawing.Point(513, 110);
             this.tbApiExcludeEnd.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbApiExcludeEnd.Name = "tbApiExcludeEnd";
             this.tbApiExcludeEnd.Size = new System.Drawing.Size(127, 38);
@@ -704,7 +706,7 @@
             // lblEnd
             // 
             this.lblEnd.AutoSize = true;
-            this.lblEnd.Location = new System.Drawing.Point(29, 186);
+            this.lblEnd.Location = new System.Drawing.Point(339, 117);
             this.lblEnd.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lblEnd.Name = "lblEnd";
             this.lblEnd.Size = new System.Drawing.Size(74, 32);
@@ -713,7 +715,7 @@
             // 
             // tbApiExcludeStart
             // 
-            this.tbApiExcludeStart.Location = new System.Drawing.Point(203, 119);
+            this.tbApiExcludeStart.Location = new System.Drawing.Point(513, 50);
             this.tbApiExcludeStart.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbApiExcludeStart.Name = "tbApiExcludeStart";
             this.tbApiExcludeStart.Size = new System.Drawing.Size(127, 38);
@@ -724,7 +726,7 @@
             // lblStart
             // 
             this.lblStart.AutoSize = true;
-            this.lblStart.Location = new System.Drawing.Point(29, 126);
+            this.lblStart.Location = new System.Drawing.Point(339, 57);
             this.lblStart.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lblStart.Name = "lblStart";
             this.lblStart.Size = new System.Drawing.Size(83, 32);
@@ -734,7 +736,7 @@
             // lblApiPort
             // 
             this.lblApiPort.AutoSize = true;
-            this.lblApiPort.Location = new System.Drawing.Point(1053, 41);
+            this.lblApiPort.Location = new System.Drawing.Point(25, 8);
             this.lblApiPort.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.lblApiPort.Name = "lblApiPort";
             this.lblApiPort.Size = new System.Drawing.Size(127, 32);
@@ -743,7 +745,7 @@
             // 
             // tbApiPort
             // 
-            this.tbApiPort.Location = new System.Drawing.Point(1187, 38);
+            this.tbApiPort.Location = new System.Drawing.Point(159, 5);
             this.tbApiPort.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.tbApiPort.Name = "tbApiPort";
             this.tbApiPort.Size = new System.Drawing.Size(153, 38);
@@ -753,7 +755,7 @@
             // chkApiEnabled
             // 
             this.chkApiEnabled.AutoSize = true;
-            this.chkApiEnabled.Location = new System.Drawing.Point(1420, 39);
+            this.chkApiEnabled.Location = new System.Drawing.Point(360, 8);
             this.chkApiEnabled.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.chkApiEnabled.Name = "chkApiEnabled";
             this.chkApiEnabled.Size = new System.Drawing.Size(195, 36);
@@ -809,6 +811,61 @@
             this.lblVersion.TabIndex = 11;
             this.lblVersion.Text = "Version: X.X";
             // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.panel2, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 1);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(903, 19);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 233F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 331F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(925, 623);
+            this.tableLayoutPanel4.TabIndex = 23;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblApiPort);
+            this.panel1.Controls.Add(this.chkApiEnabled);
+            this.panel1.Controls.Add(this.tbApiPort);
+            this.panel1.Controls.Add(this.grpDeactivate);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(919, 227);
+            this.panel1.TabIndex = 0;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lblShowDisplaysMsg);
+            this.panel2.Controls.Add(this.lblShowDx11Displays);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 567);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(919, 53);
+            this.panel2.TabIndex = 1;
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 236);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 4;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(919, 325);
+            this.tableLayoutPanel5.TabIndex = 2;
+            // 
             // SetupForm
             // 
             this.AcceptButton = this.btnSaveExit;
@@ -833,13 +890,17 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tabPageAdvanced.ResumeLayout(false);
-            this.tabPageAdvanced.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.grpDeactivate.ResumeLayout(false);
             this.grpDeactivate.PerformLayout();
             this.tabPageHelp.ResumeLayout(false);
             this.tabPageHelp.PerformLayout();
+            this.tableLayoutPanel4.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
+            this.panel2.ResumeLayout(false);
+            this.panel2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -904,5 +965,9 @@
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
         private System.Windows.Forms.CheckBox chkPauseSuspend;
         private System.Windows.Forms.CheckBox chkPauseUserSwitch;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel4;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
     }
 }

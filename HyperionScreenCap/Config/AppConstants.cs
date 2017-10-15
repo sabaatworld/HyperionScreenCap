@@ -11,12 +11,17 @@ namespace HyperionScreenCap.Config
         /// <summary>
         /// Maximum number of consecutive screen capture attempts before giving up and disabling screen capture.
         /// </summary>
-        public const int MAX_CAPTURE_ATTEMPTS = 10;
+        public const int MAX_CAPTURE_ATTEMPTS = 30;
+
+        /// <summary>
+        /// Number of screen capture failure attemps after which screen capture should be re-initialized.
+        /// </summary>
+        public const int REINIT_CAPTURE_AFTER_ATTEMPTS = 24;
 
         /// <summary>
         /// Amount of time to wait before attempting screen capture after a failure.
         /// </summary>
-        public const int CAPTURE_FAILED_COOLDOWN_MILLIS = 3000;
+        public const int CAPTURE_FAILED_COOLDOWN_MILLIS = 1000;
 
         /// <summary>
         /// Amount of time to wait before resuming screen capture.

@@ -15,7 +15,7 @@ using System.Threading;
 
 namespace HyperionScreenCap
 {
-    class DX11ScreenCapture : ScreenCapture
+    class DX11ScreenCapture : IScreenCapture
     {
         private Factory1 _factory;
         private Adapter _adapter;
@@ -34,6 +34,7 @@ namespace HyperionScreenCap
         private Stopwatch _captureTimer;
         private bool _desktopDuplicatorInvalid;
         private int _frameCaptureTimeout;
+        private bool _disposed;
 
         public int CaptureWidth { get; }
         public int CaptureHeight { get; }
@@ -128,6 +129,7 @@ namespace HyperionScreenCap
             _minCaptureTime = 1000 / maxFps;
             _frameCaptureTimeout = frameCaptureTimeout;
             _captureTimer = new Stopwatch();
+            _disposed = false;
 
             InitDesktopDuplicator();
         }
@@ -274,8 +276,13 @@ namespace HyperionScreenCap
             _device?.Dispose();
             _adapter?.Dispose();
             _factory?.Dispose();
-
             _lastCapturedFrame = null;
+            _disposed = true;
+        }
+
+        public bool IsDisposed()
+        {
+            return _disposed;
         }
     }
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace HyperionScreenCap.Capture
 {
-    interface ScreenCapture : IDisposable
+    interface IScreenCapture : IDisposable
     {
 
         int CaptureWidth { get; }
@@ -14,6 +14,8 @@ namespace HyperionScreenCap.Capture
         byte[] Capture();
 
         void DelayNextCapture();
+
+        bool IsDisposed();
 
     }
 }

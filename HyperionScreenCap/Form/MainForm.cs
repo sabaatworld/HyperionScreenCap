@@ -18,7 +18,7 @@ namespace HyperionScreenCap
         #region Variables
 
         private static bool _initLock;
-        private static ScreenCapture _screenCapture;
+        private static IScreenCapture _screenCapture;
         private static ApiServer _apiServer;
 
         public static NotifyIcon TrayIcon;
@@ -280,8 +280,13 @@ namespace HyperionScreenCap
 
         #region DXCapture
 
-        private static void TryStartCapture()
+        private static void InitScreenCapture()
         {
+            if ( _screenCapture != null && !_screenCapture.IsDisposed() )
+            {
+                // Screen capture already initialized
+                return;
+            }
             try
             {
                 switch ( SettingsManager.CaptureMethod )
@@ -299,22 +304,54 @@ namespace HyperionScreenCap
                     default:
                         throw new NotImplementedException($"The capture method {SettingsManager.CaptureMethod} is not supported yet");
                 }
+            } catch (Exception ex)
+            {
+                throw new Exception("Failed to initialize screen capture: " + ex.Message, ex);
+            }
+        }
+
+        private static String GetProtoInitFailedMsg()
+        {
+            return $"Failed to connect to Hyperion server on {SettingsManager.HyperionServerIp}:{SettingsManager.HyperionServerPort}";
+        }
+
+        private static void InitProtoClient()
+        {
+            if ( ProtoClient.IsConnected() )
+            {
+                // Proto client already initialized
+                return;
+            }
+            try
+            {
+                ProtoClient.Disconnect();
+                ProtoClient.Init(SettingsManager.HyperionServerIp, SettingsManager.HyperionServerPort, SettingsManager.HyperionMessagePriority);
+                // Double checking since sometimes exceptions are not thrown even if connection fails
+                if ( ProtoClient.IsConnected() )
+                    NotificationUtils.Info($"Connected to Hyperion server on {SettingsManager.HyperionServerIp}:{SettingsManager.HyperionServerPort}!");
+                else
+                    throw new Exception(GetProtoInitFailedMsg());
             }
             catch ( Exception ex )
             {
-                NotificationUtils.Error("Failed to initialize screen capture: " + ex.Message);
+                throw new Exception(GetProtoInitFailedMsg(), ex);
             }
+        }
 
-            try // Properly dispose screenCapture object when turning off capture
+        private static void TransmitNextFrame()
+        {
+            try
             {
-                StartCapture();
-            }
-            finally
-            {
-                _screenCapture.Dispose();
-            }
+                byte[] imageData = _screenCapture.Capture();
+                ProtoClient.SendImageToServer(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight);
 
-            ToggleCapture(CaptureCommand.OFF);
+                // Uncomment the following to enable debugging
+                // MiscUtils.SaveRGBArrayToImageFile(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight, AppConstants.DEBUG_IMAGE_FILE_NAME);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error occured during capture: " + ex.Message, ex);
+            }
         }
 
         private static void StartCapture()
@@ -324,33 +361,25 @@ namespace HyperionScreenCap
             {
                 try // This block will help retry capture before giving up
                 {
-                    if ( !ProtoClient.IsConnected() )
-                    {
-                        ProtoClient.Disconnect();
-                        ProtoClient.Init(SettingsManager.HyperionServerIp, SettingsManager.HyperionServerPort, SettingsManager.HyperionMessagePriority);
-                        // Double checking since sometimes exceptions are not thrown even if connection fails
-                        if ( ProtoClient.IsConnected() )
-                            NotificationUtils.Info($"Connected to Hyperion server on {SettingsManager.HyperionServerIp}!");
-                        else
-                            throw new Exception($"Failed to connect to Hyperion server on {SettingsManager.HyperionServerIp}!");
-                    }
-
-                    byte[] imageData = _screenCapture.Capture();
-
-                    ProtoClient.SendImageToServer(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight);
-
-                    // Uncomment the following to enable debugging
-                    // MiscUtils.SaveRGBArrayToImageFile(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight, AppConstants.DEBUG_IMAGE_FILE_NAME);
-
+                    InitScreenCapture();
+                    InitProtoClient();
+                    TransmitNextFrame();
                     _screenCapture.DelayNextCapture();
+                    
                     // Reset attempt count
                     captureAttempt = 1;
                 }
                 catch ( Exception ex )
                 {
+                    if ( captureAttempt > AppConstants.REINIT_CAPTURE_AFTER_ATTEMPTS )
+                    {
+                        // After a few attempt, try disposing screen capture object as well
+                        _screenCapture?.Dispose();
+                    }
                     if ( ++captureAttempt == AppConstants.MAX_CAPTURE_ATTEMPTS )
                     {
-                        NotificationUtils.Error("Error occured during capture: " + ex.Message);
+                        Debug.WriteLine(ex);
+                        NotificationUtils.Error(ex.Message);
                         return;
                     }
                     else
@@ -359,6 +388,19 @@ namespace HyperionScreenCap
                     }
                 }
             }
+        }
+
+        private static void TryStartCapture()
+        {
+            try // Properly dispose screenCapture object when turning off capture
+            {
+                StartCapture();
+            }
+            finally
+            {
+                _screenCapture.Dispose();
+            }
+            ToggleCapture(CaptureCommand.OFF);
         }
 
         #endregion DXCapture
