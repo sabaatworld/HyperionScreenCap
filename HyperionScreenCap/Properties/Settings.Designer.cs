@@ -298,5 +298,17 @@ namespace HyperionScreenCap.Properties {
                 this["pauseOnSystemSuspend"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool checkUpdateOnStartup {
+            get {
+                return ((bool)(this["checkUpdateOnStartup"]));
+            }
+            set {
+                this["checkUpdateOnStartup"] = value;
+            }
+        }
     }
 }

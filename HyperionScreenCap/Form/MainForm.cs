@@ -10,6 +10,9 @@ using HyperionScreenCap.Config;
 using System.Drawing;
 using HyperionScreenCap.Model;
 using HyperionScreenCap.Capture;
+using HyperionScreenCap.Helper;
+using System.Text;
+using HyperionScreenCap.Model.GitHub;
 
 namespace HyperionScreenCap
 {
@@ -41,6 +44,9 @@ namespace HyperionScreenCap
         {
             InitializeComponent();
 
+            SettingsManager.LoadSetttings();
+            HandleUpdateCheck();
+
             // Add menu icons
             TrayMenuIcons.Items.Add("Change DX9 monitor index", Resources.television__pencil.ToBitmap());
             TrayMenuIcons.Items.Add("Setup", Resources.gear.ToBitmap(), OnSetup);
@@ -58,11 +64,9 @@ namespace HyperionScreenCap
 
             TrayIcon.Visible = true;
 
-            SettingsManager.LoadSetttings();
-
             if ( SettingsManager.HyperionServerIp == "0.0.0.0" )
             {
-                MessageBox.Show(@"No configuration found, please setup in the next window.");
+                MessageBox.Show("No configuration found, please setup in the next window.");
                 SetupForm setupForm = new SetupForm();
                 setupForm.Show();
             }
@@ -74,6 +78,30 @@ namespace HyperionScreenCap
             // Register various event handlers
             SystemEvents.PowerModeChanged += PowerModeChanged;
             SystemEvents.SessionSwitch += SessionSwitched;
+        }
+
+        private void HandleUpdateCheck()
+        {
+            if ( SettingsManager.CheckUpdateOnStartup )
+            {
+                UpdateChecker updateChecker = new UpdateChecker();
+                if ( updateChecker.IsUpdateAvailable() )
+                {
+                    Release latestRelease = updateChecker.LatestRelease;
+                    StringBuilder bodyBuilder = new StringBuilder();
+                    bodyBuilder.Append("New Version: " + latestRelease.tag_name + "\n");
+                    bodyBuilder.Append("Release Date: " + latestRelease.published_at + "\n");
+                    bodyBuilder.Append("Release Notes:\n" + latestRelease.body + "\n");
+                    bodyBuilder.Append("\n");
+                    bodyBuilder.Append("Would you like to download the update?");
+                    DialogResult dialogResult = MessageBox.Show(bodyBuilder.ToString(), "Hyperion Screen Capture Update Available",
+                        MessageBoxButtons.YesNo, MessageBoxIcon.Information);
+                    if ( dialogResult == DialogResult.Yes )
+                    {
+                        Process.Start(latestRelease.assets[0].browser_download_url);
+                    }
+                }
+            }
         }
 
         public static void Init(bool reInit = false, bool forceOn = false)

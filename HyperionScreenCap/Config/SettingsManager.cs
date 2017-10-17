@@ -22,6 +22,7 @@ namespace HyperionScreenCap
         public static bool CaptureOnStartup;
         public static bool PauseOnUserSwitch;
         public static bool PauseOnSystemSuspend;
+        public static bool CheckUpdateOnStartup;
 
         // API
         public static int ApiPort = 29445;
@@ -64,6 +65,7 @@ namespace HyperionScreenCap
             Properties.Settings.Default.dx11ImageScalingFactor = Dx11ImageScalingFactor;
             Properties.Settings.Default.dx11AdapterIndex = Dx11AdapterIndex;
             Properties.Settings.Default.dx11MonitorIndex = Dx11MonitorIndex;
+            Properties.Settings.Default.checkUpdateOnStartup = CheckUpdateOnStartup;
             Properties.Settings.Default.Save();
         }
 
@@ -92,6 +94,7 @@ namespace HyperionScreenCap
             Dx11ImageScalingFactor = Properties.Settings.Default.dx11ImageScalingFactor;
             Dx11AdapterIndex = Properties.Settings.Default.dx11AdapterIndex;
             Dx11MonitorIndex = Properties.Settings.Default.dx11MonitorIndex;
+            CheckUpdateOnStartup = Properties.Settings.Default.checkUpdateOnStartup;
         }
     }
 }

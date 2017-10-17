@@ -52,6 +52,7 @@ namespace HyperionScreenCap
                 rbcmDx11.Checked = SettingsManager.CaptureMethod == CaptureMethod.DX11;
                 tbDx11MaxFps.Text = SettingsManager.Dx11MaxFps.ToString();
                 tbDx11FrameCaptureTimeout.Text = SettingsManager.Dx11FrameCaptureTimeout.ToString();
+                chkCheckUpdate.Checked = SettingsManager.CheckUpdateOnStartup;
 
                 RestoreComboBoxValues();
 
@@ -121,6 +122,7 @@ namespace HyperionScreenCap
                 SettingsManager.Dx11ImageScalingFactor = int.Parse(cbDx11ImgScalingFactor.SelectedItem.ToString());
                 SettingsManager.Dx11AdapterIndex = cbDx11AdapterIndex.SelectedIndex;
                 SettingsManager.Dx11MonitorIndex = cbDx11MonitorIndex.SelectedIndex;
+                SettingsManager.CheckUpdateOnStartup = chkCheckUpdate.Checked;
 
                 SettingsManager.NotificationLevel =
                     (NotificationLevel) Enum.Parse(typeof(NotificationLevel), cbNotificationLevel.Text);

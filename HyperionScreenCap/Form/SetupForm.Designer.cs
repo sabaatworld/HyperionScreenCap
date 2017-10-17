@@ -50,8 +50,21 @@
             this.tbIPHostName = new System.Windows.Forms.TextBox();
             this.lblIPHostName = new System.Windows.Forms.Label();
             this.tabPageAdvanced = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.lblApiPort = new System.Windows.Forms.Label();
+            this.chkApiEnabled = new System.Windows.Forms.CheckBox();
+            this.tbApiPort = new System.Windows.Forms.TextBox();
+            this.grpDeactivate = new System.Windows.Forms.GroupBox();
+            this.chkApiExcludeTimesEnabled = new System.Windows.Forms.CheckBox();
+            this.tbApiExcludeEnd = new System.Windows.Forms.TextBox();
+            this.lblEnd = new System.Windows.Forms.Label();
+            this.tbApiExcludeStart = new System.Windows.Forms.TextBox();
+            this.lblStart = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.lblShowDisplaysMsg = new System.Windows.Forms.Label();
             this.lblShowDx11Displays = new System.Windows.Forms.LinkLabel();
+            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.cbDx11MonitorIndex = new System.Windows.Forms.ComboBox();
             this.lblDx11MonitorIndex = new System.Windows.Forms.Label();
@@ -73,35 +86,23 @@
             this.tbDx11MaxFps = new System.Windows.Forms.TextBox();
             this.lblDx11AdapterIndex = new System.Windows.Forms.Label();
             this.cbDx11ImgScalingFactor = new System.Windows.Forms.ComboBox();
-            this.grpDeactivate = new System.Windows.Forms.GroupBox();
-            this.chkApiExcludeTimesEnabled = new System.Windows.Forms.CheckBox();
-            this.tbApiExcludeEnd = new System.Windows.Forms.TextBox();
-            this.lblEnd = new System.Windows.Forms.Label();
-            this.tbApiExcludeStart = new System.Windows.Forms.TextBox();
-            this.lblStart = new System.Windows.Forms.Label();
-            this.lblApiPort = new System.Windows.Forms.Label();
-            this.tbApiPort = new System.Windows.Forms.TextBox();
-            this.chkApiEnabled = new System.Windows.Forms.CheckBox();
             this.tabPageHelp = new System.Windows.Forms.TabPage();
             this.tbHelp = new System.Windows.Forms.TextBox();
             this.btnSaveExit = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.tableLayoutPanel4 = new System.Windows.Forms.TableLayoutPanel();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.tableLayoutPanel5 = new System.Windows.Forms.TableLayoutPanel();
+            this.chkCheckUpdate = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.gbCaptureApi.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.tabPageAdvanced.SuspendLayout();
-            this.tableLayoutPanel1.SuspendLayout();
-            this.grpDeactivate.SuspendLayout();
-            this.tabPageHelp.SuspendLayout();
             this.tableLayoutPanel4.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.grpDeactivate.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
+            this.tabPageHelp.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -142,16 +143,18 @@
             this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.tableLayoutPanel3.ColumnCount = 1;
             this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.chkCheckUpdate, 0, 3);
             this.tableLayoutPanel3.Controls.Add(this.chkCaptureOnStartup, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.chkPauseSuspend, 0, 2);
             this.tableLayoutPanel3.Controls.Add(this.chkPauseUserSwitch, 0, 1);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(22, 440);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(22, 375);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowCount = 4;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(628, 186);
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(628, 251);
             this.tableLayoutPanel3.TabIndex = 20;
             // 
             // chkCaptureOnStartup
@@ -358,6 +361,142 @@
             this.tabPageAdvanced.TabIndex = 1;
             this.tabPageAdvanced.Text = "Advanced";
             // 
+            // tableLayoutPanel4
+            // 
+            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel4.ColumnCount = 1;
+            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 0);
+            this.tableLayoutPanel4.Controls.Add(this.panel2, 0, 2);
+            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 1);
+            this.tableLayoutPanel4.Location = new System.Drawing.Point(903, 19);
+            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
+            this.tableLayoutPanel4.RowCount = 3;
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 233F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 331F));
+            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
+            this.tableLayoutPanel4.Size = new System.Drawing.Size(925, 623);
+            this.tableLayoutPanel4.TabIndex = 23;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblApiPort);
+            this.panel1.Controls.Add(this.chkApiEnabled);
+            this.panel1.Controls.Add(this.tbApiPort);
+            this.panel1.Controls.Add(this.grpDeactivate);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(919, 227);
+            this.panel1.TabIndex = 0;
+            // 
+            // lblApiPort
+            // 
+            this.lblApiPort.AutoSize = true;
+            this.lblApiPort.Location = new System.Drawing.Point(25, 8);
+            this.lblApiPort.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblApiPort.Name = "lblApiPort";
+            this.lblApiPort.Size = new System.Drawing.Size(127, 32);
+            this.lblApiPort.TabIndex = 12;
+            this.lblApiPort.Text = "API Port:";
+            // 
+            // chkApiEnabled
+            // 
+            this.chkApiEnabled.AutoSize = true;
+            this.chkApiEnabled.Location = new System.Drawing.Point(360, 8);
+            this.chkApiEnabled.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkApiEnabled.Name = "chkApiEnabled";
+            this.chkApiEnabled.Size = new System.Drawing.Size(195, 36);
+            this.chkApiEnabled.TabIndex = 16;
+            this.chkApiEnabled.Text = "Enable API";
+            this.chkApiEnabled.UseVisualStyleBackColor = true;
+            // 
+            // tbApiPort
+            // 
+            this.tbApiPort.Location = new System.Drawing.Point(159, 5);
+            this.tbApiPort.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.tbApiPort.Name = "tbApiPort";
+            this.tbApiPort.Size = new System.Drawing.Size(153, 38);
+            this.tbApiPort.TabIndex = 15;
+            this.tbApiPort.Validating += new System.ComponentModel.CancelEventHandler(this.tbApiPort_Validating);
+            // 
+            // grpDeactivate
+            // 
+            this.grpDeactivate.Controls.Add(this.chkApiExcludeTimesEnabled);
+            this.grpDeactivate.Controls.Add(this.tbApiExcludeEnd);
+            this.grpDeactivate.Controls.Add(this.lblEnd);
+            this.grpDeactivate.Controls.Add(this.tbApiExcludeStart);
+            this.grpDeactivate.Controls.Add(this.lblStart);
+            this.grpDeactivate.Location = new System.Drawing.Point(15, 59);
+            this.grpDeactivate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grpDeactivate.Name = "grpDeactivate";
+            this.grpDeactivate.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.grpDeactivate.Size = new System.Drawing.Size(774, 162);
+            this.grpDeactivate.TabIndex = 17;
+            this.grpDeactivate.TabStop = false;
+            this.grpDeactivate.Text = "Disable API control during specified time range";
+            // 
+            // chkApiExcludeTimesEnabled
+            // 
+            this.chkApiExcludeTimesEnabled.AutoSize = true;
+            this.chkApiExcludeTimesEnabled.Location = new System.Drawing.Point(16, 55);
+            this.chkApiExcludeTimesEnabled.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkApiExcludeTimesEnabled.Name = "chkApiExcludeTimesEnabled";
+            this.chkApiExcludeTimesEnabled.Size = new System.Drawing.Size(159, 36);
+            this.chkApiExcludeTimesEnabled.TabIndex = 18;
+            this.chkApiExcludeTimesEnabled.Text = "Enabled";
+            this.chkApiExcludeTimesEnabled.UseVisualStyleBackColor = true;
+            // 
+            // tbApiExcludeEnd
+            // 
+            this.tbApiExcludeEnd.Location = new System.Drawing.Point(513, 110);
+            this.tbApiExcludeEnd.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.tbApiExcludeEnd.Name = "tbApiExcludeEnd";
+            this.tbApiExcludeEnd.Size = new System.Drawing.Size(127, 38);
+            this.tbApiExcludeEnd.TabIndex = 20;
+            this.tbApiExcludeEnd.Text = "21:00";
+            this.tbApiExcludeEnd.Validating += new System.ComponentModel.CancelEventHandler(this.tbExcludeEnd_Validating);
+            // 
+            // lblEnd
+            // 
+            this.lblEnd.AutoSize = true;
+            this.lblEnd.Location = new System.Drawing.Point(339, 117);
+            this.lblEnd.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblEnd.Name = "lblEnd";
+            this.lblEnd.Size = new System.Drawing.Size(74, 32);
+            this.lblEnd.TabIndex = 2;
+            this.lblEnd.Text = "End:";
+            // 
+            // tbApiExcludeStart
+            // 
+            this.tbApiExcludeStart.Location = new System.Drawing.Point(513, 50);
+            this.tbApiExcludeStart.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.tbApiExcludeStart.Name = "tbApiExcludeStart";
+            this.tbApiExcludeStart.Size = new System.Drawing.Size(127, 38);
+            this.tbApiExcludeStart.TabIndex = 19;
+            this.tbApiExcludeStart.Text = "8:00";
+            this.tbApiExcludeStart.Validating += new System.ComponentModel.CancelEventHandler(this.tbExcludeStart_Validating);
+            // 
+            // lblStart
+            // 
+            this.lblStart.AutoSize = true;
+            this.lblStart.Location = new System.Drawing.Point(339, 57);
+            this.lblStart.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.lblStart.Name = "lblStart";
+            this.lblStart.Size = new System.Drawing.Size(83, 32);
+            this.lblStart.TabIndex = 0;
+            this.lblStart.Text = "Start:";
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.lblShowDisplaysMsg);
+            this.panel2.Controls.Add(this.lblShowDx11Displays);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 567);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(919, 53);
+            this.panel2.TabIndex = 1;
+            // 
             // lblShowDisplaysMsg
             // 
             this.lblShowDisplaysMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
@@ -380,6 +519,22 @@
             this.lblShowDx11Displays.TabStop = true;
             this.lblShowDx11Displays.Text = "Click here";
             this.lblShowDx11Displays.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblShowDx11Displays_LinkClicked);
+            // 
+            // tableLayoutPanel5
+            // 
+            this.tableLayoutPanel5.ColumnCount = 2;
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 236);
+            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
+            this.tableLayoutPanel5.RowCount = 4;
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
+            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
+            this.tableLayoutPanel5.Size = new System.Drawing.Size(919, 325);
+            this.tableLayoutPanel5.TabIndex = 2;
             // 
             // tableLayoutPanel1
             // 
@@ -666,103 +821,6 @@
             this.cbDx11ImgScalingFactor.Size = new System.Drawing.Size(260, 39);
             this.cbDx11ImgScalingFactor.TabIndex = 8;
             // 
-            // grpDeactivate
-            // 
-            this.grpDeactivate.Controls.Add(this.chkApiExcludeTimesEnabled);
-            this.grpDeactivate.Controls.Add(this.tbApiExcludeEnd);
-            this.grpDeactivate.Controls.Add(this.lblEnd);
-            this.grpDeactivate.Controls.Add(this.tbApiExcludeStart);
-            this.grpDeactivate.Controls.Add(this.lblStart);
-            this.grpDeactivate.Location = new System.Drawing.Point(15, 59);
-            this.grpDeactivate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.grpDeactivate.Name = "grpDeactivate";
-            this.grpDeactivate.Padding = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.grpDeactivate.Size = new System.Drawing.Size(774, 162);
-            this.grpDeactivate.TabIndex = 17;
-            this.grpDeactivate.TabStop = false;
-            this.grpDeactivate.Text = "Disable API control during specified time range";
-            // 
-            // chkApiExcludeTimesEnabled
-            // 
-            this.chkApiExcludeTimesEnabled.AutoSize = true;
-            this.chkApiExcludeTimesEnabled.Location = new System.Drawing.Point(16, 55);
-            this.chkApiExcludeTimesEnabled.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.chkApiExcludeTimesEnabled.Name = "chkApiExcludeTimesEnabled";
-            this.chkApiExcludeTimesEnabled.Size = new System.Drawing.Size(159, 36);
-            this.chkApiExcludeTimesEnabled.TabIndex = 18;
-            this.chkApiExcludeTimesEnabled.Text = "Enabled";
-            this.chkApiExcludeTimesEnabled.UseVisualStyleBackColor = true;
-            // 
-            // tbApiExcludeEnd
-            // 
-            this.tbApiExcludeEnd.Location = new System.Drawing.Point(513, 110);
-            this.tbApiExcludeEnd.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.tbApiExcludeEnd.Name = "tbApiExcludeEnd";
-            this.tbApiExcludeEnd.Size = new System.Drawing.Size(127, 38);
-            this.tbApiExcludeEnd.TabIndex = 20;
-            this.tbApiExcludeEnd.Text = "21:00";
-            this.tbApiExcludeEnd.Validating += new System.ComponentModel.CancelEventHandler(this.tbExcludeEnd_Validating);
-            // 
-            // lblEnd
-            // 
-            this.lblEnd.AutoSize = true;
-            this.lblEnd.Location = new System.Drawing.Point(339, 117);
-            this.lblEnd.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblEnd.Name = "lblEnd";
-            this.lblEnd.Size = new System.Drawing.Size(74, 32);
-            this.lblEnd.TabIndex = 2;
-            this.lblEnd.Text = "End:";
-            // 
-            // tbApiExcludeStart
-            // 
-            this.tbApiExcludeStart.Location = new System.Drawing.Point(513, 50);
-            this.tbApiExcludeStart.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.tbApiExcludeStart.Name = "tbApiExcludeStart";
-            this.tbApiExcludeStart.Size = new System.Drawing.Size(127, 38);
-            this.tbApiExcludeStart.TabIndex = 19;
-            this.tbApiExcludeStart.Text = "8:00";
-            this.tbApiExcludeStart.Validating += new System.ComponentModel.CancelEventHandler(this.tbExcludeStart_Validating);
-            // 
-            // lblStart
-            // 
-            this.lblStart.AutoSize = true;
-            this.lblStart.Location = new System.Drawing.Point(339, 57);
-            this.lblStart.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(83, 32);
-            this.lblStart.TabIndex = 0;
-            this.lblStart.Text = "Start:";
-            // 
-            // lblApiPort
-            // 
-            this.lblApiPort.AutoSize = true;
-            this.lblApiPort.Location = new System.Drawing.Point(25, 8);
-            this.lblApiPort.Margin = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.lblApiPort.Name = "lblApiPort";
-            this.lblApiPort.Size = new System.Drawing.Size(127, 32);
-            this.lblApiPort.TabIndex = 12;
-            this.lblApiPort.Text = "API Port:";
-            // 
-            // tbApiPort
-            // 
-            this.tbApiPort.Location = new System.Drawing.Point(159, 5);
-            this.tbApiPort.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.tbApiPort.Name = "tbApiPort";
-            this.tbApiPort.Size = new System.Drawing.Size(153, 38);
-            this.tbApiPort.TabIndex = 15;
-            this.tbApiPort.Validating += new System.ComponentModel.CancelEventHandler(this.tbApiPort_Validating);
-            // 
-            // chkApiEnabled
-            // 
-            this.chkApiEnabled.AutoSize = true;
-            this.chkApiEnabled.Location = new System.Drawing.Point(360, 8);
-            this.chkApiEnabled.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.chkApiEnabled.Name = "chkApiEnabled";
-            this.chkApiEnabled.Size = new System.Drawing.Size(195, 36);
-            this.chkApiEnabled.TabIndex = 16;
-            this.chkApiEnabled.Text = "Enable API";
-            this.chkApiEnabled.UseVisualStyleBackColor = true;
-            // 
             // tabPageHelp
             // 
             this.tabPageHelp.BackColor = System.Drawing.SystemColors.Control;
@@ -811,60 +869,16 @@
             this.lblVersion.TabIndex = 11;
             this.lblVersion.Text = "Version: X.X";
             // 
-            // tableLayoutPanel4
+            // chkCheckUpdate
             // 
-            this.tableLayoutPanel4.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel4.ColumnCount = 1;
-            this.tableLayoutPanel4.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel4.Controls.Add(this.panel1, 0, 0);
-            this.tableLayoutPanel4.Controls.Add(this.panel2, 0, 2);
-            this.tableLayoutPanel4.Controls.Add(this.tableLayoutPanel5, 0, 1);
-            this.tableLayoutPanel4.Location = new System.Drawing.Point(903, 19);
-            this.tableLayoutPanel4.Name = "tableLayoutPanel4";
-            this.tableLayoutPanel4.RowCount = 3;
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 233F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 331F));
-            this.tableLayoutPanel4.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 9F));
-            this.tableLayoutPanel4.Size = new System.Drawing.Size(925, 623);
-            this.tableLayoutPanel4.TabIndex = 23;
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.lblApiPort);
-            this.panel1.Controls.Add(this.chkApiEnabled);
-            this.panel1.Controls.Add(this.tbApiPort);
-            this.panel1.Controls.Add(this.grpDeactivate);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(3, 3);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(919, 227);
-            this.panel1.TabIndex = 0;
-            // 
-            // panel2
-            // 
-            this.panel2.Controls.Add(this.lblShowDisplaysMsg);
-            this.panel2.Controls.Add(this.lblShowDx11Displays);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel2.Location = new System.Drawing.Point(3, 567);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(919, 53);
-            this.panel2.TabIndex = 1;
-            // 
-            // tableLayoutPanel5
-            // 
-            this.tableLayoutPanel5.ColumnCount = 2;
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel5.Location = new System.Drawing.Point(3, 236);
-            this.tableLayoutPanel5.Name = "tableLayoutPanel5";
-            this.tableLayoutPanel5.RowCount = 4;
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 63F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 66F));
-            this.tableLayoutPanel5.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 124F));
-            this.tableLayoutPanel5.Size = new System.Drawing.Size(919, 325);
-            this.tableLayoutPanel5.TabIndex = 2;
+            this.chkCheckUpdate.AutoSize = true;
+            this.chkCheckUpdate.Location = new System.Drawing.Point(8, 157);
+            this.chkCheckUpdate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkCheckUpdate.Name = "chkCheckUpdate";
+            this.chkCheckUpdate.Size = new System.Drawing.Size(392, 36);
+            this.chkCheckUpdate.TabIndex = 20;
+            this.chkCheckUpdate.Text = "Check for Updates on Start";
+            this.chkCheckUpdate.UseVisualStyleBackColor = true;
             // 
             // SetupForm
             // 
@@ -890,17 +904,17 @@
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
             this.tabPageAdvanced.ResumeLayout(false);
-            this.tableLayoutPanel1.ResumeLayout(false);
-            this.tableLayoutPanel1.PerformLayout();
-            this.grpDeactivate.ResumeLayout(false);
-            this.grpDeactivate.PerformLayout();
-            this.tabPageHelp.ResumeLayout(false);
-            this.tabPageHelp.PerformLayout();
             this.tableLayoutPanel4.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.grpDeactivate.ResumeLayout(false);
+            this.grpDeactivate.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
+            this.tabPageHelp.ResumeLayout(false);
+            this.tabPageHelp.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -969,5 +983,6 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
+        private System.Windows.Forms.CheckBox chkCheckUpdate;
     }
 }
