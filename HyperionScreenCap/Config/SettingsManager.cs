@@ -1,4 +1,5 @@
 ﻿using HyperionScreenCap.Model;
+using log4net;
 using System;
 using System.Configuration;
 using System.Windows.Forms;
@@ -7,8 +8,7 @@ namespace HyperionScreenCap
 {
     internal static class SettingsManager
     {
-        private static readonly Configuration Config =
-            ConfigurationManager.OpenExeConfiguration(Application.ExecutablePath);
+        private static readonly ILog LOG = LogManager.GetLogger(typeof(SettingsManager));
 
         // Generic
         public static string HyperionServerIp;
@@ -42,6 +42,7 @@ namespace HyperionScreenCap
 
         public static void SaveSettings()
         {
+            LOG.Info("Saving settings to user.config");
             Properties.Settings.Default.hyperionServerIP = HyperionServerIp;
             Properties.Settings.Default.hyperionServerPort = HyperionServerPort;
             Properties.Settings.Default.hyperionMessagePriority = HyperionMessagePriority;
@@ -67,10 +68,12 @@ namespace HyperionScreenCap
             Properties.Settings.Default.dx11MonitorIndex = Dx11MonitorIndex;
             Properties.Settings.Default.checkUpdateOnStartup = CheckUpdateOnStartup;
             Properties.Settings.Default.Save();
+            LOG.Info("Settings saved to user.config");
         }
 
         public static void LoadSetttings()
         {
+            LOG.Info("Loading settings from user.config");
             HyperionServerIp = Properties.Settings.Default.hyperionServerIP;
             HyperionServerPort = Properties.Settings.Default.hyperionServerPort;
             HyperionMessagePriority = Properties.Settings.Default.hyperionMessagePriority;
@@ -95,6 +98,7 @@ namespace HyperionScreenCap
             Dx11AdapterIndex = Properties.Settings.Default.dx11AdapterIndex;
             Dx11MonitorIndex = Properties.Settings.Default.dx11MonitorIndex;
             CheckUpdateOnStartup = Properties.Settings.Default.checkUpdateOnStartup;
+            LOG.Info("Loaded settings from user.config");
         }
     }
 }

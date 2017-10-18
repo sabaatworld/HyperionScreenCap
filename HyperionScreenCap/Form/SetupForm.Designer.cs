@@ -31,7 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetupForm));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageGeneric = new System.Windows.Forms.TabPage();
+            this.btnCheckUpdates = new System.Windows.Forms.Button();
+            this.btnViewLogs = new System.Windows.Forms.Button();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.chkCheckUpdate = new System.Windows.Forms.CheckBox();
             this.chkCaptureOnStartup = new System.Windows.Forms.CheckBox();
             this.chkPauseSuspend = new System.Windows.Forms.CheckBox();
             this.chkPauseUserSwitch = new System.Windows.Forms.CheckBox();
@@ -90,7 +93,6 @@
             this.tbHelp = new System.Windows.Forms.TextBox();
             this.btnSaveExit = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
-            this.chkCheckUpdate = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
@@ -120,6 +122,8 @@
             // tabPageGeneric
             // 
             this.tabPageGeneric.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPageGeneric.Controls.Add(this.btnCheckUpdates);
+            this.tabPageGeneric.Controls.Add(this.btnViewLogs);
             this.tabPageGeneric.Controls.Add(this.tableLayoutPanel3);
             this.tabPageGeneric.Controls.Add(this.gbCaptureApi);
             this.tabPageGeneric.Controls.Add(this.cbMessagePriority);
@@ -137,6 +141,28 @@
             this.tabPageGeneric.Size = new System.Drawing.Size(1839, 648);
             this.tabPageGeneric.TabIndex = 0;
             this.tabPageGeneric.Text = "Generic";
+            // 
+            // btnCheckUpdates
+            // 
+            this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnCheckUpdates.Location = new System.Drawing.Point(1246, 573);
+            this.btnCheckUpdates.Name = "btnCheckUpdates";
+            this.btnCheckUpdates.Size = new System.Drawing.Size(273, 65);
+            this.btnCheckUpdates.TabIndex = 26;
+            this.btnCheckUpdates.Text = "Check for Updates";
+            this.btnCheckUpdates.UseVisualStyleBackColor = true;
+            this.btnCheckUpdates.Click += new System.EventHandler(this.btnCheckUpdates_Click);
+            // 
+            // btnViewLogs
+            // 
+            this.btnViewLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnViewLogs.Location = new System.Drawing.Point(1547, 573);
+            this.btnViewLogs.Name = "btnViewLogs";
+            this.btnViewLogs.Size = new System.Drawing.Size(273, 65);
+            this.btnViewLogs.TabIndex = 25;
+            this.btnViewLogs.Text = "View Logs";
+            this.btnViewLogs.UseVisualStyleBackColor = true;
+            this.btnViewLogs.Click += new System.EventHandler(this.btnViewLogs_Click);
             // 
             // tableLayoutPanel3
             // 
@@ -156,6 +182,17 @@
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
             this.tableLayoutPanel3.Size = new System.Drawing.Size(628, 251);
             this.tableLayoutPanel3.TabIndex = 20;
+            // 
+            // chkCheckUpdate
+            // 
+            this.chkCheckUpdate.AutoSize = true;
+            this.chkCheckUpdate.Location = new System.Drawing.Point(8, 157);
+            this.chkCheckUpdate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
+            this.chkCheckUpdate.Name = "chkCheckUpdate";
+            this.chkCheckUpdate.Size = new System.Drawing.Size(392, 36);
+            this.chkCheckUpdate.TabIndex = 20;
+            this.chkCheckUpdate.Text = "Check for Updates on Start";
+            this.chkCheckUpdate.UseVisualStyleBackColor = true;
             // 
             // chkCaptureOnStartup
             // 
@@ -869,17 +906,6 @@
             this.lblVersion.TabIndex = 11;
             this.lblVersion.Text = "Version: X.X";
             // 
-            // chkCheckUpdate
-            // 
-            this.chkCheckUpdate.AutoSize = true;
-            this.chkCheckUpdate.Location = new System.Drawing.Point(8, 157);
-            this.chkCheckUpdate.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
-            this.chkCheckUpdate.Name = "chkCheckUpdate";
-            this.chkCheckUpdate.Size = new System.Drawing.Size(392, 36);
-            this.chkCheckUpdate.TabIndex = 20;
-            this.chkCheckUpdate.Text = "Check for Updates on Start";
-            this.chkCheckUpdate.UseVisualStyleBackColor = true;
-            // 
             // SetupForm
             // 
             this.AcceptButton = this.btnSaveExit;
@@ -894,7 +920,7 @@
             this.Margin = new System.Windows.Forms.Padding(8, 7, 8, 7);
             this.MaximizeBox = false;
             this.Name = "SetupForm";
-            this.Text = "Setup";
+            this.Text = "Hyperion Screen Capture - Setup";
             this.tabControl1.ResumeLayout(false);
             this.tabPageGeneric.ResumeLayout(false);
             this.tabPageGeneric.PerformLayout();
@@ -984,5 +1010,7 @@
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel5;
         private System.Windows.Forms.CheckBox chkCheckUpdate;
+        private System.Windows.Forms.Button btnCheckUpdates;
+        private System.Windows.Forms.Button btnViewLogs;
     }
 }

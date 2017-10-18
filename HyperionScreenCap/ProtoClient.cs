@@ -5,11 +5,13 @@ using Google.ProtocolBuffers;
 using proto;
 using System.Threading;
 using HyperionScreenCap.Config;
+using log4net;
 
 namespace HyperionScreenCap
 {
     internal static class ProtoClient
     {
+        private static readonly ILog LOG = LogManager.GetLogger(typeof(ProtoClient));
         public static bool Initialized { get; private set; }
 
         private static TcpClient _socket;
@@ -19,11 +21,14 @@ namespace HyperionScreenCap
 
         public static void Init(string hyperionIp, int hyperionProtoPort = 19445, int priority = 10)
         {
-            if ( _initLock || IsConnected() ) {
+            if ( _initLock || IsConnected() )
+            {
+                LOG.Info("Proto Client already initialized. Skipping request.");
                 return;
             }
 
             _initLock = true;
+            LOG.Info("Proto Client Init lock set");
             _hyperionPriority = priority;
             _socket = new TcpClient
             {
@@ -39,13 +44,15 @@ namespace HyperionScreenCap
             finally
             {
                 _initLock = false;
+                LOG.Info("Proto Client Init lock unset");
             }
             Initialized = true;
+            LOG.Info("Proto Client initialized");
         }
 
         public static bool IsConnected()
         {
-            if (_socket == null)
+            if ( _socket == null )
             {
                 return false;
             }
@@ -55,10 +62,12 @@ namespace HyperionScreenCap
 
         public static void Disconnect()
         {
+            LOG.Info("Disconnecting Proto Client");
             _stream?.Dispose();
             _socket?.Close();
             _socket = null;
             Initialized = false;
+            LOG.Info("Proto Client disconnected");
         }
 
         public static void SendImageToServer(byte[] pixeldata, int width, int height)
@@ -83,16 +92,20 @@ namespace HyperionScreenCap
         {
             try
             {
+                LOG.Info("Clearing Hyperion priority");
                 ClearPriority(priority);
                 Thread.Sleep(50);
                 ClearPriority(priority);
-            } catch (Exception ex)
+                LOG.Info("Hyperion priority cleared");
+            }
+            catch ( Exception ex )
             {
-                NotificationUtils.Error($"Failed to clear priority. {ex.Message}");
+                LOG.Error("Failed to clear Hyperion priority", ex);
+                NotificationUtils.Error($"Failed to clear Hyperion priority. {ex.Message}");
             }
         }
 
-        public static void ClearPriority(int priority)
+        private static void ClearPriority(int priority)
         {
             if ( !IsConnected() )
             {
@@ -142,7 +155,6 @@ namespace HyperionScreenCap
             var reply = HyperionReply.ParseFrom(data);
 
             return reply;
-
         }
     }
 }

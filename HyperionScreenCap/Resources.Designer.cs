@@ -111,13 +111,32 @@ namespace HyperionScreenCap {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot; ?&gt;
+        ///&lt;log4net&gt;
+        ///  &lt;appender name=&quot;ConsoleAppender&quot; type=&quot;log4net.Appender.ConsoleAppender&quot; &gt;
+        ///    &lt;layout type=&quot;log4net.Layout.PatternLayout&quot;&gt;
+        ///      &lt;conversionPattern value=&quot;%d{yyyy-MM-dd HH:mm:ss} [%p] [%t] %c.%M:%L - %m%n&quot; /&gt;
+        ///    &lt;/layout&gt;
+        ///  &lt;/appender&gt;
+        ///  &lt;appender name=&quot;RollingFileAppender&quot; type=&quot;log4net.Appender.RollingFileAppender&quot;&gt;
+        ///    &lt;file value=&quot;D:\Temp\hyperion-&quot; /&gt;
+        ///    &lt;appendToFile value=&quot;true&quot; /&gt;
+        ///    &lt;rollingStyle value=&quot;Date&quot; /&gt;
+        ///    &lt;datePattern val [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string LogConfiguration {
+            get {
+                return ResourceManager.GetString("LogConfiguration", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to ==DirectX 11 Configuration Options==
         ///
-        ///Maximum FPS: The maxium number of updates per second that should be sent to Hyperion.
+        ///Maximum FPS: The maxium number of updates per second that should be sent to Hyperion. Setting it to a value higher than your monitor refresh rate will unnecessarily waste resources.
+        ///Suppose you set this to 60 (equal to your monitor refresh rate), then frames should be sent at a minimum interval of 1000/60 ~ 16ms. Using this value, the application evaluates if it needs to wait before sending the next frame.
         ///
-        ///Frame Capture Timeout: Millis after which desktop capture attempt times out. Note that in case of errors the capture may be attempted again after a cooldown period. This value should always be lower than the &quot;Message Duration&quot; in order to avoid flickering when screen does not update.
-        ///
-        ///Image Scaling Factor: A factor by which the size of the desktop image should be reduced before  [rest of string was truncated]&quot;;.
+        ///Frame Capture Timeout: Millis after which desktop capture  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SetupFormHelp {
             get {

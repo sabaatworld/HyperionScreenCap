@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 
 namespace HyperionScreenCap
@@ -33,6 +35,31 @@ namespace HyperionScreenCap
 
             pic.Save(filename);
             pic.Dispose();
+        }
+
+        /// <summary>
+        /// Gets a Memory Stream for the provided string.
+        /// </summary>
+        /// <param name="aString">String for which the stream is needed.</param>
+        /// <returns></returns>
+        public static Stream GenerateStreamFromString(string aString)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(aString);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
+        }
+
+        /// <summary>
+        /// Returns the path to the directory where the log file is saved.
+        /// </summary>
+        /// <returns></returns>
+        public static string GetLogDirectory()
+        {
+            return Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + Path.DirectorySeparatorChar
+                + Assembly.GetExecutingAssembly().GetName().Name;
         }
 
     }

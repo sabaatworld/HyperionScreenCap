@@ -5,14 +5,19 @@ using System.Windows.Forms;
 using SlimDX.Windows;
 using HyperionScreenCap.Model;
 using System.IO;
+using log4net;
+using System.Diagnostics;
+using HyperionScreenCap.Helper;
 
 namespace HyperionScreenCap
 {
     public partial class SetupForm : Form
     {
+        private static readonly ILog LOG = LogManager.GetLogger(typeof(SetupForm));
 
         public SetupForm()
         {
+            LOG.Info("Instantiating SetupForm");
             InitializeComponent();
 
             // Automatically set the monitor index
@@ -25,12 +30,14 @@ namespace HyperionScreenCap
 
             tbHelp.Text = Resources.SetupFormHelp;
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            LOG.Info("SetupForm Instantiated");
         }
 
         private void LoadSettings()
         {
             try
             {
+                LOG.Info("Loading settings using SettingsManager");
                 SettingsManager.LoadSetttings();
                 tbIPHostName.Text = SettingsManager.HyperionServerIp;
                 tbProtoPort.Text = SettingsManager.HyperionServerPort.ToString();
@@ -57,15 +64,18 @@ namespace HyperionScreenCap
                 RestoreComboBoxValues();
 
                 cbNotificationLevel.Text = SettingsManager.NotificationLevel.ToString();
+                LOG.Info("Finished loading settings using SettingsManager");
             }
             catch ( Exception ex )
             {
+                LOG.Error("Failed to load settings into the setup form", ex);
                 MessageBox.Show($"Error occcured during LoadSettings(): {ex.Message}");
             }
         }
 
         private void RestoreComboBoxValues()
         {
+            LOG.Info("Resolving combo box values");
             int scalingFactorIndexToSelect = 0;
             foreach ( object obj in cbDx11ImgScalingFactor.Items )
             {
@@ -81,6 +91,7 @@ namespace HyperionScreenCap
 
         private void btnSaveExit_Click(object sender, EventArgs e)
         {
+            LOG.Info("Save button clicked");
             SaveSettings();
         }
 
@@ -99,7 +110,7 @@ namespace HyperionScreenCap
                     MessageBox.Show("Error in excluded API end time", "Error in excluded API end time", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-
+                LOG.Info("Saving settings using SettingsManager");
                 SettingsManager.HyperionServerIp = tbIPHostName.Text;
                 SettingsManager.HyperionServerPort = int.Parse(tbProtoPort.Text);
                 SettingsManager.HyperionMessagePriority = int.Parse(cbMessagePriority.Text);
@@ -128,10 +139,12 @@ namespace HyperionScreenCap
                     (NotificationLevel) Enum.Parse(typeof(NotificationLevel), cbNotificationLevel.Text);
 
                 SettingsManager.SaveSettings();
+                LOG.Info("Saved settings using SettingsManager");
                 MainForm.Init(true);
             }
             catch ( Exception ex )
             {
+                LOG.Error("Failed to save settings from the setup form", ex);
                 MessageBox.Show($"Error occcured during SaveSettings(): {ex.Message}");
             }
 
@@ -306,6 +319,7 @@ namespace HyperionScreenCap
 
         private void lblShowDx11Displays_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
+            LOG.Info("Checking for available DX11 monitors");
             String msg;
             String title;
             MessageBoxIcon icon;
@@ -321,7 +335,18 @@ namespace HyperionScreenCap
                 title = "Error";
                 icon = MessageBoxIcon.Error;
             }
+            LOG.Info($"{title}: {msg}");
             MessageBox.Show(msg, title, MessageBoxButtons.OK, icon);
+        }
+
+        private void btnCheckUpdates_Click(object sender, EventArgs e)
+        {
+            UpdateChecker.StartUpdateCheck(false);
+        }
+
+        private void btnViewLogs_Click(object sender, EventArgs e)
+        {
+            Process.Start(MiscUtils.GetLogDirectory());
         }
     }
 }

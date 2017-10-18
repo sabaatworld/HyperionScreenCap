@@ -54,5 +54,10 @@ namespace HyperionScreenCap.Config
         public static string DEBUG_IMAGE_FILE_NAME = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
             + Path.DirectorySeparatorChar + "hyperion-capture-debug.png";
 
+        /// <summary>
+        /// Name of the application's log file.
+        /// </summary>
+        public static string LOG_FILE_NAME = "hyperion-screen-capture.log";
+
     }
 }

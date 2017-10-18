@@ -7,11 +7,14 @@ using SlimDX.Windows;
 using HyperionScreenCap.Capture;
 using SlimDX;
 using System.Threading;
+using log4net;
 
 namespace HyperionScreenCap
 {
     public class DX9ScreenCapture : IScreenCapture
     {
+        private static readonly ILog LOG = LogManager.GetLogger(typeof(DX9ScreenCapture));
+
         private readonly Device _device;
         private Direct3D _direct3D;
         private int _monitorIndex;
@@ -91,29 +94,29 @@ namespace HyperionScreenCap
             var monitorArray = DisplayMonitor.EnumerateMonitors();
 
             // For anything other than index 0 (first screen) we do a lookup in monitor array
-            if (monitorIndex == 0)
+            if ( monitorIndex == 0 )
             {
-                Debug.WriteLine($"Monitor index is 0, skipping lookup and using ==> device: {monitorArray[monitorIndex].DeviceName} | IsPrimary: {monitorArray[monitorIndex].IsPrimary} | Handle: {monitorArray[monitorIndex].Handle}");
+                LOG.Info($"Monitor index is 0, skipping lookup and using ==> device: {monitorArray[monitorIndex].DeviceName} | IsPrimary: {monitorArray[monitorIndex].IsPrimary} | Handle: {monitorArray[monitorIndex].Handle}");
                 return monitorIndex;
             }
 
             // If we have only 1 monitor and monitor index is set higher fallback to first monitor
-            if (monitorArray.Count() == 1 && monitorIndex > 0)
+            if ( monitorArray.Count() == 1 && monitorIndex > 0 )
                 return 0;
 
-            if (monitorArray.Any())
+            if ( monitorArray.Any() )
             {
-                foreach (var monitor in monitorArray)
+                foreach ( var monitor in monitorArray )
                 {
-                    Debug.WriteLine($"Found ==> device: {monitor.DeviceName} | IsPrimary: {monitor.IsPrimary} | Handle: {monitor.Handle}");
+                    LOG.Info($"Found ==> device: {monitor.DeviceName} | IsPrimary: {monitor.IsPrimary} | Handle: {monitor.Handle}");
                     var monitorShortname = monitor.DeviceName.Replace(@"\\.\DISPLAY", string.Empty);
                     var dmMonitorIndex = 0;
                     bool isdValidMonitorIndex = int.TryParse(monitorShortname, out dmMonitorIndex);
-                    if (isdValidMonitorIndex)
+                    if ( isdValidMonitorIndex )
                     {
-                        if (dmMonitorIndex == monitorIndex)
+                        if ( dmMonitorIndex == monitorIndex )
                         {
-                            Debug.WriteLine($"Using ==> device: {monitor.DeviceName} | IsPrimary: {monitor.IsPrimary} | Handle: {monitor.Handle}");
+                            LOG.Info($"Using ==> device: {monitor.DeviceName} | IsPrimary: {monitor.IsPrimary} | Handle: {monitor.Handle}");
                             return dmMonitorIndex;
                         }
                     }
