@@ -18,7 +18,7 @@
 ; Do not use the same AppId value in installers for other applications.
 AppId={{EB137069-4865-4E77-8AC3-00E4399B1359}
 AppName=Hyperion Screen Capture
-AppVersion=2.2
+AppVersion=2.3
 AppPublisher=sabaatworld
 AppPublisherURL=https://github.com/sabaatworld/HyperionScreenCap
 AppSupportURL=https://github.com/sabaatworld/HyperionScreenCap/issues
@@ -31,14 +31,14 @@ SetupIconFile=../Resources/Hyperion-enabled.ico
 Compression=lzma
 SolidCompression=true
 PrivilegesRequired=admin
-AppVerName=2.2
+AppVerName=2.3
 UninstallDisplayName=Hyperion Screen Capture
 UninstallDisplayIcon={app}\HyperionScreenCap.exe
-VersionInfoVersion=2.2
+VersionInfoVersion=2.3
 VersionInfoCompany=sabaatworld
 VersionInfoDescription=Hyperion Screen Capture
 VersionInfoProductName=HyperionScreenCap
-VersionInfoProductVersion=2.2
+VersionInfoProductVersion=2.3
 VersionInfoCopyright=Copyright © 2017
 
 [Languages]

@@ -1,4 +1,5 @@
 ﻿using HyperionScreenCap.Config;
+using HyperionScreenCap.Properties;
 using log4net;
 using log4net.Config;
 using System;
@@ -45,7 +46,7 @@ namespace HyperionScreenCap
                 LOG.Error("Hyperion Screen Capture process already running.");
                 try
                 {
-                    MessageBox.Show(@"HyperionScreenCap is already running!");
+                    MessageBox.Show("HyperionScreenCap is already running!");
                     LOG.Info("Exiting application");
                     Environment.Exit(0);
                 }
@@ -54,8 +55,31 @@ namespace HyperionScreenCap
                     // ignored
                 }
             }
+
+            // Copy settings from previous version
+            CopySettingsFromPreviousVersion();
+
             _mainForm = new MainForm();
             Application.Run(_mainForm);
+        }
+
+        private static void CopySettingsFromPreviousVersion()
+        {
+            if ( Settings.Default.upgradeRequired )
+            {
+                LOG.Info("[Settings Upgrade] Going to copy over settings from previous version");
+                try
+                {
+                    Settings.Default.Upgrade();
+                    LOG.Info("[Settings Upgrade] Successfully copied settings");
+                } catch(ConfigurationErrorsException ex)
+                {
+                    LOG.Error("[Settings Upgrade] Failed to copy settings", ex);
+                    MessageBox.Show("Failed to copy settings from previous version of the app. All settings have been reset.");
+                }
+                Settings.Default.upgradeRequired = false;
+                Settings.Default.Save();
+            }
         }
 
         private static void ConfigureLog4Net()
