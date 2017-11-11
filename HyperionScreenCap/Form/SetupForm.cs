@@ -15,9 +15,12 @@ namespace HyperionScreenCap
     {
         private static readonly ILog LOG = LogManager.GetLogger(typeof(SetupForm));
 
-        public SetupForm()
+        private MainForm _mainForm;
+
+        public SetupForm(MainForm mainForm)
         {
             LOG.Info("Instantiating SetupForm");
+            _mainForm = mainForm;
             InitializeComponent();
 
             // Automatically set the monitor index
@@ -140,7 +143,7 @@ namespace HyperionScreenCap
 
                 SettingsManager.SaveSettings();
                 LOG.Info("Saved settings using SettingsManager");
-                MainForm.Init(true);
+                _mainForm.Init(true);
             }
             catch ( Exception ex )
             {

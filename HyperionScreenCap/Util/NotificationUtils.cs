@@ -5,23 +5,30 @@ using System.Windows.Forms;
 
 namespace HyperionScreenCap
 {
-    internal static class NotificationUtils
+    class NotificationUtils
     {
         private static readonly ILog LOG = LogManager.GetLogger(typeof(NotificationUtils));
 
-        public static void Error(string errorMsg)
+        private NotifyIcon _trayIcon;
+
+        public NotificationUtils(NotifyIcon trayIcon)
+        {
+            _trayIcon = trayIcon;
+        }
+
+        public void Error(string errorMsg)
         {
             LOG.Error("Error notification: " + errorMsg);
             if ( SettingsManager.NotificationLevel != NotificationLevel.Info &&
                 SettingsManager.NotificationLevel != NotificationLevel.Error ) return;
-            MainForm.TrayIcon.ShowBalloonTip(5000, "", errorMsg, ToolTipIcon.Error);
+            _trayIcon.ShowBalloonTip(5000, "", errorMsg, ToolTipIcon.Error);
         }
 
-        public static void Info(string infoMsg)
+        public void Info(string infoMsg)
         {
             LOG.Info("Info notification: " + infoMsg);
             if ( SettingsManager.NotificationLevel != NotificationLevel.Info ) return;
-            MainForm.TrayIcon.ShowBalloonTip(1000, "", infoMsg, ToolTipIcon.Info);
+            _trayIcon.ShowBalloonTip(1000, "", infoMsg, ToolTipIcon.Info);
         }
     }
 }

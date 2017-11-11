@@ -83,6 +83,26 @@ namespace HyperionScreenCap {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon disable_capture {
+            get {
+                object obj = ResourceManager.GetObject("disable_capture", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon enable_capture {
+            get {
+                object obj = ResourceManager.GetObject("enable_capture", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon gear {
             get {
                 object obj = ResourceManager.GetObject("gear", resourceCulture);
@@ -119,10 +139,9 @@ namespace HyperionScreenCap {
         ///    &lt;/layout&gt;
         ///  &lt;/appender&gt;
         ///  &lt;appender name=&quot;RollingFileAppender&quot; type=&quot;log4net.Appender.RollingFileAppender&quot;&gt;
-        ///    &lt;file value=&quot;D:\Temp\hyperion-&quot; /&gt;
+        ///    &lt;file type=&quot;log4net.Util.PatternString&quot; value=&quot;%property{logFilePath}&quot; /&gt;
         ///    &lt;appendToFile value=&quot;true&quot; /&gt;
-        ///    &lt;rollingStyle value=&quot;Date&quot; /&gt;
-        ///    &lt;datePattern val [rest of string was truncated]&quot;;.
+        ///    &lt;rollingStyl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string LogConfiguration {
             get {

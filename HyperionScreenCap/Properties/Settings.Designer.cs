@@ -322,5 +322,29 @@ namespace HyperionScreenCap.Properties {
                 this["upgradeRequired"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[]")]
+        public string hyperionTaskConfigurations {
+            get {
+                return ((string)(this["hyperionTaskConfigurations"]));
+            }
+            set {
+                this["hyperionTaskConfigurations"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool migrateLegacyHyperionConfiguration {
+            get {
+                return ((bool)(this["migrateLegacyHyperionConfiguration"]));
+            }
+            set {
+                this["migrateLegacyHyperionConfiguration"] = value;
+            }
+        }
     }
 }

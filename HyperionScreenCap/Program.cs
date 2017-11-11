@@ -1,13 +1,10 @@
 ﻿using HyperionScreenCap.Config;
-using HyperionScreenCap.Properties;
 using log4net;
 using log4net.Config;
 using System;
-using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap
@@ -57,29 +54,13 @@ namespace HyperionScreenCap
             }
 
             // Copy settings from previous version
-            CopySettingsFromPreviousVersion();
+            SettingsManager.CopySettingsFromPreviousVersion();
+
+            // Migrate legacy settings
+            SettingsManager.MigrateLegacySettings();
 
             _mainForm = new MainForm();
             Application.Run(_mainForm);
-        }
-
-        private static void CopySettingsFromPreviousVersion()
-        {
-            if ( Settings.Default.upgradeRequired )
-            {
-                LOG.Info("[Settings Upgrade] Going to copy over settings from previous version");
-                try
-                {
-                    Settings.Default.Upgrade();
-                    LOG.Info("[Settings Upgrade] Successfully copied settings");
-                } catch(ConfigurationErrorsException ex)
-                {
-                    LOG.Error("[Settings Upgrade] Failed to copy settings", ex);
-                    MessageBox.Show("Failed to copy settings from previous version of the app. All settings have been reset.");
-                }
-                Settings.Default.upgradeRequired = false;
-                Settings.Default.Save();
-            }
         }
 
         private static void ConfigureLog4Net()

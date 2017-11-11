@@ -1,6 +1,9 @@
 ﻿using HyperionScreenCap.Model;
+using HyperionScreenCap.Properties;
 using log4net;
+using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Configuration;
 using System.Windows.Forms;
 
@@ -38,67 +41,105 @@ namespace HyperionScreenCap
         public static int Dx11AdapterIndex;
         public static int Dx11MonitorIndex;
 
+        public static List<HyperionTaskConfiguration> HyperionTaskConfigurations;
+
         public static NotificationLevel NotificationLevel;
 
         public static void SaveSettings()
         {
             LOG.Info("Saving settings to user.config");
-            Properties.Settings.Default.hyperionServerIP = HyperionServerIp;
-            Properties.Settings.Default.hyperionServerPort = HyperionServerPort;
-            Properties.Settings.Default.hyperionMessagePriority = HyperionMessagePriority;
-            Properties.Settings.Default.hyperionMessageDuration = HyperionMessageDuration;
-            Properties.Settings.Default.width = HyperionWidth;
-            Properties.Settings.Default.height = HyperionHeight;
-            Properties.Settings.Default.captureInterval = CaptureInterval;
-            Properties.Settings.Default.monitorIndex = MonitorIndex;
-            Properties.Settings.Default.notificationLevel = NotificationLevel;
-            Properties.Settings.Default.captureOnStartup = CaptureOnStartup;
-            Properties.Settings.Default.pauseOnUserSwitch = PauseOnUserSwitch;
-            Properties.Settings.Default.pauseOnSystemSuspend = PauseOnSystemSuspend;
-            Properties.Settings.Default.apiPort = ApiPort;
-            Properties.Settings.Default.apiEnabled = ApiEnabled;
-            Properties.Settings.Default.apiExcludedTimesEnabled = ApiExcludedTimesEnabled;
-            Properties.Settings.Default.apiExcludeTimeStart = ApiExcludeTimeStart;
-            Properties.Settings.Default.apiExcludeTimeEnd = ApiExcludeTimeEnd;
-            Properties.Settings.Default.captureMethod = CaptureMethod;
-            Properties.Settings.Default.dx11MaxFps = Dx11MaxFps;
-            Properties.Settings.Default.dx11FrameCaptureTimeout = Dx11FrameCaptureTimeout;
-            Properties.Settings.Default.dx11ImageScalingFactor = Dx11ImageScalingFactor;
-            Properties.Settings.Default.dx11AdapterIndex = Dx11AdapterIndex;
-            Properties.Settings.Default.dx11MonitorIndex = Dx11MonitorIndex;
-            Properties.Settings.Default.checkUpdateOnStartup = CheckUpdateOnStartup;
-            Properties.Settings.Default.Save();
+            Settings.Default.hyperionServerIP = HyperionServerIp;
+            Settings.Default.hyperionServerPort = HyperionServerPort;
+            Settings.Default.hyperionMessagePriority = HyperionMessagePriority;
+            Settings.Default.hyperionMessageDuration = HyperionMessageDuration;
+            Settings.Default.width = HyperionWidth;
+            Settings.Default.height = HyperionHeight;
+            Settings.Default.captureInterval = CaptureInterval;
+            Settings.Default.monitorIndex = MonitorIndex;
+            Settings.Default.notificationLevel = NotificationLevel;
+            Settings.Default.captureOnStartup = CaptureOnStartup;
+            Settings.Default.pauseOnUserSwitch = PauseOnUserSwitch;
+            Settings.Default.pauseOnSystemSuspend = PauseOnSystemSuspend;
+            Settings.Default.apiPort = ApiPort;
+            Settings.Default.apiEnabled = ApiEnabled;
+            Settings.Default.apiExcludedTimesEnabled = ApiExcludedTimesEnabled;
+            Settings.Default.apiExcludeTimeStart = ApiExcludeTimeStart;
+            Settings.Default.apiExcludeTimeEnd = ApiExcludeTimeEnd;
+            Settings.Default.captureMethod = CaptureMethod;
+            Settings.Default.dx11MaxFps = Dx11MaxFps;
+            Settings.Default.dx11FrameCaptureTimeout = Dx11FrameCaptureTimeout;
+            Settings.Default.dx11ImageScalingFactor = Dx11ImageScalingFactor;
+            Settings.Default.dx11AdapterIndex = Dx11AdapterIndex;
+            Settings.Default.dx11MonitorIndex = Dx11MonitorIndex;
+            Settings.Default.checkUpdateOnStartup = CheckUpdateOnStartup;
+            Settings.Default.hyperionTaskConfigurations = JsonConvert.SerializeObject(HyperionTaskConfigurations);
+            Settings.Default.Save();
             LOG.Info("Settings saved to user.config");
         }
 
         public static void LoadSetttings()
         {
             LOG.Info("Loading settings from user.config");
-            HyperionServerIp = Properties.Settings.Default.hyperionServerIP;
-            HyperionServerPort = Properties.Settings.Default.hyperionServerPort;
-            HyperionMessagePriority = Properties.Settings.Default.hyperionMessagePriority;
-            HyperionMessageDuration = Properties.Settings.Default.hyperionMessageDuration;
-            HyperionWidth = Properties.Settings.Default.width;
-            HyperionHeight = Properties.Settings.Default.height;
-            CaptureInterval = Properties.Settings.Default.captureInterval;
-            MonitorIndex = Properties.Settings.Default.monitorIndex;
-            NotificationLevel = Properties.Settings.Default.notificationLevel;
-            CaptureOnStartup = Properties.Settings.Default.captureOnStartup;
-            PauseOnUserSwitch = Properties.Settings.Default.pauseOnUserSwitch;
-            PauseOnSystemSuspend = Properties.Settings.Default.pauseOnSystemSuspend;
-            ApiPort = Properties.Settings.Default.apiPort;
-            ApiEnabled = Properties.Settings.Default.apiEnabled;
-            ApiExcludedTimesEnabled = Properties.Settings.Default.apiExcludedTimesEnabled;
-            ApiExcludeTimeStart = Properties.Settings.Default.apiExcludeTimeStart;
-            ApiExcludeTimeEnd = Properties.Settings.Default.apiExcludeTimeEnd;
-            CaptureMethod = Properties.Settings.Default.captureMethod;
-            Dx11MaxFps = Properties.Settings.Default.dx11MaxFps;
-            Dx11FrameCaptureTimeout = Properties.Settings.Default.dx11FrameCaptureTimeout;
-            Dx11ImageScalingFactor = Properties.Settings.Default.dx11ImageScalingFactor;
-            Dx11AdapterIndex = Properties.Settings.Default.dx11AdapterIndex;
-            Dx11MonitorIndex = Properties.Settings.Default.dx11MonitorIndex;
-            CheckUpdateOnStartup = Properties.Settings.Default.checkUpdateOnStartup;
+            HyperionServerIp = Settings.Default.hyperionServerIP;
+            HyperionServerPort = Settings.Default.hyperionServerPort;
+            HyperionMessagePriority = Settings.Default.hyperionMessagePriority;
+            HyperionMessageDuration = Settings.Default.hyperionMessageDuration;
+            HyperionWidth = Settings.Default.width;
+            HyperionHeight = Settings.Default.height;
+            CaptureInterval = Settings.Default.captureInterval;
+            MonitorIndex = Settings.Default.monitorIndex;
+            NotificationLevel = Settings.Default.notificationLevel;
+            CaptureOnStartup = Settings.Default.captureOnStartup;
+            PauseOnUserSwitch = Settings.Default.pauseOnUserSwitch;
+            PauseOnSystemSuspend = Settings.Default.pauseOnSystemSuspend;
+            ApiPort = Settings.Default.apiPort;
+            ApiEnabled = Settings.Default.apiEnabled;
+            ApiExcludedTimesEnabled = Settings.Default.apiExcludedTimesEnabled;
+            ApiExcludeTimeStart = Settings.Default.apiExcludeTimeStart;
+            ApiExcludeTimeEnd = Settings.Default.apiExcludeTimeEnd;
+            CaptureMethod = Settings.Default.captureMethod;
+            Dx11MaxFps = Settings.Default.dx11MaxFps;
+            Dx11FrameCaptureTimeout = Settings.Default.dx11FrameCaptureTimeout;
+            Dx11ImageScalingFactor = Settings.Default.dx11ImageScalingFactor;
+            Dx11AdapterIndex = Settings.Default.dx11AdapterIndex;
+            Dx11MonitorIndex = Settings.Default.dx11MonitorIndex;
+            CheckUpdateOnStartup = Settings.Default.checkUpdateOnStartup;
+            HyperionTaskConfigurations = JsonConvert.DeserializeObject<List<HyperionTaskConfiguration>>(Settings.Default.hyperionTaskConfigurations);
             LOG.Info("Loaded settings from user.config");
+        }
+
+        public static void CopySettingsFromPreviousVersion()
+        {
+            if ( Settings.Default.upgradeRequired )
+            {
+                LOG.Info("[Settings Upgrade] Going to copy over settings from previous version");
+                try
+                {
+                    Settings.Default.Upgrade();
+                    LOG.Info("[Settings Upgrade] Successfully copied settings");
+                }
+                catch ( ConfigurationErrorsException ex )
+                {
+                    LOG.Error("[Settings Upgrade] Failed to copy settings", ex);
+                    MessageBox.Show("Failed to copy settings from previous version of the app. All settings have been reset.");
+                }
+                Settings.Default.upgradeRequired = false;
+                Settings.Default.Save();
+            }
+        }
+
+        public static void MigrateLegacySettings()
+        {
+            if ( Settings.Default.migrateLegacyHyperionConfiguration )
+            {
+                LOG.Info("[Settings Migration] Migrating legacy hyperion configuration to JSON string");
+                List<HyperionTaskConfiguration> configurations = new List<HyperionTaskConfiguration>();
+                configurations.Add(HyperionTaskConfiguration.BuildUsingLegacySettings());
+                Settings.Default.hyperionTaskConfigurations = JsonConvert.SerializeObject(configurations);
+                Settings.Default.migrateLegacyHyperionConfiguration = false;
+                Settings.Default.Save();
+                LOG.Info("[Settings Migration] Saved legacy hyperion configuration as JSON string");
+            }
         }
     }
 }

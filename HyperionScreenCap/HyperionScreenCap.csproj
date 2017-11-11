@@ -90,6 +90,9 @@
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\packages\log4net.2.0.8\lib\net40-client\log4net.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net40\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="RestSharp, Version=105.2.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\RestSharp.105.2.3\lib\net4-client\RestSharp.dll</HintPath>
     </Reference>
@@ -121,6 +124,7 @@
   <ItemGroup>
     <Compile Include="ApiServer.cs" />
     <Compile Include="Capture\IScreenCapture.cs" />
+    <Compile Include="Helper\HyperionTask.cs" />
     <Compile Include="Config\AppConstants.cs" />
     <Compile Include="Capture\Dx11ScreenCapture.cs" />
     <Compile Include="Capture\Dx9ScreenCapture.cs" />
@@ -133,6 +137,13 @@
     <Compile Include="HyperionMessages.cs" />
     <Compile Include="Model\GitHub\ReleaseAsset.cs" />
     <Compile Include="Model\GitHub\Release.cs" />
+    <Compile Include="Form\ServerPropertiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\ServerPropertiesForm.Designer.cs">
+      <DependentUpon>ServerPropertiesForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Model\HyperionTaskConfiguration.cs" />
     <Compile Include="Util\MiscUtils.cs" />
     <Compile Include="Model\CaptureMethod.cs" />
     <Compile Include="Model\NotificationLevel.cs" />
@@ -170,6 +181,9 @@
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="Form\ServerPropertiesForm.resx">
+      <DependentUpon>ServerPropertiesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -206,6 +220,8 @@
     <None Include="Resources\Hyperion-enabled.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\enable_capture.ico" />
+    <None Include="Resources\disable_capture.ico" />
     <None Include="Resources\LogConfiguration.xml" />
     <None Include="Resources\SetupFormHelp.txt" />
     <None Include="FodyWeavers.xml" />

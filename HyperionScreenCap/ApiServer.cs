@@ -4,6 +4,8 @@ using Grapevine.Server;
 using Grapevine.Server.Attributes;
 using Grapevine.Shared;
 using log4net;
+using System.Reflection;
+using System.Linq.Expressions;
 
 namespace HyperionScreenCap
 {
@@ -11,7 +13,13 @@ namespace HyperionScreenCap
     {
         private static readonly ILog LOG = LogManager.GetLogger(typeof(ApiServer));
 
+        private MainForm _mainForm;
         private RestServer _server;
+
+        public ApiServer(MainForm mainForm)
+        {
+            _mainForm = mainForm;
+        }
 
         public void StartServer(string hostname, string port)
         {
@@ -25,6 +33,10 @@ namespace HyperionScreenCap
                         Host = hostname,
                         Port = port
                     };
+
+                    var methodInfo = typeof(ApiServer).GetMethod("API");
+                    var apiRoute = new Route(methodInfo);
+                    _server.Router.Register(apiRoute); // TODO : Test if API server works after this change
 
                     _server.Start();
                     LOG.Info("API server started");
@@ -50,60 +62,61 @@ namespace HyperionScreenCap
             StartServer(hostname, port);
         }
 
-        [RestResource]
-        public class Resources
+        /// <summary>
+        /// DO NOT RENAME THIS METHOD. The name is used in the reflection code above.
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        [RestRoute(HttpMethod = HttpMethod.GET, PathInfo = "/API")]
+        private IHttpContext API(IHttpContext context)
         {
-            [RestRoute(HttpMethod = HttpMethod.GET, PathInfo = "/API")]
-            public IHttpContext API(IHttpContext context)
+            LOG.Info("API server command received");
+            context.Response.ContentType = ContentType.TEXT;
+            string responseText = "No valid API command received.";
+            string command = context.Request.QueryString["command"] ?? "";
+            string force = context.Request.QueryString["force"] ?? "false";
+
+            if ( !string.IsNullOrEmpty(command) )
             {
-                LOG.Info("API server command received");
-                context.Response.ContentType = ContentType.TEXT;
-                string responseText = "No valid API command received.";
-                string command = context.Request.QueryString["command"] ?? "";
-                string force = context.Request.QueryString["force"] ?? "false";
-
-                if ( !string.IsNullOrEmpty(command) )
+                LOG.Info($"Processing API command: {command}");
+                // Only process valid commands
+                if ( command == "ON" || command == "OFF" )
                 {
-                    LOG.Info($"Processing API command: {command}");
-                    // Only process valid commands
-                    if ( command == "ON" || command == "OFF" )
-                    {
 
-                        // Check for deactivate API between certain times
-                        if ( SettingsManager.ApiExcludedTimesEnabled && force.ToLower() == "false" )
+                    // Check for deactivate API between certain times
+                    if ( SettingsManager.ApiExcludedTimesEnabled && force.ToLower() == "false" )
+                    {
+                        if ( (DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
+                             DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
+                            ((SettingsManager.ApiExcludeTimeStart.TimeOfDay > SettingsManager.ApiExcludeTimeEnd.TimeOfDay) &&
+                             ((DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
+                               DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
+                              (DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
+                               DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeEnd.TimeOfDay))) )
                         {
-                            if ( (DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
-                                 DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
-                                ((SettingsManager.ApiExcludeTimeStart.TimeOfDay > SettingsManager.ApiExcludeTimeEnd.TimeOfDay) &&
-                                 ((DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
-                                   DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
-                                  (DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
-                                   DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeEnd.TimeOfDay))) )
-                            {
-                                responseText = "API exclude times enabled and within time range.";
-                                LOG.Info($"Sending response: {responseText}");
-                                context.Response.SendResponse(responseText);
-                                return context;
-                            }
+                            responseText = "API exclude times enabled and within time range.";
+                            LOG.Info($"Sending response: {responseText}");
+                            context.Response.SendResponse(responseText);
+                            return context;
                         }
-
-                        MainForm.ToggleCapture((MainForm.CaptureCommand) Enum.Parse(typeof(MainForm.CaptureCommand), command));
-                        responseText = $"API command {command} completed successfully.";
                     }
 
-                    if ( command == "STATE" )
-                    {
-                        responseText = $"{MainForm.IsScreenCaptureRunning()}";
-                    }
+                    _mainForm.ToggleCapture((MainForm.CaptureCommand) Enum.Parse(typeof(MainForm.CaptureCommand), command));
+                    responseText = $"API command {command} completed successfully.";
                 }
-                else
+
+                if ( command == "STATE" )
                 {
-                    LOG.Warn("API Command Empty / Invalid");
+                    responseText = $"{_mainForm.CaptureEnabled}";
                 }
-                LOG.Info($"Sending response: {responseText}");
-                context.Response.SendResponse(responseText);
-                return context;
             }
+            else
+            {
+                LOG.Warn("API Command Empty / Invalid");
+            }
+            LOG.Info($"Sending response: {responseText}");
+            context.Response.SendResponse(responseText);
+            return context;
         }
     }
 }

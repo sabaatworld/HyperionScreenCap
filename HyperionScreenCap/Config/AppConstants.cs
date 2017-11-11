@@ -34,21 +34,6 @@ namespace HyperionScreenCap.Config
         public const int PROTO_CLIENT_SOCKET_TIMEOUT = 2500;
 
         /// <summary>
-        /// Tray icon tooltip message displayed when Hyperion server is not connected.
-        /// </summary>
-        public const string TRAY_ICON_MSG_NOT_CONNECTED = "Hyperion Screen Capture (Not Connected)";
-
-        /// <summary>
-        /// Tray icon tooltip message displayed when screen capture is disabled.
-        /// </summary>
-        public const string TRAY_ICON_MSG_CAPTURE_DISABLED = "Hyperion Screen Capture (Disabled)";
-
-        /// <summary>
-        /// Tray icon tooltip message displayed when screen capture is enabled.
-        /// </summary>
-        public const string TRAY_ICON_MSG_CAPTURE_ENABLED = "Hyperion Screen Capture (Enabled)";
-
-        /// <summary>
         /// File name for debugging screen captured by this application.
         /// </summary>
         public static string DEBUG_IMAGE_FILE_NAME = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
@@ -59,5 +44,40 @@ namespace HyperionScreenCap.Config
         /// </summary>
         public static string LOG_FILE_NAME = "hyperion-screen-capture.log";
 
+        /// <summary>
+        /// Defines the constants related to the taskbar icon.
+        /// </summary>
+        public static class TrayIcon
+        {
+            /// <summary>
+            /// Tooltip message displayed when screen capture is disabled.
+            /// </summary>
+            public const string TOOLTIP_CAPTURE_DISABLED = "Hyperion Screen Capture (Disabled)";
+
+            /// <summary>
+            /// Tooltip message displayed when screen capture is enabled.
+            /// </summary>
+            public const string TOOLTIP_CAPTURE_ENABLED = "Hyperion Screen Capture (Enabled)";
+
+            /// <summary>
+            /// Start capture menu option text.
+            /// </summary>
+            public const string MENU_TXT_START_CAPTURE = "Start Capture";
+
+            /// <summary>
+            /// Stop capture menu option text.
+            /// </summary>
+            public const string MENU_TXT_STOP_CAPTURE = "Stop Capture";
+
+            /// <summary>
+            /// Setup menu option text.
+            /// </summary>
+            public const string MENU_TXT_SETUP = "Setup";
+
+            /// <summary>
+            /// Exit menu option text.
+            /// </summary>
+            public const string MENU_TXT_EXIT = "Exit";
+        }
     }
 }

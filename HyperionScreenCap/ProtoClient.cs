@@ -9,27 +9,38 @@ using log4net;
 
 namespace HyperionScreenCap
 {
-    internal static class ProtoClient
+    class ProtoClient : IDisposable
     {
         private static readonly ILog LOG = LogManager.GetLogger(typeof(ProtoClient));
-        public static bool Initialized { get; private set; }
 
-        private static TcpClient _socket;
-        private static Stream _stream;
-        private static int _hyperionPriority;
-        private static bool _initLock;
+        public bool Initialized { get; private set; }
 
-        public static void Init(string hyperionIp, int hyperionProtoPort = 19445, int priority = 10)
+        private string _host;
+        private int _port;
+        private int _priority;
+
+        private bool _initLock;
+        private TcpClient _socket;
+        private Stream _stream;
+
+        public ProtoClient(string host, int port, int priority)
+        {
+            _host = host;
+            _port = port;
+            _priority = priority;
+            Init();
+        }
+
+        private void Init()
         {
             if ( _initLock || IsConnected() )
             {
-                LOG.Info("Proto Client already initialized. Skipping request.");
+                LOG.Info($"{this} already initialized. Skipping request.");
                 return;
             }
-
             _initLock = true;
-            LOG.Info("Proto Client Init lock set");
-            _hyperionPriority = priority;
+            LOG.Info($"{this} Init lock set");
+
             _socket = new TcpClient
             {
                 SendTimeout = AppConstants.PROTO_CLIENT_SOCKET_TIMEOUT,
@@ -38,19 +49,19 @@ namespace HyperionScreenCap
 
             try
             {
-                _socket.Connect(hyperionIp, hyperionProtoPort);
+                _socket.Connect(_host, _port);
                 _stream = _socket.GetStream();
             }
             finally
             {
                 _initLock = false;
-                LOG.Info("Proto Client Init lock unset");
+                LOG.Info($"{this} Init lock unset");
             }
             Initialized = true;
-            LOG.Info("Proto Client initialized");
+            LOG.Info($"{this} initialized");
         }
 
-        public static bool IsConnected()
+        public bool IsConnected()
         {
             if ( _socket == null )
             {
@@ -60,23 +71,24 @@ namespace HyperionScreenCap
             return _socket.Connected;
         }
 
-        public static void Disconnect()
+        public void Dispose()
         {
-            LOG.Info("Disconnecting Proto Client");
+            LOG.Info($"Disconnecting {this}");
+            TryClearPriority(); // TODO : this can cause thread blocking issues
             _stream?.Dispose();
             _socket?.Close();
             _socket = null;
             Initialized = false;
-            LOG.Info("Proto Client disconnected");
+            LOG.Info($"{this} disconnected");
         }
 
-        public static void SendImageToServer(byte[] pixeldata, int width, int height)
+        public void SendImageToServer(byte[] pixeldata, int width, int height)
         {
             var imageRequest = ImageRequest.CreateBuilder()
                 .SetImagedata(ByteString.CopyFrom(pixeldata))
                 .SetImageheight(height)
                 .SetImagewidth(width)
-                .SetPriority(_hyperionPriority)
+                .SetPriority(_priority)
                 .SetDuration(SettingsManager.HyperionMessageDuration)
                 .Build();
 
@@ -88,24 +100,23 @@ namespace HyperionScreenCap
             SendRequest(request);
         }
 
-        public static void TryClearPriority(int priority)
+        public void TryClearPriority()
         {
             try
             {
-                LOG.Info("Clearing Hyperion priority");
-                ClearPriority(priority);
-                Thread.Sleep(50);
-                ClearPriority(priority);
-                LOG.Info("Hyperion priority cleared");
+                LOG.Info($"Clearing Hyperion priority for {this}");
+                ClearPriority();
+                Thread.Sleep(25);
+                ClearPriority();
+                LOG.Info($"Hyperion priority cleared for {this}");
             }
             catch ( Exception ex )
             {
-                LOG.Error("Failed to clear Hyperion priority", ex);
-                NotificationUtils.Error($"Failed to clear Hyperion priority. {ex.Message}");
+                LOG.Error($"Failed to clear Hyperion priority for {this}", ex);
             }
         }
 
-        private static void ClearPriority(int priority)
+        private void ClearPriority()
         {
             if ( !IsConnected() )
             {
@@ -113,7 +124,7 @@ namespace HyperionScreenCap
             }
 
             var clearRequest = ClearRequest.CreateBuilder()
-                .SetPriority(priority)
+                .SetPriority(_priority)
                 .Build();
 
             var request = HyperionRequest.CreateBuilder()
@@ -124,7 +135,7 @@ namespace HyperionScreenCap
             SendRequest(request);
         }
 
-        private static void SendRequest(IMessageLite request)
+        private void SendRequest(IMessageLite request)
         {
             if ( !_socket.Connected ) return;
             var size = request.SerializedSize;
@@ -144,7 +155,7 @@ namespace HyperionScreenCap
             //Console.WriteLine($@"Reply: {reply.ToString()}");
         }
 
-        private static HyperionReply ReceiveReply()
+        private HyperionReply ReceiveReply()
         {
             Stream input = _socket.GetStream();
             var header = new byte[4];
@@ -155,6 +166,11 @@ namespace HyperionScreenCap
             var reply = HyperionReply.ParseFrom(data);
 
             return reply;
+        }
+
+        public override String ToString()
+        {
+            return $"ProtoClient[{_host}:{_port} ({_priority})]";
         }
     }
 }
