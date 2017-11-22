@@ -1,4 +1,5 @@
 ﻿using HyperionScreenCap.Config;
+using HyperionScreenCap.Model;
 using log4net;
 using log4net.Config;
 using System;
@@ -59,8 +60,10 @@ namespace HyperionScreenCap
             // Migrate legacy settings
             SettingsManager.MigrateLegacySettings();
 
-            _mainForm = new MainForm();
-            Application.Run(_mainForm);
+            //_mainForm = new MainForm();
+            //Application.Run(_mainForm);
+            Application.Run(new SetupForm(null));
+            //Application.Run(new ServerPropertiesForm(HyperionTaskConfiguration.BuildUsingDefaultSettings()));
         }
 
         private static void ConfigureLog4Net()

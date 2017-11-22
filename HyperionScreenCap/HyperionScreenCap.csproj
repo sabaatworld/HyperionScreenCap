@@ -143,6 +143,7 @@
     <Compile Include="Form\ServerPropertiesForm.Designer.cs">
       <DependentUpon>ServerPropertiesForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\HyperionServer.cs" />
     <Compile Include="Model\HyperionTaskConfiguration.cs" />
     <Compile Include="Resources.Designer.cs">
       <AutoGen>True</AutoGen>

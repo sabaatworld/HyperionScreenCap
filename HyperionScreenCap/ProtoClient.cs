@@ -18,24 +18,25 @@ namespace HyperionScreenCap
         private string _host;
         private int _port;
         private int _priority;
+        private int _messageDuration;
 
         private bool _initLock;
         private TcpClient _socket;
         private Stream _stream;
 
-        public ProtoClient(string host, int port, int priority)
+        public ProtoClient(string host, int port, int priority, int messageDuration)
         {
             _host = host;
             _port = port;
             _priority = priority;
-            Init();
+            _messageDuration = messageDuration;
         }
 
-        private void Init()
+        public void Connect()
         {
             if ( _initLock || IsConnected() )
             {
-                LOG.Info($"{this} already initialized. Skipping request.");
+                LOG.Info($"{this} already connected. Skipping request.");
                 return;
             }
             _initLock = true;
@@ -58,7 +59,6 @@ namespace HyperionScreenCap
                 LOG.Info($"{this} Init lock unset");
             }
             Initialized = true;
-            LOG.Info($"{this} initialized");
         }
 
         public bool IsConnected()
@@ -89,7 +89,7 @@ namespace HyperionScreenCap
                 .SetImageheight(height)
                 .SetImagewidth(width)
                 .SetPriority(_priority)
-                .SetDuration(SettingsManager.HyperionMessageDuration)
+                .SetDuration(_messageDuration)
                 .Build();
 
             var request = HyperionRequest.CreateBuilder()

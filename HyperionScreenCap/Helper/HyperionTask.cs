@@ -18,7 +18,7 @@ namespace HyperionScreenCap.Helper
         private NotificationUtils _notificationUtils;
 
         private IScreenCapture _screenCapture;
-        private ProtoClient _protoClient;
+        private List<ProtoClient> _protoClients;
         public bool CaptureEnabled { get; private set; }
         private Thread _captureThread;
 
@@ -26,6 +26,7 @@ namespace HyperionScreenCap.Helper
         {
             this._configuration = configuration;
             this._notificationUtils = notificationUtils;
+            this._protoClients = new List<ProtoClient>();
         }
 
         private void InitScreenCapture()
@@ -61,64 +62,87 @@ namespace HyperionScreenCap.Helper
             }
         }
 
-        private String GetProtoInitFailedMsg()
+        private String GetProtoInitFailedMsg(ProtoClient protoClient)
         {
-            return $"Failed to connect to Hyperion server using {_protoClient}";
+            return $"Failed to connect to Hyperion server using {protoClient}";
         }
 
-        private void InitProtoClient()
+        private void InitProtoClients()
         {
-            if ( _protoClient != null && _protoClient.IsConnected() )
+            foreach ( HyperionServer server in _configuration.HyperionServers )
             {
-                // Proto client already initialized. Ignoring request.
-                return;
+                _protoClients.Add(new ProtoClient(server.Host, server.Port, server.Priority, server.MessageDuration));
             }
-            try
+        }
+
+        private void DisposeProtoClients()
+        {
+            foreach ( ProtoClient protoClient in _protoClients )
             {
-                LOG.Info($"{this}: Initializing Proto Client");
-                _protoClient?.Dispose();
-                // TODO: check for memory leak in protoClient
-                _protoClient = new ProtoClient(_configuration.HyperionHost, _configuration.HyperionPort, _configuration.HyperionPriority);
-                // Double checking since sometimes exceptions are not thrown even if connection fails
-                if ( _protoClient.IsConnected() )
+                protoClient?.Dispose();
+            }
+        }
+
+        private void ConnectProtoClients()
+        {
+            foreach ( ProtoClient protoClient in _protoClients )
+            {
+                if ( protoClient.IsConnected() )
                 {
-                    LOG.Info($"{this}: Proto Client initialized");
-                    _notificationUtils.Info($"Connected to Hyperion server using {_protoClient}!");
+                    // Proto client already initialized. Ignoring request.
+                    return;
                 }
-                else
-                    throw new Exception(GetProtoInitFailedMsg());
-            }
-            catch ( Exception ex )
-            {
-                throw new Exception(GetProtoInitFailedMsg(), ex);
+                try
+                {
+                    LOG.Info($"{this}: Connecting {protoClient}");
+                    protoClient?.Dispose();
+                    // TODO: check for memory leak in protoClient
+                    protoClient.Connect();
+                    // Double checking since sometimes exceptions are not thrown even if connection fails
+                    if ( protoClient.IsConnected() )
+                    {
+                        LOG.Info($"{this}: {protoClient} connected");
+                        _notificationUtils.Info($"Connected to Hyperion server using {protoClient}!");
+                    }
+                    else
+                        throw new Exception(GetProtoInitFailedMsg(protoClient));
+                }
+                catch ( Exception ex )
+                {
+                    throw new Exception(GetProtoInitFailedMsg(protoClient), ex);
+                }
             }
         }
 
         private void TransmitNextFrame()
         {
-            try
+            foreach ( ProtoClient protoClient in _protoClients )
             {
-                byte[] imageData = _screenCapture.Capture();
-                _protoClient.SendImageToServer(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight);
+                try
+                {
+                    byte[] imageData = _screenCapture.Capture();
+                    protoClient.SendImageToServer(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight);
 
-                // Uncomment the following to enable debugging
-                // MiscUtils.SaveRGBArrayToImageFile(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight, AppConstants.DEBUG_IMAGE_FILE_NAME);
-            }
-            catch ( Exception ex )
-            {
-                throw new Exception("Error occured during capture: " + ex.Message, ex);
+                    // Uncomment the following to enable debugging
+                    // MiscUtils.SaveRGBArrayToImageFile(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight, AppConstants.DEBUG_IMAGE_FILE_NAME);
+                }
+                catch ( Exception ex )
+                {
+                    throw new Exception("Error occured while sending image to server: " + ex.Message, ex);
+                }
             }
         }
 
         private void StartCapture()
         {
+            InitProtoClients();
             int captureAttempt = 1;
             while ( CaptureEnabled )
             {
                 try // This block will help retry capture before giving up
                 {
                     InitScreenCapture();
-                    InitProtoClient();
+                    ConnectProtoClients();
                     TransmitNextFrame();
                     _screenCapture.DelayNextCapture();
                     captureAttempt = 1; // Reset attempt count
@@ -150,14 +174,14 @@ namespace HyperionScreenCap.Helper
         private void TryStartCapture()
         {
             CaptureEnabled = true;
-            try // Properly dispose screenCapture object when turning off capture
+            try // Properly dispose everything object when turning off capture
             {
                 StartCapture();
             }
             finally
             {
                 _screenCapture?.Dispose();
-                _protoClient?.Dispose();
+                DisposeProtoClients();
             }
             LOG.Info($"{this}: Screen Capture finished");
         }

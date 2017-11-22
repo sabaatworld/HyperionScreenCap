@@ -1,8 +1,6 @@
 ﻿using HyperionScreenCap.Properties;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace HyperionScreenCap.Model
 {
@@ -10,10 +8,6 @@ namespace HyperionScreenCap.Model
     public class HyperionTaskConfiguration
     {
         public String Id { get; set; }
-        public String HyperionHost { get; set; }
-        public int HyperionPort { get; set; }
-        public int HyperionPriority { get; set; }
-        public int HyperionMessageDuration { get; set; }
         public CaptureMethod CaptureMethod { get; set; }
         public int Dx9CaptureWidth { get; set; }
         public int Dx9CaptureHeight { get; set; }
@@ -24,16 +18,16 @@ namespace HyperionScreenCap.Model
         public int Dx11ImageScalingFactor { get; set; }
         public int Dx11AdapterIndex { get; set; }
         public int Dx11MonitorIndex { get; set; }
+        public List<HyperionServer> HyperionServers { get; set; }
 
         public static HyperionTaskConfiguration BuildUsingLegacySettings()
         {
+            List<HyperionServer> hyperionServers = new List<HyperionServer>();
+            hyperionServers.Add(HyperionServer.BuildUsingLegacySettings());
+
             return new HyperionTaskConfiguration()
             {
                 Id = GetNewId(),
-                HyperionHost = Settings.Default.hyperionServerIP,
-                HyperionPort = Settings.Default.hyperionServerPort,
-                HyperionPriority = Settings.Default.hyperionMessagePriority,
-                HyperionMessageDuration = Settings.Default.hyperionMessageDuration,
                 CaptureMethod = Settings.Default.captureMethod,
                 Dx9CaptureHeight = Settings.Default.height,
                 Dx9CaptureWidth = Settings.Default.width,
@@ -43,7 +37,30 @@ namespace HyperionScreenCap.Model
                 Dx11FrameCaptureTimeout = Settings.Default.dx11FrameCaptureTimeout,
                 Dx11ImageScalingFactor = Settings.Default.dx11ImageScalingFactor,
                 Dx11AdapterIndex = Settings.Default.dx11AdapterIndex,
-                Dx11MonitorIndex = Settings.Default.dx11MonitorIndex
+                Dx11MonitorIndex = Settings.Default.dx11MonitorIndex,
+                HyperionServers = hyperionServers
+            };
+        }
+
+        public static HyperionTaskConfiguration BuildUsingDefaultSettings()
+        {
+            List<HyperionServer> hyperionServers = new List<HyperionServer>();
+            hyperionServers.Add(HyperionServer.BuildUsingDefaultSettings());
+
+            return new HyperionTaskConfiguration()
+            {
+                Id = GetNewId(),
+                CaptureMethod = CaptureMethod.DX11,
+                Dx9CaptureHeight = 64,
+                Dx9CaptureWidth = 64,
+                Dx9MonitorIndex = 0,
+                Dx9CaptureInterval = 5,
+                Dx11MaxFps = 60,
+                Dx11FrameCaptureTimeout = 1250,
+                Dx11ImageScalingFactor = 32,
+                Dx11AdapterIndex = 0,
+                Dx11MonitorIndex = 0,
+                HyperionServers = hyperionServers
             };
         }
 

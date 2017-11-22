@@ -67,8 +67,9 @@ namespace HyperionScreenCap
             _trayIcon.ContextMenuStrip = trayMenuIcons;
             _trayIcon.Visible = true;
 
+            // TODO change the following condition
             if ( SettingsManager.HyperionTaskConfigurations.Count == 0
-                || SettingsManager.HyperionTaskConfigurations.Count == 1 && SettingsManager.HyperionTaskConfigurations[0].HyperionHost.Equals("0.0.0.0") )
+                || SettingsManager.HyperionTaskConfigurations.Count == 1 && SettingsManager.HyperionTaskConfigurations[0].HyperionServers[0].Host.Equals("0.0.0.0") )
             {
                 LOG.Info("Saved settings not available. Prompting to configure app.");
                 MessageBox.Show("No configuration found, please setup in the next window.");
