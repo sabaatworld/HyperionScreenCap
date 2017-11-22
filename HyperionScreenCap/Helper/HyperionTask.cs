@@ -19,7 +19,7 @@ namespace HyperionScreenCap.Helper
 
         private IScreenCapture _screenCapture;
         private ProtoClient _protoClient;
-        public bool _captureEnabled { get; private set; } // TODO use this to monitor failures
+        public bool CaptureEnabled { get; private set; }
         private Thread _captureThread;
 
         public HyperionTask(HyperionTaskConfiguration configuration, NotificationUtils notificationUtils)
@@ -113,7 +113,7 @@ namespace HyperionScreenCap.Helper
         private void StartCapture()
         {
             int captureAttempt = 1;
-            while ( _captureEnabled )
+            while ( CaptureEnabled )
             {
                 try // This block will help retry capture before giving up
                 {
@@ -136,7 +136,7 @@ namespace HyperionScreenCap.Helper
                     {
                         LOG.Error($"{this}: Max screen capture attempts reached. Giving up.");
                         _notificationUtils.Error(ex.Message);
-                        _captureEnabled = false;
+                        CaptureEnabled = false;
                     }
                     else
                     {
@@ -149,7 +149,7 @@ namespace HyperionScreenCap.Helper
 
         private void TryStartCapture()
         {
-            _captureEnabled = true;
+            CaptureEnabled = true;
             try // Properly dispose screenCapture object when turning off capture
             {
                 StartCapture();
@@ -172,7 +172,7 @@ namespace HyperionScreenCap.Helper
         public void DisableCapture()
         {
             LOG.Info($"{this}: Disabling screen capture");
-            _captureEnabled = false;
+            CaptureEnabled = false;
         }
 
         public override String ToString()

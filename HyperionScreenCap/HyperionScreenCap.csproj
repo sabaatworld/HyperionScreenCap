@@ -144,6 +144,11 @@
       <DependentUpon>ServerPropertiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Model\HyperionTaskConfiguration.cs" />
+    <Compile Include="Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Util\MiscUtils.cs" />
     <Compile Include="Model\CaptureMethod.cs" />
     <Compile Include="Model\NotificationLevel.cs" />
@@ -156,11 +161,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="ProtoClient.cs" />
-    <Compile Include="Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Resources.resx</DependentUpon>
-    </Compile>
     <Compile Include="Config\SettingsManager.cs" />
     <Compile Include="Config\Settings.cs" />
     <Compile Include="Form\SetupForm.cs">
@@ -211,7 +211,6 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <None Include="Resources\ConfigFile.ico" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Hyperion-disabled.ico" />
@@ -272,8 +271,6 @@
     <Content Include="Installation Files\scripts\products\winversion.iss" />
     <None Include="Resources\gear.ico" />
     <None Include="Resources\cross.ico" />
-    <None Include="Resources\television--arrow.ico" />
-    <None Include="Resources\television--pencil.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Installation Files\Output\" />

@@ -58,14 +58,13 @@ namespace HyperionScreenCap
             _trayIcon.DoubleClick += TrayIcon_DoubleClick;
             _trayIcon.Icon = Resources.Hyperion_disabled;
             _notificationUtils = new NotificationUtils(_trayIcon);
-
             // Add menu to tray icon and show it.
             ContextMenuStrip trayMenuIcons = new ContextMenuStrip();
+            trayMenuIcons.ImageScalingSize = SystemInformation.SmallIconSize;
             trayMenuIcons.Items.Add(AppConstants.TrayIcon.MENU_TXT_START_CAPTURE, Resources.enable_capture.ToBitmap(), TrayIcon_OnCaptureToggleClick);
             trayMenuIcons.Items.Add(AppConstants.TrayIcon.MENU_TXT_SETUP, Resources.gear.ToBitmap(), TrayIcon_OnSetupClick);
             trayMenuIcons.Items.Add(AppConstants.TrayIcon.MENU_TXT_EXIT, Resources.cross.ToBitmap(), TrayIcon_OnExitClick);
             _trayIcon.ContextMenuStrip = trayMenuIcons;
-
             _trayIcon.Visible = true;
 
             if ( SettingsManager.HyperionTaskConfigurations.Count == 0
@@ -88,17 +87,15 @@ namespace HyperionScreenCap
 
         public void Init(bool reInit = false, bool forceOn = false)
         {
-            if ( !_initLock )
-            {
-                _initLock = true;
-                LOG.Info("Initialization lock set");
-                new Thread(() => ExecuteInitialization(reInit, forceOn)) { IsBackground = true }.Start();
-            }
-        }
-
-        private void ExecuteInitialization(bool reInit, bool forceOn)
-        {
             LOG.Info($"Initialization requested with parameters reInit={reInit}, forceOn={forceOn}");
+            if ( _initLock )
+            {
+                LOG.Info("Initialization already in progress. Ignoring request.");
+                return;
+            }
+            _initLock = true;
+            LOG.Info("Initialization lock set");
+
             // Stop current capture first on reinit
             if ( reInit )
             {
@@ -232,6 +229,7 @@ namespace HyperionScreenCap
                 _hyperionTasks.Add(hyperionTask);
             }
             CaptureEnabled = true;
+            new Thread(DisableCaptureOnFailure) { IsBackground = true }.Start();
             LOG.Info($"Enabled {_hyperionTasks.Count} screen capture(s)");
         }
 
@@ -247,30 +245,19 @@ namespace HyperionScreenCap
             LOG.Info($"Disabled {_hyperionTasks.Count} screen capture(s)");
         }
 
-        private void OnChangeMonitor(object sender, EventArgs e)
+        private void DisableCaptureOnFailure()
         {
-            LOG.Info("DX9 monitor selection changed using tray icon");
-            var selectedMenuItem = sender as ToolStripDropDownItem;
-            if ( selectedMenuItem != null )
+            while ( CaptureEnabled )
             {
-                int newMonitorIndex;
-                var selectedItem = selectedMenuItem.Text.Replace("#", string.Empty);
-                bool isValidInteger = int.TryParse(selectedItem, out newMonitorIndex);
-                if ( isValidInteger )
+                foreach ( HyperionTask task in _hyperionTasks )
                 {
-                    LOG.Info($"Selected new monitor index: {newMonitorIndex}");
-                    SettingsManager.MonitorIndex = newMonitorIndex;
-                    SettingsManager.SaveSettings();
-                    Init(true, true);
+                    if ( !task.CaptureEnabled )
+                    {
+                        ToggleCapture(CaptureCommand.OFF);
+                        break;
+                    }
                 }
-                else
-                {
-                    LOG.Info($"Selected monitor index was invalid integer: {selectedItem}");
-                }
-            }
-            else
-            {
-                LOG.Info("OnChangeMonitor selected item was null");
+                Thread.Sleep(AppConstants.CAPTURE_FAILURE_DETECTION_INTERVAL);
             }
         }
 

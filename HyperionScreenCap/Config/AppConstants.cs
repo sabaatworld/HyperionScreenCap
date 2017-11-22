@@ -34,6 +34,11 @@ namespace HyperionScreenCap.Config
         public const int PROTO_CLIENT_SOCKET_TIMEOUT = 2500;
 
         /// <summary>
+        /// Interval after which each capture thread is polled for failure.
+        /// </summary>
+        public const int CAPTURE_FAILURE_DETECTION_INTERVAL = 2000;
+
+        /// <summary>
         /// File name for debugging screen captured by this application.
         /// </summary>
         public static string DEBUG_IMAGE_FILE_NAME = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)

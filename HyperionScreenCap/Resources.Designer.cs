@@ -63,16 +63,6 @@ namespace HyperionScreenCap {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
-        internal static System.Drawing.Icon ConfigFile {
-            get {
-                object obj = ResourceManager.GetObject("ConfigFile", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
         internal static System.Drawing.Icon cross {
             get {
                 object obj = ResourceManager.GetObject("cross", resourceCulture);
@@ -160,26 +150,6 @@ namespace HyperionScreenCap {
         internal static string SetupFormHelp {
             get {
                 return ResourceManager.GetString("SetupFormHelp", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon television__arrow {
-            get {
-                object obj = ResourceManager.GetObject("television__arrow", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
-        /// </summary>
-        internal static System.Drawing.Icon television__pencil {
-            get {
-                object obj = ResourceManager.GetObject("television__pencil", resourceCulture);
-                return ((System.Drawing.Icon)(obj));
             }
         }
     }
