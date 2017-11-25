@@ -39,25 +39,12 @@ namespace HyperionScreenCap.Helper
             try
             {
                 LOG.Info($"{this}: Initializing screen capture");
-                switch ( _configuration.CaptureMethod )
-                {
-                    case CaptureMethod.DX9:
-                        _screenCapture = new DX9ScreenCapture(_configuration.Dx9MonitorIndex, _configuration.Dx9CaptureWidth, _configuration.Dx9CaptureHeight,
-                            _configuration.Dx9CaptureInterval);
-                        break;
-
-                    case CaptureMethod.DX11:
-                        _screenCapture = new DX11ScreenCapture(_configuration.Dx11AdapterIndex, _configuration.Dx11MonitorIndex, _configuration.Dx11ImageScalingFactor,
-                            _configuration.Dx11MaxFps, _configuration.Dx11FrameCaptureTimeout);
-                        break;
-
-                    default:
-                        throw new NotImplementedException($"The capture method {_configuration.CaptureMethod} is not supported yet");
-                }
+                _screenCapture.Initialize();
                 LOG.Info($"{this}: Screen capture initialized");
             }
             catch ( Exception ex )
             {
+                _screenCapture?.Dispose();
                 throw new Exception("Failed to initialize screen capture: " + ex.Message, ex);
             }
         }
@@ -67,11 +54,30 @@ namespace HyperionScreenCap.Helper
             return $"Failed to connect to Hyperion server using {protoClient}";
         }
 
-        private void InitProtoClients()
+        private void InstantiateProtoClients()
         {
             foreach ( HyperionServer server in _configuration.HyperionServers )
             {
                 _protoClients.Add(new ProtoClient(server.Host, server.Port, server.Priority, server.MessageDuration));
+            }
+        }
+
+        private void InstantiateScreenCapture()
+        {
+            switch ( _configuration.CaptureMethod )
+            {
+                case CaptureMethod.DX9:
+                    _screenCapture = new DX9ScreenCapture(_configuration.Dx9MonitorIndex, _configuration.Dx9CaptureWidth, _configuration.Dx9CaptureHeight,
+                        _configuration.Dx9CaptureInterval);
+                    break;
+
+                case CaptureMethod.DX11:
+                    _screenCapture = new DX11ScreenCapture(_configuration.Dx11AdapterIndex, _configuration.Dx11MonitorIndex, _configuration.Dx11ImageScalingFactor,
+                        _configuration.Dx11MaxFps, _configuration.Dx11FrameCaptureTimeout);
+                    break;
+
+                default:
+                    throw new NotImplementedException($"The capture method {_configuration.CaptureMethod} is not supported yet");
             }
         }
 
@@ -135,7 +141,8 @@ namespace HyperionScreenCap.Helper
 
         private void StartCapture()
         {
-            InitProtoClients();
+            InstantiateScreenCapture();
+            InstantiateProtoClients();
             int captureAttempt = 1;
             while ( CaptureEnabled )
             {

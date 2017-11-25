@@ -15,16 +15,26 @@ namespace HyperionScreenCap
     {
         private static readonly ILog LOG = LogManager.GetLogger(typeof(DX9ScreenCapture));
 
-        private readonly Device _device;
-        private Direct3D _direct3D;
         private int _monitorIndex;
-        private int _captureInterval;
-        private bool _disposed;
-
         public int CaptureWidth { get; }
         public int CaptureHeight { get; }
+        private int _captureInterval;
+
+        private Device _device;
+        private Direct3D _direct3D;
+
+        private bool _disposed;
 
         public DX9ScreenCapture(int monitorIndex, int captureWidth, int captureHeight, int captureInterval)
+        {
+            _monitorIndex = monitorIndex;
+            CaptureWidth = captureHeight;
+            CaptureHeight = captureHeight;
+            _captureInterval = captureInterval;
+            _disposed = true;
+        }
+
+        public void Initialize()
         {
             var presentParams = new PresentParameters
             {
@@ -33,13 +43,11 @@ namespace HyperionScreenCap
                 PresentationInterval = PresentInterval.Immediate
             };
 
-            _monitorIndex = GetMonitorIndex(monitorIndex);
+            _monitorIndex = GetMonitorIndex(_monitorIndex);
             _direct3D = new Direct3D();
             _device = new Device(_direct3D, _monitorIndex, DeviceType.Hardware, IntPtr.Zero,
                 CreateFlags.SoftwareVertexProcessing, presentParams);
-            CaptureWidth = captureHeight;
-            CaptureHeight = captureHeight;
-            _captureInterval = captureInterval;
+
             _disposed = false;
         }
 

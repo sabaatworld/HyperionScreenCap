@@ -8,6 +8,8 @@ using System.IO;
 using log4net;
 using System.Diagnostics;
 using HyperionScreenCap.Helper;
+using System.Collections.Generic;
+using System.Text;
 
 namespace HyperionScreenCap
 {
@@ -16,18 +18,13 @@ namespace HyperionScreenCap
         private static readonly ILog LOG = LogManager.GetLogger(typeof(SetupForm));
 
         private MainForm _mainForm;
+        private List<HyperionTaskConfiguration> _taskConfigurations;
 
         public SetupForm(MainForm mainForm)
         {
             LOG.Info("Instantiating SetupForm");
             _mainForm = mainForm;
             InitializeComponent();
-
-            // Automatically set the monitor index
-            for ( int i = 0; i < DisplayMonitor.EnumerateMonitors().Length; i++ )
-            {
-                cbMonitorIndex.Items.Add(i);
-            }
 
             LoadSettings();
 
@@ -42,14 +39,6 @@ namespace HyperionScreenCap
             {
                 LOG.Info("Loading settings using SettingsManager");
                 SettingsManager.LoadSetttings();
-                tbIPHostName.Text = SettingsManager.HyperionServerIp;
-                tbProtoPort.Text = SettingsManager.HyperionServerPort.ToString();
-                cbMessagePriority.Text = SettingsManager.HyperionMessagePriority.ToString();
-                tbMessageDuration.Text = SettingsManager.HyperionMessageDuration.ToString();
-                tbCaptureWidth.Text = SettingsManager.HyperionWidth.ToString();
-                tbCaptureHeight.Text = SettingsManager.HyperionHeight.ToString();
-                tbCaptureInterval.Text = SettingsManager.CaptureInterval.ToString();
-                cbMonitorIndex.Text = SettingsManager.MonitorIndex.ToString();
                 chkCaptureOnStartup.Checked = SettingsManager.CaptureOnStartup;
                 chkPauseUserSwitch.Checked = SettingsManager.PauseOnUserSwitch;
                 chkPauseSuspend.Checked = SettingsManager.PauseOnSystemSuspend;
@@ -58,15 +47,10 @@ namespace HyperionScreenCap
                 chkApiExcludeTimesEnabled.Checked = SettingsManager.ApiExcludedTimesEnabled;
                 tbApiExcludeStart.Text = SettingsManager.ApiExcludeTimeStart.ToString("HH:mm");
                 tbApiExcludeEnd.Text = SettingsManager.ApiExcludeTimeEnd.ToString("HH:mm");
-                rbcmDx9.Checked = SettingsManager.CaptureMethod == CaptureMethod.DX9;
-                rbcmDx11.Checked = SettingsManager.CaptureMethod == CaptureMethod.DX11;
-                tbDx11MaxFps.Text = SettingsManager.Dx11MaxFps.ToString();
-                tbDx11FrameCaptureTimeout.Text = SettingsManager.Dx11FrameCaptureTimeout.ToString();
                 chkCheckUpdate.Checked = SettingsManager.CheckUpdateOnStartup;
-
-                RestoreComboBoxValues();
-
                 cbNotificationLevel.Text = SettingsManager.NotificationLevel.ToString();
+                _taskConfigurations = SettingsManager.HyperionTaskConfigurations;
+                PopulateTaskConfigRows();
                 LOG.Info("Finished loading settings using SettingsManager");
             }
             catch ( Exception ex )
@@ -76,26 +60,53 @@ namespace HyperionScreenCap
             }
         }
 
-        private void RestoreComboBoxValues()
+        private void PopulateTaskConfigRows()
         {
-            LOG.Info("Resolving combo box values");
-            int scalingFactorIndexToSelect = 0;
-            foreach ( object obj in cbDx11ImgScalingFactor.Items )
+            dgTaskConfig.Rows.Clear();
+            foreach (HyperionTaskConfiguration taskConfiguration in _taskConfigurations)
             {
-                if ( obj.Equals(SettingsManager.Dx11ImageScalingFactor.ToString()) )
-                    break;
-                scalingFactorIndexToSelect++;
+                AddTaskCofigRow(taskConfiguration);
             }
-            cbDx11ImgScalingFactor.SelectedIndex = scalingFactorIndexToSelect;
+        }
 
-            cbDx11AdapterIndex.SelectedIndex = SettingsManager.Dx11AdapterIndex;
-            cbDx11MonitorIndex.SelectedIndex = SettingsManager.Dx11MonitorIndex;
+        private void AddTaskCofigRow(HyperionTaskConfiguration taskConfiguration)
+        {
+            String id = taskConfiguration.Id;
+
+            String captureSource;
+            switch(taskConfiguration.CaptureMethod)
+            {
+                case CaptureMethod.DX11:
+                    captureSource = $"DX11 Adap:{taskConfiguration.Dx11AdapterIndex} Mon:{taskConfiguration.Dx11MonitorIndex}";
+                    break;
+
+                case CaptureMethod.DX9:
+                    captureSource = $"DX9 Mon: {taskConfiguration.Dx9MonitorIndex}";
+                    break;
+
+                default:
+                    throw new NotImplementedException($"The capture method {taskConfiguration.CaptureMethod} is not supported");
+            }
+
+            StringBuilder hyperionServers = new StringBuilder();
+            foreach(HyperionServer server in taskConfiguration.HyperionServers) {
+                hyperionServers.Append($"{server.Host}:{server.Port}, ");
+            }
+            if ( hyperionServers.Length > 0 )
+                hyperionServers.Length = hyperionServers.Length - 2;
+            dgTaskConfig.Rows.Add(id, captureSource, hyperionServers);
         }
 
         private void btnSaveExit_Click(object sender, EventArgs e)
         {
             LOG.Info("Save button clicked");
+            if ( dgTaskConfig.Rows.Count == 0 )
+            {
+                MessageBox.Show("Screen capture settings cannot be empty. Click \"Add\" button to configure.");
+                return;
+            }
             SaveSettings();
+            Close();
         }
 
         private void SaveSettings()
@@ -114,14 +125,6 @@ namespace HyperionScreenCap
                     return;
                 }
                 LOG.Info("Saving settings using SettingsManager");
-                SettingsManager.HyperionServerIp = tbIPHostName.Text;
-                SettingsManager.HyperionServerPort = int.Parse(tbProtoPort.Text);
-                SettingsManager.HyperionMessagePriority = int.Parse(cbMessagePriority.Text);
-                SettingsManager.HyperionMessageDuration = int.Parse(tbMessageDuration.Text);
-                SettingsManager.HyperionWidth = int.Parse(tbCaptureWidth.Text);
-                SettingsManager.HyperionHeight = int.Parse(tbCaptureHeight.Text);
-                SettingsManager.CaptureInterval = int.Parse(tbCaptureInterval.Text);
-                SettingsManager.MonitorIndex = int.Parse(cbMonitorIndex.Text);
                 SettingsManager.CaptureOnStartup = chkCaptureOnStartup.Checked;
                 SettingsManager.PauseOnUserSwitch = chkPauseUserSwitch.Checked;
                 SettingsManager.PauseOnSystemSuspend = chkPauseSuspend.Checked;
@@ -130,17 +133,10 @@ namespace HyperionScreenCap
                 SettingsManager.ApiExcludedTimesEnabled = chkApiExcludeTimesEnabled.Checked;
                 SettingsManager.ApiExcludeTimeStart = DateTime.Parse(tbApiExcludeStart.Text);
                 SettingsManager.ApiExcludeTimeEnd = DateTime.Parse(tbApiExcludeEnd.Text);
-                SettingsManager.CaptureMethod = rbcmDx9.Checked ? CaptureMethod.DX9 : CaptureMethod.DX11;
-                SettingsManager.Dx11MaxFps = int.Parse(tbDx11MaxFps.Text);
-                SettingsManager.Dx11FrameCaptureTimeout = int.Parse(tbDx11FrameCaptureTimeout.Text);
-                SettingsManager.Dx11ImageScalingFactor = int.Parse(cbDx11ImgScalingFactor.SelectedItem.ToString());
-                SettingsManager.Dx11AdapterIndex = cbDx11AdapterIndex.SelectedIndex;
-                SettingsManager.Dx11MonitorIndex = cbDx11MonitorIndex.SelectedIndex;
                 SettingsManager.CheckUpdateOnStartup = chkCheckUpdate.Checked;
-
                 SettingsManager.NotificationLevel =
                     (NotificationLevel) Enum.Parse(typeof(NotificationLevel), cbNotificationLevel.Text);
-
+                SettingsManager.HyperionTaskConfigurations = _taskConfigurations;
                 SettingsManager.SaveSettings();
                 LOG.Info("Saved settings using SettingsManager");
                 _mainForm.Init(true);
@@ -150,8 +146,6 @@ namespace HyperionScreenCap
                 LOG.Error("Failed to save settings from the setup form", ex);
                 MessageBox.Show($"Error occcured during SaveSettings(): {ex.Message}");
             }
-
-            Close();
         }
 
         private static bool ValidatorInt(string input, int minValue, int maxValue, bool validateMaxValue)
@@ -192,83 +186,6 @@ namespace HyperionScreenCap
             return IsValid;
         }
 
-        private void tbProtoPort_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 1;
-            const int maxValue = 65535;
-            if ( ValidatorInt(tbProtoPort.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for port");
-                e.Cancel = true;
-            }
-        }
-
-        private void cbMessagePriority_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 0;
-            const int maxValue = 0;
-            if ( ValidatorInt(cbMessagePriority.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for message priority");
-                e.Cancel = true;
-            }
-        }
-
-        private void cbMonitorIndex_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 0;
-            const int maxValue = 0;
-            if ( ValidatorInt(cbMonitorIndex.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for monitor index");
-                e.Cancel = true;
-            }
-        }
-
-        private void tbMessageDuration_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = -1;
-            const int maxValue = 0;
-            if ( ValidatorInt(tbMessageDuration.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for message duration");
-                e.Cancel = true;
-            }
-        }
-
-        private void tbCaptureWidth_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 0;
-            const int maxValue = 0;
-            if ( ValidatorInt(tbCaptureWidth.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for capture width");
-                e.Cancel = true;
-            }
-        }
-
-        private void tbCaptureHeight_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 0;
-            const int maxValue = 0;
-            if ( ValidatorInt(tbCaptureHeight.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for capture height");
-                e.Cancel = true;
-            }
-        }
-
-        private void tbCaptureInterval_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 0;
-            const int maxValue = 0;
-            if ( ValidatorInt(tbCaptureInterval.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for capture interval");
-                e.Cancel = true;
-            }
-        }
-
         private void tbApiPort_Validating(object sender, CancelEventArgs e)
         {
             const int minValue = 1;
@@ -294,28 +211,6 @@ namespace HyperionScreenCap
             if ( ValidatorDateTime(tbApiExcludeEnd.Text) == false )
             {
                 MessageBox.Show("Error in excluded API end time", "Error in excluded API end time", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                e.Cancel = true;
-            }
-        }
-
-        private void tbDx11FrameCaptureTimeout_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 0;
-            const int maxValue = 0;
-            if ( ValidatorInt(tbDx11FrameCaptureTimeout.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for DX11 frame capture timeout");
-                e.Cancel = true;
-            }
-        }
-
-        private void tbDx11MaxFps_Validating(object sender, CancelEventArgs e)
-        {
-            const int minValue = 1;
-            const int maxValue = 0;
-            if ( ValidatorInt(tbDx11MaxFps.Text, minValue, maxValue, false) == false )
-            {
-                MessageBox.Show(@"Invalid integer filled for DX11 maximum FPS");
                 e.Cancel = true;
             }
         }
@@ -350,6 +245,60 @@ namespace HyperionScreenCap
         private void btnViewLogs_Click(object sender, EventArgs e)
         {
             Process.Start(MiscUtils.GetLogDirectory());
+        }
+
+        private void btnAddTaskConfig_Click(object sender, EventArgs e)
+        {
+            ServerPropertiesForm editPropFrm = new ServerPropertiesForm(HyperionTaskConfiguration.BuildUsingDefaultSettings());
+            editPropFrm.ShowDialog();
+            if ( editPropFrm.SaveRequested )
+            {
+                _taskConfigurations.Add(editPropFrm.TaskConfiguration);
+                PopulateTaskConfigRows();
+            }
+        }
+
+        private void btnRemoveTaskConfig_Click(object sender, EventArgs e)
+        {
+            int selectedRowIndex = dgTaskConfig.SelectedRows[0].Index;
+            _taskConfigurations.RemoveAt(selectedRowIndex);
+            PopulateTaskConfigRows();
+        }
+
+        private void btnEditTaskConfig_Click(object sender, EventArgs e)
+        {
+            EditCurrentlySelectedTaskConfiguration();
+        }
+
+        private void EditCurrentlySelectedTaskConfiguration()
+        {
+            int selectedRowIndex = dgTaskConfig.SelectedRows[0].Index;
+            ServerPropertiesForm editPropFrm = new ServerPropertiesForm(_taskConfigurations[selectedRowIndex]);
+            editPropFrm.ShowDialog();
+            if ( editPropFrm.SaveRequested )
+            {
+                _taskConfigurations[selectedRowIndex] = editPropFrm.TaskConfiguration;
+                PopulateTaskConfigRows();
+            }
+        }
+
+        private void dgTaskConfig_SelectionChanged(object sender, EventArgs e)
+        {
+            if ( dgTaskConfig.SelectedRows.Count > 0 )
+            {
+                btnEditTaskConfig.Enabled = true;
+                btnRemoveTaskConfig.Enabled = true;
+            } else
+            {
+                btnEditTaskConfig.Enabled = false;
+                btnRemoveTaskConfig.Enabled = false;
+            }
+        }
+
+        private void dgTaskConfig_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if ( dgTaskConfig.SelectedRows.Count > 0 )
+                EditCurrentlySelectedTaskConfiguration();
         }
     }
 }

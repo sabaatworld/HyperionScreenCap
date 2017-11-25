@@ -17,12 +17,14 @@ namespace HyperionScreenCap
 
         public HyperionTaskConfiguration TaskConfiguration { get; private set; }
         public bool SaveRequested { get; private set; }
+        private HyperionServer _defaultServerConfiguration;
 
         public ServerPropertiesForm(HyperionTaskConfiguration taskConfiguration)
         {
+            this._defaultServerConfiguration = HyperionServer.BuildUsingDefaultSettings();
             this.TaskConfiguration = taskConfiguration;
-            this.Text = $"{this.Text} - {taskConfiguration.Id}";
             InitializeComponent();
+            this.Text = $"{this.Text} - {taskConfiguration.Id}";
             InitFormFields();
         }
 
@@ -43,6 +45,20 @@ namespace HyperionScreenCap
             var hyperionServersBindingList = new BindingList<HyperionServer>(TaskConfiguration.HyperionServers);
             var hyperionServersDataSource = new BindingSource(hyperionServersBindingList, null);
             dgHyperionAddress.DataSource = hyperionServersDataSource;
+        }
+
+        private void SaveFormFields()
+        {
+            TaskConfiguration.CaptureMethod = rbcmDx11.Checked ? CaptureMethod.DX11 : CaptureMethod.DX9;
+            TaskConfiguration.Dx11AdapterIndex = int.Parse(cbDx11AdapterIndex.SelectedItem.ToString());
+            TaskConfiguration.Dx11MonitorIndex = int.Parse(cbDx11MonitorIndex.SelectedItem.ToString());
+            TaskConfiguration.Dx11FrameCaptureTimeout = int.Parse(tbDx11FrameCaptureTimeout.Text);
+            TaskConfiguration.Dx11ImageScalingFactor = int.Parse(cbDx11ImageScalingFactor.SelectedItem.ToString());
+            TaskConfiguration.Dx11MaxFps = int.Parse(tbDx11MaxFps.Text);
+            TaskConfiguration.Dx9MonitorIndex = int.Parse(cbDx9MonitorIndex.SelectedItem.ToString());
+            TaskConfiguration.Dx9CaptureWidth = int.Parse(tbDx9CaptureWidth.Text);
+            TaskConfiguration.Dx9CaptureHeight = int.Parse(tbDx9CaptureHeight.Text);
+            TaskConfiguration.Dx9CaptureInterval = int.Parse(tbDx9CaptureInterval.Text);
         }
 
         private void EnableRelevantDxFields(CaptureMethod captureMethod)
@@ -103,9 +119,33 @@ namespace HyperionScreenCap
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            // TODO validate all fields
+            bool validServerFound = false;
+            // Validate server rows using IP address default value
+            for ( int i = 0; i < TaskConfiguration.HyperionServers.Count; i++ )
+            {
+                HyperionServer server = TaskConfiguration.HyperionServers[i];
+                if ( !_defaultServerConfiguration.Host.Equals(server.Host) )
+                {
+                    validServerFound = true;
+                    break;
+                }
+            }
+            // Check if all rows are invalid
+            if ( !validServerFound )
+            {
+                MessageBox.Show("All Hyperion server host names are invalid. Please sepcify a valid Hyperion server configuraion.");
+                return;
+            }
+
+            TaskConfiguration.HyperionServers.RemoveAll(server => _defaultServerConfiguration.Host.Equals(server.Host));
             SaveRequested = true;
             Close();
+        }
+
+        public new void Close()
+        {
+            SaveFormFields();
+            base.Close();
         }
 
         private void ServerPropertiesForm_Shown(object sender, EventArgs e)
@@ -125,7 +165,7 @@ namespace HyperionScreenCap
 
         private void PreventNonNumeric_KeyPressEventHandler(object sender, KeyPressEventArgs e)
         {
-            if ( !char.IsDigit(e.KeyChar) )
+            if ( !char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) )
             {
                 e.Handled = true;
             }
@@ -133,11 +173,10 @@ namespace HyperionScreenCap
 
         private void dgHyperionAddress_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            HyperionServer defaultServerConfiguration = HyperionServer.BuildUsingDefaultSettings();
-            e.Row.Cells[0].Value = defaultServerConfiguration.Host;
-            e.Row.Cells[1].Value = defaultServerConfiguration.Port;
-            e.Row.Cells[2].Value = defaultServerConfiguration.Priority;
-            e.Row.Cells[3].Value = defaultServerConfiguration.MessageDuration;
+            e.Row.Cells[0].Value = _defaultServerConfiguration.Host;
+            e.Row.Cells[1].Value = _defaultServerConfiguration.Port;
+            e.Row.Cells[2].Value = _defaultServerConfiguration.Priority;
+            e.Row.Cells[3].Value = _defaultServerConfiguration.MessageDuration;
         }
 
         private void rbcmDx11_CheckedChanged(object sender, EventArgs e)

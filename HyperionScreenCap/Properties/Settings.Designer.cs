@@ -206,30 +206,6 @@ namespace HyperionScreenCap.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("False")]
-        public bool captureOnStartup {
-            get {
-                return ((bool)(this["captureOnStartup"]));
-            }
-            set {
-                this["captureOnStartup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int apiPort {
-            get {
-                return ((int)(this["apiPort"]));
-            }
-            set {
-                this["apiPort"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool apiEnabled {
             get {
                 return ((bool)(this["apiEnabled"]));
@@ -302,18 +278,6 @@ namespace HyperionScreenCap.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("True")]
-        public bool checkUpdateOnStartup {
-            get {
-                return ((bool)(this["checkUpdateOnStartup"]));
-            }
-            set {
-                this["checkUpdateOnStartup"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool upgradeRequired {
             get {
                 return ((bool)(this["upgradeRequired"]));
@@ -344,6 +308,42 @@ namespace HyperionScreenCap.Properties {
             }
             set {
                 this["migrateLegacyHyperionConfiguration"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool captureOnStartup {
+            get {
+                return ((bool)(this["captureOnStartup"]));
+            }
+            set {
+                this["captureOnStartup"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("9191")]
+        public int apiPort {
+            get {
+                return ((int)(this["apiPort"]));
+            }
+            set {
+                this["apiPort"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool checkUpdateOnStartup {
+            get {
+                return ((bool)(this["checkUpdateOnStartup"]));
+            }
+            set {
+                this["checkUpdateOnStartup"] = value;
             }
         }
     }

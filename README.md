@@ -21,10 +21,17 @@ The program uses DirectX 9/11 to capture the screen, resize it and send it to th
 
 The application can be configured using the setup window which can be accessed by right clicking on the system tray icon. The defaults for most of the settings should work out of the box. Description of the configuration parameters can be found on the help tab of the setup window.
 
-## Screenshots
+## Setup Window
 
-![Setup Window Generic Tab](Screenshots/setup-generic.JPG)
+### Manage screen capture configurations and other application level settings.
 
-![Setup Window Advanced Tab](Screenshots/setup-advanced.JPG)
+![Setup Window General Tab](Screenshots/setup-general.JPG)
+
+
+### Select between DirectX11 & DirectX9 capture methods and define one or more Hyperion server destinations.
+
+![Setup Window Edit Capture Configuration](Screenshots/setup-edit-capture-configuration.JPG)
+
+### Use the help tab to understand how to configure screen captures.
 
 ![Setup Window Help Tab](Screenshots/setup-help.JPG)

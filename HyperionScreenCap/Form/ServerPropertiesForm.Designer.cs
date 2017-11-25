@@ -63,6 +63,7 @@
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
+            this.label10 = new System.Windows.Forms.Label();
             this.gbCaptureApi.SuspendLayout();
             this.tblScreenCaptureMethod.SuspendLayout();
             this.tblDx9Values.SuspendLayout();
@@ -416,7 +417,7 @@
             this.gBHyperionServers.Controls.Add(this.dgHyperionAddress);
             this.gBHyperionServers.Location = new System.Drawing.Point(1394, 12);
             this.gBHyperionServers.Name = "gBHyperionServers";
-            this.gBHyperionServers.Size = new System.Drawing.Size(1271, 821);
+            this.gBHyperionServers.Size = new System.Drawing.Size(1271, 759);
             this.gBHyperionServers.TabIndex = 8;
             this.gBHyperionServers.TabStop = false;
             this.gBHyperionServers.Text = "Hyperion Server Configuration";
@@ -431,9 +432,11 @@
             this.clmnMessageDuration});
             this.dgHyperionAddress.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgHyperionAddress.Location = new System.Drawing.Point(3, 34);
+            this.dgHyperionAddress.MultiSelect = false;
             this.dgHyperionAddress.Name = "dgHyperionAddress";
+            this.dgHyperionAddress.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgHyperionAddress.RowTemplate.Height = 40;
-            this.dgHyperionAddress.Size = new System.Drawing.Size(1265, 784);
+            this.dgHyperionAddress.Size = new System.Drawing.Size(1265, 722);
             this.dgHyperionAddress.TabIndex = 12;
             this.dgHyperionAddress.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgHyperionAddress_DefaultValuesNeeded);
             this.dgHyperionAddress.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgHyperionAddress_EditingControlShowing);
@@ -520,11 +523,23 @@
             this.tableLayoutPanel1.Size = new System.Drawing.Size(2653, 100);
             this.tableLayoutPanel1.TabIndex = 11;
             // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(1403, 801);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(1007, 36);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "- Use the \"Delete\" key to remove the selected Hyperion server configuration";
+            // 
             // ServerPropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(2671, 990);
+            this.Controls.Add(this.label10);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.gBHyperionServers);
             this.Controls.Add(this.gbCaptureApi);
@@ -545,6 +560,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dgHyperionAddress)).EndInit();
             this.tableLayoutPanel1.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -584,5 +600,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnPort;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnPriority;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnMessageDuration;
+        private System.Windows.Forms.Label label10;
     }
 }

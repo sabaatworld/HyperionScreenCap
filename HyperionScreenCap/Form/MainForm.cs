@@ -28,6 +28,7 @@ namespace HyperionScreenCap
         private NotifyIcon _trayIcon;
         private NotificationUtils _notificationUtils;
 
+        private Thread _uiThread;
         private bool _initLock = false;
         private bool _captureSuspended = false;
         private bool _captureToggleInProgress = false;
@@ -47,6 +48,7 @@ namespace HyperionScreenCap
         {
             LOG.Info("Instantiating MainForm");
             InitializeComponent();
+            _uiThread = Thread.CurrentThread;
             SettingsManager.LoadSetttings();
 
             if ( SettingsManager.CheckUpdateOnStartup )
@@ -146,7 +148,18 @@ namespace HyperionScreenCap
                 LOG.Info($"Toggle capture in progress. Ignoring command: {command}");
                 return;
             }
-            GetCaptureToggleTrayMenuItem().Enabled = false;
+
+            if(OnUiThread())
+            {
+                GetCaptureToggleTrayMenuItem().Enabled = false;
+            } else
+            {
+                Invoke(new Action(() =>
+                {
+                    GetCaptureToggleTrayMenuItem().Enabled = false;
+                }));
+            }
+
             _captureToggleInProgress = true;
             LOG.Info("Toggle capture lock set");
 
@@ -217,6 +230,11 @@ namespace HyperionScreenCap
         private ToolStripItem GetCaptureToggleTrayMenuItem()
         {
             return _trayIcon.ContextMenuStrip.Items[0];
+        }
+
+        private bool OnUiThread()
+        {
+            return Thread.CurrentThread == _uiThread;
         }
 
         private void EnableCapture()

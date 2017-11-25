@@ -23,8 +23,6 @@ namespace HyperionScreenCap
         [System.Runtime.InteropServices.DllImport("user32.dll")]
         private static extern bool SetProcessDPIAware();
 
-        private static MainForm _mainForm;
-
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -60,10 +58,8 @@ namespace HyperionScreenCap
             // Migrate legacy settings
             SettingsManager.MigrateLegacySettings();
 
-            //_mainForm = new MainForm();
-            //Application.Run(_mainForm);
-            Application.Run(new SetupForm(null));
-            //Application.Run(new ServerPropertiesForm(HyperionTaskConfiguration.BuildUsingDefaultSettings()));
+            MainForm _mainForm = new MainForm();
+            Application.Run(_mainForm);
         }
 
         private static void ConfigureLog4Net()

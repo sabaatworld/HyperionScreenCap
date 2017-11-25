@@ -11,6 +11,8 @@ namespace HyperionScreenCap.Capture
         int CaptureWidth { get; }
         int CaptureHeight { get; }
 
+        void Initialize();
+
         byte[] Capture();
 
         void DelayNextCapture();

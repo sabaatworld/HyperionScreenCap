@@ -17,6 +17,12 @@ namespace HyperionScreenCap
 {
     class DX11ScreenCapture : IScreenCapture
     {
+        private int _adapterIndex;
+        private int _monitorIndex;
+        private int _scalingFactor;
+        private int _maxFps;
+        private int _frameCaptureTimeout;
+
         private Factory1 _factory;
         private Adapter _adapter;
         private Output _output;
@@ -33,11 +39,10 @@ namespace HyperionScreenCap
         private int _minCaptureTime;
         private Stopwatch _captureTimer;
         private bool _desktopDuplicatorInvalid;
-        private int _frameCaptureTimeout;
         private bool _disposed;
 
-        public int CaptureWidth { get; }
-        public int CaptureHeight { get; }
+        public int CaptureWidth { get; private set; }
+        public int CaptureHeight { get; private set; }
 
         public static String GetAvailableMonitors()
         {
@@ -62,14 +67,24 @@ namespace HyperionScreenCap
 
         public DX11ScreenCapture(int adapterIndex, int monitorIndex, int scalingFactor, int maxFps, int frameCaptureTimeout)
         {
+            _adapterIndex = adapterIndex;
+            _monitorIndex = monitorIndex;
+            _scalingFactor = scalingFactor;
+            _maxFps = maxFps;
+            _frameCaptureTimeout = frameCaptureTimeout;
+            _disposed = true;
+        }
+
+        public void Initialize()
+        {
             int mipLevels;
-            if ( scalingFactor == 1 )
+            if ( _scalingFactor == 1 )
                 mipLevels = 1;
-            else if ( scalingFactor > 0 && scalingFactor % 2 == 0 )
+            else if ( _scalingFactor > 0 && _scalingFactor % 2 == 0 )
             {
                 /// Mip level for a scaling factor other than one is computed as follows:
                 /// 2^n = 2 + n - 1 where LHS is the scaling factor and RHS is the MipLevels value.
-                _scalingFactorLog2 = Convert.ToInt32(Math.Log(scalingFactor, 2));
+                _scalingFactorLog2 = Convert.ToInt32(Math.Log(_scalingFactor, 2));
                 mipLevels = 2 + _scalingFactorLog2 - 1;
             }
             else
@@ -77,21 +92,21 @@ namespace HyperionScreenCap
 
             // Create DXGI Factory1
             _factory = new Factory1();
-            _adapter = _factory.GetAdapter1(adapterIndex);
+            _adapter = _factory.GetAdapter1(_adapterIndex);
 
             // Create device from Adapter
             _device = new SharpDX.Direct3D11.Device(_adapter);
 
             // Get DXGI.Output
-            _output = _adapter.GetOutput(monitorIndex);
+            _output = _adapter.GetOutput(_monitorIndex);
             _output1 = _output.QueryInterface<Output1>();
 
             // Width/Height of desktop to capture
             _width = _output.Description.DesktopBounds.Right;
             _height = _output.Description.DesktopBounds.Bottom;
 
-            CaptureWidth = _width / scalingFactor;
-            CaptureHeight = _height / scalingFactor;
+            CaptureWidth = _width / _scalingFactor;
+            CaptureHeight = _height / _scalingFactor;
 
             // Create Staging texture CPU-accessible
             var stagingTextureDesc = new Texture2DDescription
@@ -126,8 +141,7 @@ namespace HyperionScreenCap
             _smallerTexture = new Texture2D(_device, smallerTextureDesc);
             _smallerTextureView = new ShaderResourceView(_device, _smallerTexture);
 
-            _minCaptureTime = 1000 / maxFps;
-            _frameCaptureTimeout = frameCaptureTimeout;
+            _minCaptureTime = 1000 / _maxFps;
             _captureTimer = new Stopwatch();
             _disposed = false;
 
