@@ -67,6 +67,7 @@
             this.btnViewLogs = new System.Windows.Forms.Button();
             this.btnSaveExit = new System.Windows.Forms.Button();
             this.lblVersion = new System.Windows.Forms.Label();
+            this.btnDonate = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPageGeneric.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgTaskConfig)).BeginInit();
@@ -528,12 +529,24 @@
             this.lblVersion.TabIndex = 11;
             this.lblVersion.Text = "Version: X.X";
             // 
+            // btnDonate
+            // 
+            this.btnDonate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnDonate.Location = new System.Drawing.Point(653, 729);
+            this.btnDonate.Name = "btnDonate";
+            this.btnDonate.Size = new System.Drawing.Size(273, 65);
+            this.btnDonate.TabIndex = 100;
+            this.btnDonate.Text = "Donate";
+            this.btnDonate.UseVisualStyleBackColor = true;
+            this.btnDonate.Click += new System.EventHandler(this.btnDonate_Click);
+            // 
             // SetupForm
             // 
             this.AcceptButton = this.btnSaveExit;
             this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1867, 809);
+            this.Controls.Add(this.btnDonate);
             this.Controls.Add(this.btnViewLogs);
             this.Controls.Add(this.btnCheckUpdates);
             this.Controls.Add(this.lblVersion);
@@ -605,5 +618,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnCaptureSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnHyperionServers;
         private System.Windows.Forms.Button btnEditTaskConfig;
+        private System.Windows.Forms.Button btnDonate;
     }
 }

@@ -124,6 +124,12 @@
   <ItemGroup>
     <Compile Include="ApiServer.cs" />
     <Compile Include="Capture\IScreenCapture.cs" />
+    <Compile Include="Form\DonateForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form\DonateForm.Designer.cs">
+      <DependentUpon>DonateForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Helper\HyperionTask.cs" />
     <Compile Include="Config\AppConstants.cs" />
     <Compile Include="Capture\Dx11ScreenCapture.cs" />
@@ -178,6 +184,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Form\DonateForm.resx">
+      <DependentUpon>DonateForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -220,6 +229,8 @@
     <None Include="Resources\Hyperion-enabled.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\don-eth.png" />
+    <None Include="Resources\don-btc.png" />
     <None Include="Resources\enable_capture.ico" />
     <None Include="Resources\disable_capture.ico" />
     <None Include="Resources\LogConfiguration.xml" />

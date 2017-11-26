@@ -300,5 +300,11 @@ namespace HyperionScreenCap
             if ( dgTaskConfig.SelectedRows.Count > 0 )
                 EditCurrentlySelectedTaskConfiguration();
         }
+
+        private void btnDonate_Click(object sender, EventArgs e)
+        {
+            DonateForm donateForm = new DonateForm();
+            donateForm.ShowDialog();
+        }
     }
 }

@@ -545,6 +545,7 @@
             this.Controls.Add(this.gbCaptureApi);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ServerPropertiesForm";
             this.Text = "Hyperion Screen Capture - Capture Task Details";
