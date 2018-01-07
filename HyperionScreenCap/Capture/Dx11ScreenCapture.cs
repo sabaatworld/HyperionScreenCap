@@ -225,6 +225,7 @@ namespace HyperionScreenCap
             finally
             {
                 screenResource?.Dispose();
+                _device.ImmediateContext.UnmapSubresource(_stagingTexture, 0);
                 // Ignore DXGI_ERROR_INVALID_CALL, DXGI_ERROR_ACCESS_LOST errors since capture is already complete
                 try { _duplicatedOutput.ReleaseFrame(); } catch { }
             }
