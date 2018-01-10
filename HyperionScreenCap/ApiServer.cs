@@ -34,9 +34,8 @@ namespace HyperionScreenCap
                         Port = port
                     };
 
-                    var methodInfo = typeof(ApiServer).GetMethod("API");
-                    var apiRoute = new Route(methodInfo);
-                    _server.Router.Register(apiRoute); // TODO : Test if API server works after this change
+                    var apiRoute = new Route(API);
+                    _server.Router.Register(apiRoute);
 
                     _server.Start();
                     LOG.Info("API server started");
