@@ -225,7 +225,8 @@ namespace HyperionScreenCap
             finally
             {
                 screenResource?.Dispose();
-                _device.ImmediateContext.UnmapSubresource(_stagingTexture, 0);
+                // Fixed OUT_OF_MEMORY issue on AMD Radeon cards. Ignoring all exceptions during unmapping.
+                try { _device.ImmediateContext.UnmapSubresource(_stagingTexture, 0); } catch { };
                 // Ignore DXGI_ERROR_INVALID_CALL, DXGI_ERROR_ACCESS_LOST errors since capture is already complete
                 try { _duplicatedOutput.ReleaseFrame(); } catch { }
             }

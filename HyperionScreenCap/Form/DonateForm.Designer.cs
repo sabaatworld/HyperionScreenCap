@@ -47,18 +47,20 @@
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.900001F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 27);
+            this.label1.Location = new System.Drawing.Point(4, 11);
+            this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(1909, 113);
+            this.label1.Size = new System.Drawing.Size(716, 47);
             this.label1.TabIndex = 0;
             this.label1.Text = "Thank you for using the enhanced Hyperion Screen Grabber for Windows!";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 196);
+            this.label2.Location = new System.Drawing.Point(4, 82);
+            this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(110, 32);
+            this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 2;
             this.label2.Text = "Bitcoin:";
             // 
@@ -66,19 +68,21 @@
             // 
             this.textBox1.BackColor = System.Drawing.SystemColors.Info;
             this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(128, 190);
+            this.textBox1.Location = new System.Drawing.Point(48, 80);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.textBox1.Name = "textBox1";
             this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(677, 41);
+            this.textBox1.Size = new System.Drawing.Size(256, 21);
             this.textBox1.TabIndex = 3;
             this.textBox1.Text = "167qszqTPdZMihaivMihzGR3ArEj1pLUaP";
             // 
             // pictureBox1
             // 
             this.pictureBox1.Image = global::HyperionScreenCap.Resources.don_btc;
-            this.pictureBox1.Location = new System.Drawing.Point(205, 260);
+            this.pictureBox1.Location = new System.Drawing.Point(77, 109);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(400, 400);
+            this.pictureBox1.Size = new System.Drawing.Size(150, 168);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox1.TabIndex = 4;
             this.pictureBox1.TabStop = false;
@@ -86,9 +90,10 @@
             // pictureBox2
             // 
             this.pictureBox2.Image = global::HyperionScreenCap.Resources.don_eth;
-            this.pictureBox2.Location = new System.Drawing.Point(1194, 260);
+            this.pictureBox2.Location = new System.Drawing.Point(448, 109);
+            this.pictureBox2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.pictureBox2.Name = "pictureBox2";
-            this.pictureBox2.Size = new System.Drawing.Size(400, 400);
+            this.pictureBox2.Size = new System.Drawing.Size(150, 168);
             this.pictureBox2.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.pictureBox2.TabIndex = 7;
             this.pictureBox2.TabStop = false;
@@ -97,28 +102,31 @@
             // 
             this.textBox2.BackColor = System.Drawing.SystemColors.Info;
             this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(1053, 190);
+            this.textBox2.Location = new System.Drawing.Point(395, 80);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(839, 41);
+            this.textBox2.Size = new System.Drawing.Size(317, 21);
             this.textBox2.TabIndex = 6;
             this.textBox2.Text = "0xE747ebf8Aa85ee0E81bDAbACD899E663F5d38474";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(892, 196);
+            this.label3.Location = new System.Drawing.Point(334, 82);
+            this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(146, 32);
+            this.label3.Size = new System.Drawing.Size(55, 13);
             this.label3.TabIndex = 5;
             this.label3.Text = "Ethereum:";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(13, 108);
+            this.label4.Location = new System.Drawing.Point(5, 45);
+            this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(114, 32);
+            this.label4.Size = new System.Drawing.Size(43, 13);
             this.label4.TabIndex = 8;
             this.label4.Text = "PayPal:";
             // 
@@ -126,9 +134,10 @@
             // 
             this.linkLblPayPal.AutoSize = true;
             this.linkLblPayPal.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.linkLblPayPal.Location = new System.Drawing.Point(122, 108);
+            this.linkLblPayPal.Location = new System.Drawing.Point(46, 45);
+            this.linkLblPayPal.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.linkLblPayPal.Name = "linkLblPayPal";
-            this.linkLblPayPal.Size = new System.Drawing.Size(258, 36);
+            this.linkLblPayPal.Size = new System.Drawing.Size(108, 15);
             this.linkLblPayPal.TabIndex = 9;
             this.linkLblPayPal.TabStop = true;
             this.linkLblPayPal.Text = "<Place Link Here>";
@@ -136,9 +145,10 @@
             // 
             // DonateForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(16F, 31F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1933, 683);
+            this.AutoSize = true;
+            this.ClientSize = new System.Drawing.Size(725, 286);
             this.Controls.Add(this.linkLblPayPal);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.pictureBox2);
@@ -150,6 +160,7 @@
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DonateForm";

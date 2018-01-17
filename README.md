@@ -35,3 +35,7 @@ The application can be configured using the setup window which can be accessed b
 ### Use the help tab to understand how to configure screen captures.
 
 ![Setup Window Help Tab](Screenshots/setup-help.JPG)
+
+## DirectX11 4K @ 60Hz HDR Demo
+
+[![Hyperion TV Ambient Light 4K 60Hz](http://img.youtube.com/vi/gY6-J97fXKc&t/0.jpg)](http://www.youtube.com/watch?v=gY6-J97fXKc&t)
