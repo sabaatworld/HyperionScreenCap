@@ -6,18 +6,25 @@ The program uses DirectX 9/11 to capture the screen, resize it and send it to th
 
 **Changelog and official forum thread:** https://hyperion-project.org/threads/1018
 
-## Download
-[SetupHyperionScreenCap.exe](https://github.com/sabaatworld/HyperionScreenCap/releases)
-
 ## Dependencies
 
+** The following dependencies need to be installed manually **
+
+[Microsoft DotNet 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718)
+
 [DirectX End-User Runtime](https://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35)
+
+** If screen capture is not working, install the following dependencies as well **
 
 [Visual C++ Redistributable for Visual Studio 2012](https://www.microsoft.com/en-us/download/details.aspx?id=30679)
 
 [Microsoft Visual C++ 2010 Service Pack 1](https://www.microsoft.com/en-us/download/details.aspx?id=26999)
 
 [Microsoft Visual C++ 2008 Service Pack 1](https://www.microsoft.com/en-us/download/details.aspx?id=26368)
+
+## Download
+
+[SetupHyperionScreenCapture.exe](https://github.com/sabaatworld/HyperionScreenCap/releases)
 
 ## Configuration
 

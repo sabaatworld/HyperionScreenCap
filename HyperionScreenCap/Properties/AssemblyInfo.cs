@@ -4,13 +4,13 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("HyperionScreenCap")]
-[assembly: AssemblyDescription("Hyperion Screen Capture")]
+[assembly: AssemblyTitle("Hyperion Screen Capture")]
+[assembly: AssemblyDescription("Screen capture program for Hyperion ambilight. Updated to support DirectX 11, multiple displays and multiple Hyperion servers.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("HyperionScreenCap")]
-[assembly: AssemblyCopyright("Copyright © 2017")]
-[assembly: AssemblyTrademark("")]
+[assembly: AssemblyCompany("@sabaatworld")]
+[assembly: AssemblyProduct("Hyperion Screen Capture")]
+[assembly: AssemblyCopyright("Copyright @sabaatworld 2018")]
+[assembly: AssemblyTrademark("@sabaatworld")]
 [assembly: AssemblyCulture("")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 
