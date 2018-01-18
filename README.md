@@ -1,8 +1,10 @@
-# HyperionScreenCap
+# Hyperion Screen Capture (Windows Grabber)
 
 Windows screen capture program for the [Hyperion](https://github.com/tvdzwan/hyperion) open-source Ambilight project.
 
 The program uses DirectX 9/11 to capture the screen, resize it and send it to the ProtoBuffer interface of Hyperion.
+
+**Changelog and official forum thread:** https://hyperion-project.org/threads/1018
 
 ## Download
 [SetupHyperionScreenCap.exe](https://github.com/sabaatworld/HyperionScreenCap/releases)
@@ -38,4 +40,4 @@ The application can be configured using the setup window which can be accessed b
 
 ## DirectX11 4K @ 60Hz HDR Demo
 
-[![Hyperion TV Ambient Light 4K 60Hz](http://img.youtube.com/vi/gY6-J97fXKc&t/0.jpg)](http://www.youtube.com/watch?v=gY6-J97fXKc&t)
+[![Hyperion TV Ambient Light 4K 60Hz](http://img.youtube.com/vi/gY6-J97fXKc/0.jpg)](http://www.youtube.com/watch?v=gY6-J97fXKc "Hyperion TV Ambient Light 4K 60Hz")
