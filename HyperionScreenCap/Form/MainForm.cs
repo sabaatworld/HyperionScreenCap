@@ -69,6 +69,11 @@ namespace HyperionScreenCap
             _trayIcon.ContextMenuStrip = trayMenuIcons;
             _trayIcon.Visible = true;
 
+            LOG.Info("MainForm Instantiated");
+        }
+        private void MainForm_Shown(object sender, EventArgs e)
+        {
+            LOG.Info("MainForm Shown");
             // TODO change the following condition
             if ( SettingsManager.HyperionTaskConfigurations.Count == 0
                 || SettingsManager.HyperionTaskConfigurations.Count == 1 && SettingsManager.HyperionTaskConfigurations[0].HyperionServers[0].Host.Equals("0.0.0.0") )
@@ -85,7 +90,6 @@ namespace HyperionScreenCap
             // Register various event handlers
             SystemEvents.PowerModeChanged += PowerModeChanged;
             SystemEvents.SessionSwitch += SessionSwitched;
-            LOG.Info("MainForm Instantiated");
         }
 
         public void Init(bool reInit = false, bool forceOn = false)
@@ -239,7 +243,7 @@ namespace HyperionScreenCap
 
         private void EnableCapture()
         {
-            LOG.Info($"Enabling {_hyperionTasks.Count} screen capture(s)");
+            LOG.Info($"Enabling {SettingsManager.HyperionTaskConfigurations.Count} screen capture(s)");
             _hyperionTasks.Clear();
             foreach ( HyperionTaskConfiguration configuration in SettingsManager.HyperionTaskConfigurations )
             {
@@ -292,26 +296,29 @@ namespace HyperionScreenCap
             setupForm.Show();
         }
 
-        private void TrayIcon_OnExitClick(object sender, EventArgs e)
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
-            LOG.Info("Exiting Application");
-            ToggleCapture(CaptureCommand.OFF, true, false);
-
+            LOG.Info("Initiating cleanup");
             // Unregister various event handlers
             SystemEvents.PowerModeChanged -= PowerModeChanged;
             SystemEvents.SessionSwitch -= SessionSwitched;
-
             // Clear tray icon on close
             if ( _trayIcon != null )
             {
                 _trayIcon.Visible = false;
             }
-
             if ( SettingsManager.ApiEnabled )
                 _apiServer.StopServer();
+            ToggleCapture(CaptureCommand.OFF, false, false);
+            LOG.Info("**********************************************************");
+            LOG.Info("Exit cleanup complete. Application normal shutdown.");
+            LOG.Info("**********************************************************");
+        }
 
-            LOG.Info("Exit cleanup complete");
-            Environment.Exit(0);
+        private void TrayIcon_OnExitClick(object sender, EventArgs e)
+        {
+            LOG.Info("Clicked exit taskbar menu option");
+            Application.Exit();
         }
 
         protected override void OnLoad(EventArgs e)
@@ -381,5 +388,6 @@ namespace HyperionScreenCap
         }
 
         #endregion
+
     }
 }

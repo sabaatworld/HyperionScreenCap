@@ -31,7 +31,9 @@ namespace HyperionScreenCap
         {
             ConfigureLog4Net();
             LOG = LogManager.GetLogger(typeof(Program));
-            LOG.Info("Logger Initialized");
+            LOG.Info("**********************************************************");
+            LOG.Info("Application Startup. Logger Initialized.");
+            LOG.Info("**********************************************************");
 
             // Set DPI awareness
             SetProcessDPIAware();
