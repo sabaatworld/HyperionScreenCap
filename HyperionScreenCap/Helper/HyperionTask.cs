@@ -180,7 +180,6 @@ namespace HyperionScreenCap.Helper
 
         private void TryStartCapture()
         {
-            CaptureEnabled = true;
             try // Properly dispose everything object when turning off capture
             {
                 StartCapture();
@@ -196,6 +195,7 @@ namespace HyperionScreenCap.Helper
         public void EnableCapture()
         {
             LOG.Info($"{this}: Enabling screen capture");
+            CaptureEnabled = true;
             _captureThread = new Thread(TryStartCapture) { IsBackground = true };
             _captureThread.Start();
         }

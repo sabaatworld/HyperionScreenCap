@@ -276,8 +276,11 @@ namespace HyperionScreenCap
                 {
                     if ( !task.CaptureEnabled )
                     {
-                        ToggleCapture(CaptureCommand.OFF);
-                        break;
+                        // We have found a task for which capture has been disabled due to failure
+                        // Turning off capture and exiting this thread
+                        LOG.Error($"Found {task} with capture disabled due to failure. Issuing OFF command.");
+                        ToggleCapture(CaptureCommand.OFF, false, false);
+                        return;
                     }
                 }
                 Thread.Sleep(AppConstants.CAPTURE_FAILURE_DETECTION_INTERVAL);
