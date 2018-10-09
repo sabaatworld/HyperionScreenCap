@@ -57,7 +57,8 @@ namespace HyperionScreenCap
                     foreach(Output output in adapter.Outputs)
                     {
                         response.Append($"\tMonitor Index {outputIndex++}: {output.Description.DeviceName}");
-                        response.Append($" {output.Description.DesktopBounds.Right}×{output.Description.DesktopBounds.Bottom}\n");
+                        var desktopBounds = output.Description.DesktopBounds;
+                        response.Append($" {desktopBounds.Right - desktopBounds.Left}×{desktopBounds.Bottom - desktopBounds.Top}\n");
                     }
                     response.Append("\n");
                 }
@@ -102,8 +103,9 @@ namespace HyperionScreenCap
             _output1 = _output.QueryInterface<Output1>();
 
             // Width/Height of desktop to capture
-            _width = _output.Description.DesktopBounds.Right;
-            _height = _output.Description.DesktopBounds.Bottom;
+            var desktopBounds = _output.Description.DesktopBounds;
+            _width = desktopBounds.Right - desktopBounds.Left;
+            _height = desktopBounds.Bottom - desktopBounds.Top;
 
             CaptureWidth = _width / _scalingFactor;
             CaptureHeight = _height / _scalingFactor;
