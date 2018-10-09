@@ -6,6 +6,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap
@@ -60,6 +61,9 @@ namespace HyperionScreenCap
             // Migrate legacy settings
             SettingsManager.MigrateLegacySettings();
 
+            // GitHub API requires TLS 1.2
+            ConfigureSSL();
+
             MainForm _mainForm = new MainForm();
             Application.Run(_mainForm);
         }
@@ -77,6 +81,14 @@ namespace HyperionScreenCap
         {
             runtime += Process.GetProcesses().Count(clsProcess => clsProcess.ProcessName.ToLower().Equals(name));
             return runtime;
+        }
+
+        private static void ConfigureSSL()
+        {
+            // Adding TLS 1.1 & TLS 1.2
+            // See: https://stackoverflow.com/questions/47269609/system-net-securityprotocoltype-tls12-definition-not-found
+            ServicePointManager.Expect100Continue = true;
+            ServicePointManager.SecurityProtocol |= (SecurityProtocolType) (0x300 | 0xc00);
         }
     }
 }
