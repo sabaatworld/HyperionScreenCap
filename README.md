@@ -8,13 +8,13 @@ The program uses DirectX 9/11 to capture the screen, resize it and send it to th
 
 ## Dependencies
 
-** The following dependencies need to be installed manually **
+**The following dependencies need to be installed manually**
 
 [Microsoft DotNet 4.0](https://www.microsoft.com/en-us/download/details.aspx?id=17718)
 
 [DirectX End-User Runtime](https://www.microsoft.com/en-us/download/details.aspx?displaylang=en&id=35)
 
-** If screen capture is not working, install the following dependencies as well **
+**If screen capture is not working, install the following dependencies as well**
 
 [Visual C++ Redistributable for Visual Studio 2012](https://www.microsoft.com/en-us/download/details.aspx?id=30679)
 
@@ -47,4 +47,4 @@ The application can be configured using the setup window which can be accessed b
 
 ## DirectX11 4K @ 60Hz HDR Demo
 
-[![Hyperion TV Ambient Light 4K 60Hz](http://img.youtube.com/vi/gY6-J97fXKc/0.jpg)](http://www.youtube.com/watch?v=gY6-J97fXKc "Hyperion TV Ambient Light 4K 60Hz")
+[![Hyperion TV Ambient Light 4K 60Hz](https://img.youtube.com/vi/gY6-J97fXKc/0.jpg)](https://www.youtube.com/watch?v=gY6-J97fXKc "Hyperion TV Ambient Light 4K 60Hz")
