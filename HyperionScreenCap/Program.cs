@@ -1,5 +1,4 @@
 ﻿using HyperionScreenCap.Config;
-using HyperionScreenCap.Model;
 using log4net;
 using log4net.Config;
 using System;
@@ -18,7 +17,6 @@ namespace HyperionScreenCap
 
         static Program()
         {
-            CosturaUtility.Initialize();
         }
 
         [System.Runtime.InteropServices.DllImport("user32.dll")]
