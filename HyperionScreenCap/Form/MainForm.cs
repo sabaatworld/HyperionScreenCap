@@ -1,20 +1,12 @@
-﻿using System;
-using System.Diagnostics;
+﻿using HyperionScreenCap.Config;
+using HyperionScreenCap.Helper;
+using HyperionScreenCap.Model;
+using log4net;
+using Microsoft.Win32;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
-using Microsoft.Win32;
-using SlimDX;
-using SlimDX.Direct3D9;
-using SlimDX.Windows;
-using HyperionScreenCap.Config;
-using System.Drawing;
-using HyperionScreenCap.Model;
-using HyperionScreenCap.Capture;
-using HyperionScreenCap.Helper;
-using System.Text;
-using HyperionScreenCap.Model.GitHub;
-using log4net;
-using System.Collections.Generic;
 
 namespace HyperionScreenCap
 {

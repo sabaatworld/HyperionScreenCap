@@ -1,15 +1,13 @@
-﻿using System;
-using System.ComponentModel;
-using System.Reflection;
-using System.Windows.Forms;
-using SlimDX.Windows;
+﻿using HyperionScreenCap.Helper;
 using HyperionScreenCap.Model;
-using System.IO;
 using log4net;
-using System.Diagnostics;
-using HyperionScreenCap.Helper;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Diagnostics;
+using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace HyperionScreenCap
 {
@@ -71,9 +69,9 @@ namespace HyperionScreenCap
 
         private void AddTaskCofigRow(HyperionTaskConfiguration taskConfiguration)
         {
-            String id = taskConfiguration.Id;
+            string id = taskConfiguration.Id;
 
-            String captureSource;
+            string captureSource;
             switch(taskConfiguration.CaptureMethod)
             {
                 case CaptureMethod.DX11:
@@ -218,8 +216,8 @@ namespace HyperionScreenCap
         private void lblShowDx11Displays_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             LOG.Info("Checking for available DX11 monitors");
-            String msg;
-            String title;
+            string msg;
+            string title;
             MessageBoxIcon icon;
             try
             {
