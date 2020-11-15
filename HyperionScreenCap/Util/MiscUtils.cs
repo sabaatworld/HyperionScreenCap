@@ -62,5 +62,12 @@ namespace HyperionScreenCap
                 + Assembly.GetExecutingAssembly().GetName().Name;
         }
 
+        /// <summary>
+        /// Opens the donation page in the default browser.
+        /// </summary>
+        public static void ShowDonatePage()
+        {
+            System.Diagnostics.Process.Start("http://paypal.me/sabaat");
+        }
     }
 }

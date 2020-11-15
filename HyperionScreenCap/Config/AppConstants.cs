@@ -80,6 +80,11 @@ namespace HyperionScreenCap.Config
             public const string MENU_TXT_SETUP = "Setup";
 
             /// <summary>
+            /// Setup menu option text.
+            /// </summary>
+            public const string MENU_TXT_DONATE = "Buy Me a Coffee";
+
+            /// <summary>
             /// Exit menu option text.
             /// </summary>
             public const string MENU_TXT_EXIT = "Exit";

@@ -1,5 +1,6 @@
 ﻿using HyperionScreenCap.Helper;
 using HyperionScreenCap.Model;
+using HyperionScreenCap.Config;
 using log4net;
 using System;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ namespace HyperionScreenCap
 
             tbHelp.Text = Resources.SetupFormHelp;
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            btnDonate.Text = AppConstants.TrayIcon.MENU_TXT_DONATE;
             LOG.Info("SetupForm Instantiated");
         }
 
@@ -301,8 +303,7 @@ namespace HyperionScreenCap
 
         private void btnDonate_Click(object sender, EventArgs e)
         {
-            DonateForm donateForm = new DonateForm();
-            donateForm.ShowDialog();
+            MiscUtils.ShowDonatePage();
         }
     }
 }

@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "Hyperion Screen Capture"
-#define MyAppVersion "2.6"
+#define MyAppVersion "2.7"
 #define MyAppPublisher "@sabaatworld"
 #define MyAppURL "https://github.com/sabaatworld/HyperionScreenCap"
 #define MyAppUpdatesURL "https://github.com/sabaatworld/HyperionScreenCap/releases"
@@ -37,7 +37,7 @@ VersionInfoCompany={#MyAppPublisher}
 VersionInfoDescription={#MyAppName}
 VersionInfoProductName={#MyAppName}
 VersionInfoProductVersion={#MyAppVersion}
-VersionInfoCopyright=Copyright {#MyAppPublisher} 2018
+VersionInfoCopyright=Copyright {#MyAppPublisher} 2020
 
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"

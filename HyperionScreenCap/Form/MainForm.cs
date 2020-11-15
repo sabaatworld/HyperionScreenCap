@@ -57,6 +57,9 @@ namespace HyperionScreenCap
             trayMenuIcons.ImageScalingSize = SystemInformation.SmallIconSize;
             trayMenuIcons.Items.Add(AppConstants.TrayIcon.MENU_TXT_START_CAPTURE, Resources.enable_capture.ToBitmap(), TrayIcon_OnCaptureToggleClick);
             trayMenuIcons.Items.Add(AppConstants.TrayIcon.MENU_TXT_SETUP, Resources.gear.ToBitmap(), TrayIcon_OnSetupClick);
+            trayMenuIcons.Items.Add("-");
+            trayMenuIcons.Items.Add(AppConstants.TrayIcon.MENU_TXT_DONATE, Resources.donate.ToBitmap(), TrayIcon_OnDonateClick);
+            trayMenuIcons.Items.Add("-");
             trayMenuIcons.Items.Add(AppConstants.TrayIcon.MENU_TXT_EXIT, Resources.cross.ToBitmap(), TrayIcon_OnExitClick);
             _trayIcon.ContextMenuStrip = trayMenuIcons;
             _trayIcon.Visible = true;
@@ -277,6 +280,11 @@ namespace HyperionScreenCap
                 }
                 Thread.Sleep(AppConstants.CAPTURE_FAILURE_DETECTION_INTERVAL);
             }
+        }
+
+        private void TrayIcon_OnDonateClick(object sender, EventArgs e)
+        {
+            MiscUtils.ShowDonatePage();
         }
 
         private void TrayIcon_OnSetupClick(object sender, EventArgs e)

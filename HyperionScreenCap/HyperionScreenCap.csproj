@@ -85,14 +85,14 @@
     <Reference Include="Grapevine, Version=4.1.2.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Grapevine.4.1.2\lib\net40\Grapevine.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\packages\log4net.2.0.8\lib\net40-client\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\packages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
-    <Reference Include="RestSharp, Version=106.11.4.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
-      <HintPath>..\packages\RestSharp.106.11.4\lib\net452\RestSharp.dll</HintPath>
+    <Reference Include="RestSharp, Version=106.11.7.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.11.7\lib\net452\RestSharp.dll</HintPath>
     </Reference>
     <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
       <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
@@ -125,12 +125,6 @@
   <ItemGroup>
     <Compile Include="ApiServer.cs" />
     <Compile Include="Capture\IScreenCapture.cs" />
-    <Compile Include="Form\DonateForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Form\DonateForm.Designer.cs">
-      <DependentUpon>DonateForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Helper\HyperionTask.cs" />
     <Compile Include="Config\AppConstants.cs" />
     <Compile Include="Capture\Dx11ScreenCapture.cs" />
@@ -185,9 +179,6 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Form\DonateForm.resx">
-      <DependentUpon>DonateForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Form\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -198,6 +189,7 @@
     <EmbeddedResource Include="Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Form\SetupForm.resx">
       <DependentUpon>SetupForm.cs</DependentUpon>
@@ -230,8 +222,7 @@
     <None Include="Resources\Hyperion-enabled.ico" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Resources\don-eth.png" />
-    <None Include="Resources\don-btc.png" />
+    <None Include="Resources\donate.ico" />
     <None Include="Resources\enable_capture.ico" />
     <None Include="Resources\disable_capture.ico" />
     <None Include="Resources\LogConfiguration.xml" />

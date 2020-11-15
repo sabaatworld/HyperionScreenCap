@@ -77,9 +77,9 @@
             // 
             this.gbCaptureApi.Controls.Add(this.tblScreenCaptureMethod);
             this.gbCaptureApi.Location = new System.Drawing.Point(4, 5);
-            this.gbCaptureApi.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.gbCaptureApi.Margin = new System.Windows.Forms.Padding(1);
             this.gbCaptureApi.Name = "gbCaptureApi";
-            this.gbCaptureApi.Padding = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.gbCaptureApi.Padding = new System.Windows.Forms.Padding(1);
             this.gbCaptureApi.Size = new System.Drawing.Size(506, 344);
             this.gbCaptureApi.TabIndex = 7;
             this.gbCaptureApi.TabStop = false;
@@ -96,9 +96,9 @@
             this.tblScreenCaptureMethod.Controls.Add(this.tblDx11Values, 1, 0);
             this.tblScreenCaptureMethod.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblScreenCaptureMethod.Location = new System.Drawing.Point(1, 14);
-            this.tblScreenCaptureMethod.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tblScreenCaptureMethod.Margin = new System.Windows.Forms.Padding(1);
             this.tblScreenCaptureMethod.Name = "tblScreenCaptureMethod";
-            this.tblScreenCaptureMethod.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.tblScreenCaptureMethod.Padding = new System.Windows.Forms.Padding(4);
             this.tblScreenCaptureMethod.RowCount = 2;
             this.tblScreenCaptureMethod.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tblScreenCaptureMethod.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
@@ -110,9 +110,9 @@
             // 
             this.rbcmDx9.AutoSize = true;
             this.rbcmDx9.Location = new System.Drawing.Point(5, 165);
-            this.rbcmDx9.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.rbcmDx9.Margin = new System.Windows.Forms.Padding(1);
             this.rbcmDx9.Name = "rbcmDx9";
-            this.rbcmDx9.Size = new System.Drawing.Size(101, 69);
+            this.rbcmDx9.Size = new System.Drawing.Size(113, 79);
             this.rbcmDx9.TabIndex = 7;
             this.rbcmDx9.TabStop = true;
             this.rbcmDx9.Text = "DirectX 9\r\n- Windows XP+\r\n- Moderate CPU\r\n- Low GPU\r\n- Low FPS\r\n";
@@ -122,9 +122,9 @@
             // 
             this.rbcmDx11.AutoSize = true;
             this.rbcmDx11.Location = new System.Drawing.Point(5, 5);
-            this.rbcmDx11.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.rbcmDx11.Margin = new System.Windows.Forms.Padding(1);
             this.rbcmDx11.Name = "rbcmDx11";
-            this.rbcmDx11.Size = new System.Drawing.Size(113, 69);
+            this.rbcmDx11.Size = new System.Drawing.Size(125, 79);
             this.rbcmDx11.TabIndex = 1;
             this.rbcmDx11.TabStop = true;
             this.rbcmDx11.Text = "DirectX 11\r\n- Windows 7 SP1+\r\n- Negligible CPU\r\n- Very Low GPU\r\n- High FPS\r\n";
@@ -146,7 +146,7 @@
             this.tblDx9Values.Controls.Add(this.cbDx9MonitorIndex, 1, 0);
             this.tblDx9Values.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblDx9Values.Location = new System.Drawing.Point(168, 165);
-            this.tblDx9Values.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tblDx9Values.Margin = new System.Windows.Forms.Padding(1);
             this.tblDx9Values.Name = "tblDx9Values";
             this.tblDx9Values.RowCount = 5;
             this.tblDx9Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -161,10 +161,10 @@
             // 
             this.label1.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(1, 7);
+            this.label1.Location = new System.Drawing.Point(1, 6);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(71, 13);
+            this.label1.Size = new System.Drawing.Size(82, 15);
             this.label1.TabIndex = 0;
             this.label1.Text = "Monitor Index";
             // 
@@ -172,10 +172,10 @@
             // 
             this.label2.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(1, 33);
+            this.label2.Location = new System.Drawing.Point(1, 32);
             this.label2.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(75, 13);
+            this.label2.Size = new System.Drawing.Size(84, 15);
             this.label2.TabIndex = 1;
             this.label2.Text = "Capture Width";
             // 
@@ -183,10 +183,10 @@
             // 
             this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(1, 59);
+            this.label3.Location = new System.Drawing.Point(1, 58);
             this.label3.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(78, 13);
+            this.label3.Size = new System.Drawing.Size(89, 15);
             this.label3.TabIndex = 2;
             this.label3.Text = "Capture Height";
             // 
@@ -194,10 +194,10 @@
             // 
             this.label4.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(1, 85);
+            this.label4.Location = new System.Drawing.Point(1, 84);
             this.label4.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(104, 13);
+            this.label4.Size = new System.Drawing.Size(120, 15);
             this.label4.TabIndex = 3;
             this.label4.Text = "Capture Interval (ms)";
             // 
@@ -270,7 +270,7 @@
             this.tblDx11Values.Controls.Add(this.cbDx11ImageScalingFactor, 1, 3);
             this.tblDx11Values.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tblDx11Values.Location = new System.Drawing.Point(168, 5);
-            this.tblDx11Values.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tblDx11Values.Margin = new System.Windows.Forms.Padding(1);
             this.tblDx11Values.Name = "tblDx11Values";
             this.tblDx11Values.RowCount = 6;
             this.tblDx11Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -329,7 +329,7 @@
             // tbDx11MaxFps
             // 
             this.tbDx11MaxFps.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tbDx11MaxFps.Location = new System.Drawing.Point(168, 110);
+            this.tbDx11MaxFps.Location = new System.Drawing.Point(168, 116);
             this.tbDx11MaxFps.MaxLength = 4;
             this.tbDx11MaxFps.Name = "tbDx11MaxFps";
             this.tbDx11MaxFps.Size = new System.Drawing.Size(100, 20);
@@ -339,7 +339,7 @@
             // tbDx11FrameCaptureTimeout
             // 
             this.tbDx11FrameCaptureTimeout.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tbDx11FrameCaptureTimeout.Location = new System.Drawing.Point(168, 57);
+            this.tbDx11FrameCaptureTimeout.Location = new System.Drawing.Point(168, 59);
             this.tbDx11FrameCaptureTimeout.MaxLength = 5;
             this.tbDx11FrameCaptureTimeout.Name = "tbDx11FrameCaptureTimeout";
             this.tbDx11FrameCaptureTimeout.Size = new System.Drawing.Size(100, 20);
@@ -350,10 +350,10 @@
             // 
             this.label5.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(1, 7);
+            this.label5.Location = new System.Drawing.Point(1, 6);
             this.label5.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(73, 13);
+            this.label5.Size = new System.Drawing.Size(82, 15);
             this.label5.TabIndex = 0;
             this.label5.Text = "Adapter Index";
             // 
@@ -361,10 +361,10 @@
             // 
             this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(1, 34);
+            this.label6.Location = new System.Drawing.Point(1, 33);
             this.label6.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(71, 13);
+            this.label6.Size = new System.Drawing.Size(82, 15);
             this.label6.TabIndex = 1;
             this.label6.Text = "Monitor Index";
             // 
@@ -372,10 +372,10 @@
             // 
             this.label7.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(1, 60);
+            this.label7.Location = new System.Drawing.Point(1, 54);
             this.label7.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(139, 13);
+            this.label7.Size = new System.Drawing.Size(140, 30);
             this.label7.TabIndex = 2;
             this.label7.Text = "Frame Capture Timeout (ms)";
             // 
@@ -383,10 +383,10 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1, 87);
+            this.label8.Location = new System.Drawing.Point(1, 91);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(107, 13);
+            this.label8.Size = new System.Drawing.Size(123, 15);
             this.label8.TabIndex = 3;
             this.label8.Text = "Image Scaling Factor";
             // 
@@ -394,10 +394,10 @@
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1, 113);
+            this.label9.Location = new System.Drawing.Point(1, 118);
             this.label9.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(50, 13);
+            this.label9.Size = new System.Drawing.Size(57, 15);
             this.label9.TabIndex = 4;
             this.label9.Text = "Max FPS";
             // 
@@ -429,7 +429,7 @@
             "128",
             "256",
             "512"});
-            this.cbDx11ImageScalingFactor.Location = new System.Drawing.Point(168, 83);
+            this.cbDx11ImageScalingFactor.Location = new System.Drawing.Point(168, 87);
             this.cbDx11ImageScalingFactor.Name = "cbDx11ImageScalingFactor";
             this.cbDx11ImageScalingFactor.Size = new System.Drawing.Size(100, 21);
             this.cbDx11ImageScalingFactor.TabIndex = 5;
@@ -439,9 +439,9 @@
             this.gBHyperionServers.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.gBHyperionServers.Controls.Add(this.dgHyperionAddress);
             this.gBHyperionServers.Location = new System.Drawing.Point(523, 5);
-            this.gBHyperionServers.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.gBHyperionServers.Margin = new System.Windows.Forms.Padding(1);
             this.gBHyperionServers.Name = "gBHyperionServers";
-            this.gBHyperionServers.Padding = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.gBHyperionServers.Padding = new System.Windows.Forms.Padding(1);
             this.gBHyperionServers.Size = new System.Drawing.Size(477, 318);
             this.gBHyperionServers.TabIndex = 8;
             this.gBHyperionServers.TabStop = false;
@@ -459,9 +459,10 @@
             this.clmnPriority,
             this.clmnMessageDuration});
             this.dgHyperionAddress.Location = new System.Drawing.Point(2, 19);
-            this.dgHyperionAddress.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.dgHyperionAddress.Margin = new System.Windows.Forms.Padding(1);
             this.dgHyperionAddress.MultiSelect = false;
             this.dgHyperionAddress.Name = "dgHyperionAddress";
+            this.dgHyperionAddress.RowHeadersWidth = 46;
             this.dgHyperionAddress.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgHyperionAddress.RowTemplate.Height = 40;
             this.dgHyperionAddress.Size = new System.Drawing.Size(473, 297);
@@ -476,6 +477,7 @@
             this.clmnHost.FillWeight = 50F;
             this.clmnHost.HeaderText = "Hostname / IP";
             this.clmnHost.MaxInputLength = 800;
+            this.clmnHost.MinimumWidth = 6;
             this.clmnHost.Name = "clmnHost";
             this.clmnHost.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.clmnHost.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -487,6 +489,7 @@
             this.clmnPort.FillWeight = 20F;
             this.clmnPort.HeaderText = "Port";
             this.clmnPort.MaxInputLength = 8;
+            this.clmnPort.MinimumWidth = 6;
             this.clmnPort.Name = "clmnPort";
             this.clmnPort.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.clmnPort.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -498,6 +501,7 @@
             this.clmnPriority.FillWeight = 20F;
             this.clmnPriority.HeaderText = "Priority";
             this.clmnPriority.MaxInputLength = 5;
+            this.clmnPriority.MinimumWidth = 6;
             this.clmnPriority.Name = "clmnPriority";
             this.clmnPriority.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.clmnPriority.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -509,6 +513,7 @@
             this.clmnMessageDuration.FillWeight = 20F;
             this.clmnMessageDuration.HeaderText = "Message Duration (ms)";
             this.clmnMessageDuration.MaxInputLength = 5;
+            this.clmnMessageDuration.MinimumWidth = 6;
             this.clmnMessageDuration.Name = "clmnMessageDuration";
             this.clmnMessageDuration.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.clmnMessageDuration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
@@ -517,7 +522,7 @@
             // 
             this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnSave.Location = new System.Drawing.Point(402, 1);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(1);
             this.btnSave.Name = "btnSave";
             this.btnSave.Size = new System.Drawing.Size(85, 34);
             this.btnSave.TabIndex = 13;
@@ -528,7 +533,7 @@
             // btnCancel
             // 
             this.btnCancel.Location = new System.Drawing.Point(508, 1);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(1);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(85, 34);
             this.btnCancel.TabIndex = 14;
@@ -547,7 +552,7 @@
             this.tableLayoutPanel1.Controls.Add(this.btnSave, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.btnCancel, 2, 0);
             this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 365);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
@@ -562,7 +567,7 @@
             this.label10.Location = new System.Drawing.Point(526, 336);
             this.label10.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(412, 15);
+            this.label10.Size = new System.Drawing.Size(486, 17);
             this.label10.TabIndex = 12;
             this.label10.Text = "- Use the \"Delete\" key to remove the selected Hyperion server configuration";
             // 
@@ -578,7 +583,7 @@
             this.Controls.Add(this.gbCaptureApi);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.Margin = new System.Windows.Forms.Padding(1);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ServerPropertiesForm";

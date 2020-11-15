@@ -41,9 +41,9 @@
             this.clmnCaptureSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmnHyperionServers = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.panel1 = new System.Windows.Forms.Panel();
             this.lblShowDisplaysMsg = new System.Windows.Forms.Label();
             this.lblShowDx11Displays = new System.Windows.Forms.LinkLabel();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.lblApiPort = new System.Windows.Forms.Label();
             this.chkApiEnabled = new System.Windows.Forms.CheckBox();
             this.tbApiPort = new System.Windows.Forms.TextBox();
@@ -100,7 +100,7 @@
             this.tabPageGeneric.Controls.Add(this.tableLayoutPanel3);
             this.tabPageGeneric.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneric.Name = "tabPageGeneric";
-            this.tabPageGeneric.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.tabPageGeneric.Padding = new System.Windows.Forms.Padding(3);
             this.tabPageGeneric.Size = new System.Drawing.Size(756, 297);
             this.tabPageGeneric.TabIndex = 0;
             this.tabPageGeneric.Text = "General";
@@ -110,7 +110,7 @@
             this.btnEditTaskConfig.Enabled = false;
             this.btnEditTaskConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnEditTaskConfig.Location = new System.Drawing.Point(4, 259);
-            this.btnEditTaskConfig.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnEditTaskConfig.Margin = new System.Windows.Forms.Padding(1);
             this.btnEditTaskConfig.Name = "btnEditTaskConfig";
             this.btnEditTaskConfig.Size = new System.Drawing.Size(65, 25);
             this.btnEditTaskConfig.TabIndex = 2;
@@ -123,7 +123,7 @@
             this.btnRemoveTaskConfig.Enabled = false;
             this.btnRemoveTaskConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold);
             this.btnRemoveTaskConfig.Location = new System.Drawing.Point(312, 259);
-            this.btnRemoveTaskConfig.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnRemoveTaskConfig.Margin = new System.Windows.Forms.Padding(1);
             this.btnRemoveTaskConfig.Name = "btnRemoveTaskConfig";
             this.btnRemoveTaskConfig.Size = new System.Drawing.Size(65, 25);
             this.btnRemoveTaskConfig.TabIndex = 4;
@@ -135,7 +135,7 @@
             // 
             this.btnAddTaskConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold);
             this.btnAddTaskConfig.Location = new System.Drawing.Point(239, 259);
-            this.btnAddTaskConfig.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnAddTaskConfig.Margin = new System.Windows.Forms.Padding(1);
             this.btnAddTaskConfig.Name = "btnAddTaskConfig";
             this.btnAddTaskConfig.Size = new System.Drawing.Size(65, 25);
             this.btnAddTaskConfig.TabIndex = 3;
@@ -149,7 +149,7 @@
             this.label1.Location = new System.Drawing.Point(4, 7);
             this.label1.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(129, 13);
+            this.label1.Size = new System.Drawing.Size(148, 15);
             this.label1.TabIndex = 22;
             this.label1.Text = "Capture (DirectX) Settings";
             // 
@@ -164,10 +164,11 @@
             this.clmnCaptureSource,
             this.clmnHyperionServers});
             this.dgTaskConfig.Location = new System.Drawing.Point(4, 25);
-            this.dgTaskConfig.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.dgTaskConfig.Margin = new System.Windows.Forms.Padding(1);
             this.dgTaskConfig.MultiSelect = false;
             this.dgTaskConfig.Name = "dgTaskConfig";
             this.dgTaskConfig.ReadOnly = true;
+            this.dgTaskConfig.RowHeadersWidth = 46;
             this.dgTaskConfig.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgTaskConfig.RowTemplate.Height = 40;
             this.dgTaskConfig.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
@@ -182,6 +183,7 @@
             this.clmnId.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.clmnId.FillWeight = 15F;
             this.clmnId.HeaderText = "ID";
+            this.clmnId.MinimumWidth = 6;
             this.clmnId.Name = "clmnId";
             this.clmnId.ReadOnly = true;
             this.clmnId.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -192,6 +194,7 @@
             this.clmnCaptureSource.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.Fill;
             this.clmnCaptureSource.FillWeight = 45F;
             this.clmnCaptureSource.HeaderText = "Capture Source";
+            this.clmnCaptureSource.MinimumWidth = 6;
             this.clmnCaptureSource.Name = "clmnCaptureSource";
             this.clmnCaptureSource.ReadOnly = true;
             this.clmnCaptureSource.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -204,6 +207,7 @@
             this.clmnHyperionServers.DefaultCellStyle = dataGridViewCellStyle1;
             this.clmnHyperionServers.FillWeight = 45F;
             this.clmnHyperionServers.HeaderText = "Hyperion Servers";
+            this.clmnHyperionServers.MinimumWidth = 6;
             this.clmnHyperionServers.Name = "clmnHyperionServers";
             this.clmnHyperionServers.ReadOnly = true;
             this.clmnHyperionServers.Resizable = System.Windows.Forms.DataGridViewTriState.False;
@@ -221,7 +225,7 @@
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel1, 0, 4);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right;
             this.tableLayoutPanel3.Location = new System.Drawing.Point(401, 3);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 6;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -233,6 +237,21 @@
             this.tableLayoutPanel3.Size = new System.Drawing.Size(352, 291);
             this.tableLayoutPanel3.TabIndex = 20;
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.lblShowDisplaysMsg);
+            this.panel1.Controls.Add(this.lblShowDx11Displays);
+            this.panel1.Controls.Add(this.lblApiPort);
+            this.panel1.Controls.Add(this.chkApiEnabled);
+            this.panel1.Controls.Add(this.tbApiPort);
+            this.panel1.Controls.Add(this.grpDeactivate);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(1, 137);
+            this.panel1.Margin = new System.Windows.Forms.Padding(1);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(350, 161);
+            this.panel1.TabIndex = 34;
+            // 
             // lblShowDisplaysMsg
             // 
             this.lblShowDisplaysMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -240,7 +259,7 @@
             this.lblShowDisplaysMsg.Location = new System.Drawing.Point(211, 128);
             this.lblShowDisplaysMsg.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.lblShowDisplaysMsg.Name = "lblShowDisplaysMsg";
-            this.lblShowDisplaysMsg.Size = new System.Drawing.Size(128, 13);
+            this.lblShowDisplaysMsg.Size = new System.Drawing.Size(146, 15);
             this.lblShowDisplaysMsg.TabIndex = 37;
             this.lblShowDisplaysMsg.Text = "to view monitors for DX11";
             // 
@@ -252,33 +271,18 @@
             this.lblShowDx11Displays.Location = new System.Drawing.Point(155, 128);
             this.lblShowDx11Displays.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.lblShowDx11Displays.Name = "lblShowDx11Displays";
-            this.lblShowDx11Displays.Size = new System.Drawing.Size(54, 13);
+            this.lblShowDx11Displays.Size = new System.Drawing.Size(61, 15);
             this.lblShowDx11Displays.TabIndex = 36;
             this.lblShowDx11Displays.TabStop = true;
             this.lblShowDx11Displays.Text = "Click here";
             this.lblShowDx11Displays.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lblShowDx11Displays_LinkClicked);
-            // 
-            // panel1
-            // 
-            this.panel1.Controls.Add(this.lblShowDisplaysMsg);
-            this.panel1.Controls.Add(this.lblShowDx11Displays);
-            this.panel1.Controls.Add(this.lblApiPort);
-            this.panel1.Controls.Add(this.chkApiEnabled);
-            this.panel1.Controls.Add(this.tbApiPort);
-            this.panel1.Controls.Add(this.grpDeactivate);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panel1.Location = new System.Drawing.Point(1, 129);
-            this.panel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(350, 161);
-            this.panel1.TabIndex = 34;
             // 
             // lblApiPort
             // 
             this.lblApiPort.AutoSize = true;
             this.lblApiPort.Location = new System.Drawing.Point(9, 3);
             this.lblApiPort.Name = "lblApiPort";
-            this.lblApiPort.Size = new System.Drawing.Size(49, 13);
+            this.lblApiPort.Size = new System.Drawing.Size(53, 15);
             this.lblApiPort.TabIndex = 25;
             this.lblApiPort.Text = "API Port:";
             // 
@@ -287,7 +291,7 @@
             this.chkApiEnabled.AutoSize = true;
             this.chkApiEnabled.Location = new System.Drawing.Point(135, 3);
             this.chkApiEnabled.Name = "chkApiEnabled";
-            this.chkApiEnabled.Size = new System.Drawing.Size(79, 17);
+            this.chkApiEnabled.Size = new System.Drawing.Size(86, 19);
             this.chkApiEnabled.TabIndex = 27;
             this.chkApiEnabled.Text = "Enable API";
             this.chkApiEnabled.UseVisualStyleBackColor = true;
@@ -319,7 +323,7 @@
             this.chkApiExcludeTimesEnabled.AutoSize = true;
             this.chkApiExcludeTimesEnabled.Location = new System.Drawing.Point(6, 23);
             this.chkApiExcludeTimesEnabled.Name = "chkApiExcludeTimesEnabled";
-            this.chkApiExcludeTimesEnabled.Size = new System.Drawing.Size(65, 17);
+            this.chkApiExcludeTimesEnabled.Size = new System.Drawing.Size(72, 19);
             this.chkApiExcludeTimesEnabled.TabIndex = 29;
             this.chkApiExcludeTimesEnabled.Text = "Enabled";
             this.chkApiExcludeTimesEnabled.UseVisualStyleBackColor = true;
@@ -338,7 +342,7 @@
             this.lblEnd.AutoSize = true;
             this.lblEnd.Location = new System.Drawing.Point(127, 49);
             this.lblEnd.Name = "lblEnd";
-            this.lblEnd.Size = new System.Drawing.Size(29, 13);
+            this.lblEnd.Size = new System.Drawing.Size(32, 15);
             this.lblEnd.TabIndex = 32;
             this.lblEnd.Text = "End:";
             // 
@@ -356,16 +360,16 @@
             this.lblStart.AutoSize = true;
             this.lblStart.Location = new System.Drawing.Point(127, 24);
             this.lblStart.Name = "lblStart";
-            this.lblStart.Size = new System.Drawing.Size(32, 13);
+            this.lblStart.Size = new System.Drawing.Size(35, 15);
             this.lblStart.TabIndex = 30;
             this.lblStart.Text = "Start:";
             // 
             // chkCheckUpdate
             // 
             this.chkCheckUpdate.AutoSize = true;
-            this.chkCheckUpdate.Location = new System.Drawing.Point(3, 72);
+            this.chkCheckUpdate.Location = new System.Drawing.Point(3, 78);
             this.chkCheckUpdate.Name = "chkCheckUpdate";
-            this.chkCheckUpdate.Size = new System.Drawing.Size(155, 17);
+            this.chkCheckUpdate.Size = new System.Drawing.Size(171, 19);
             this.chkCheckUpdate.TabIndex = 14;
             this.chkCheckUpdate.Text = "Check for Updates on Start";
             this.chkCheckUpdate.UseVisualStyleBackColor = true;
@@ -373,9 +377,9 @@
             // chkPauseSuspend
             // 
             this.chkPauseSuspend.AutoSize = true;
-            this.chkPauseSuspend.Location = new System.Drawing.Point(3, 49);
+            this.chkPauseSuspend.Location = new System.Drawing.Point(3, 53);
             this.chkPauseSuspend.Name = "chkPauseSuspend";
-            this.chkPauseSuspend.Size = new System.Drawing.Size(153, 17);
+            this.chkPauseSuspend.Size = new System.Drawing.Size(173, 19);
             this.chkPauseSuspend.TabIndex = 13;
             this.chkPauseSuspend.Text = "Pause on System Suspend";
             this.chkPauseSuspend.UseVisualStyleBackColor = true;
@@ -383,9 +387,9 @@
             // chkPauseUserSwitch
             // 
             this.chkPauseUserSwitch.AutoSize = true;
-            this.chkPauseUserSwitch.Location = new System.Drawing.Point(3, 26);
+            this.chkPauseUserSwitch.Location = new System.Drawing.Point(3, 28);
             this.chkPauseUserSwitch.Name = "chkPauseUserSwitch";
-            this.chkPauseUserSwitch.Size = new System.Drawing.Size(131, 17);
+            this.chkPauseUserSwitch.Size = new System.Drawing.Size(146, 19);
             this.chkPauseUserSwitch.TabIndex = 12;
             this.chkPauseUserSwitch.Text = "Pause on User Switch";
             this.chkPauseUserSwitch.UseVisualStyleBackColor = true;
@@ -395,7 +399,7 @@
             this.chkCaptureOnStartup.AutoSize = true;
             this.chkCaptureOnStartup.Location = new System.Drawing.Point(3, 3);
             this.chkCaptureOnStartup.Name = "chkCaptureOnStartup";
-            this.chkCaptureOnStartup.Size = new System.Drawing.Size(190, 17);
+            this.chkCaptureOnStartup.Size = new System.Drawing.Size(214, 19);
             this.chkCaptureOnStartup.TabIndex = 11;
             this.chkCaptureOnStartup.Text = "Start Screen Capture Automatically";
             this.chkCaptureOnStartup.UseVisualStyleBackColor = true;
@@ -408,8 +412,8 @@
             this.tableLayoutPanel1.Controls.Add(this.lblNotificationLevel, 0, 0);
             this.tableLayoutPanel1.Controls.Add(this.cbNotificationLevel, 1, 0);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 93);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(1, 101);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 1;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -422,9 +426,9 @@
             this.lblNotificationLevel.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.lblNotificationLevel.AutoSize = true;
             this.lblNotificationLevel.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.lblNotificationLevel.Location = new System.Drawing.Point(3, 10);
+            this.lblNotificationLevel.Location = new System.Drawing.Point(3, 9);
             this.lblNotificationLevel.Name = "lblNotificationLevel";
-            this.lblNotificationLevel.Size = new System.Drawing.Size(88, 13);
+            this.lblNotificationLevel.Size = new System.Drawing.Size(99, 15);
             this.lblNotificationLevel.TabIndex = 15;
             this.lblNotificationLevel.Text = "Notification level:";
             // 
@@ -437,7 +441,7 @@
             "Info",
             "Error",
             "None"});
-            this.cbNotificationLevel.Location = new System.Drawing.Point(122, 6);
+            this.cbNotificationLevel.Location = new System.Drawing.Point(122, 5);
             this.cbNotificationLevel.Name = "cbNotificationLevel";
             this.cbNotificationLevel.Size = new System.Drawing.Size(100, 21);
             this.cbNotificationLevel.TabIndex = 16;
@@ -447,9 +451,9 @@
             this.tabPageHelp.BackColor = System.Drawing.SystemColors.Control;
             this.tabPageHelp.Controls.Add(this.tbHelp);
             this.tabPageHelp.Location = new System.Drawing.Point(4, 22);
-            this.tabPageHelp.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tabPageHelp.Margin = new System.Windows.Forms.Padding(1);
             this.tabPageHelp.Name = "tabPageHelp";
-            this.tabPageHelp.Padding = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tabPageHelp.Padding = new System.Windows.Forms.Padding(1);
             this.tabPageHelp.Size = new System.Drawing.Size(756, 297);
             this.tabPageHelp.TabIndex = 2;
             this.tabPageHelp.Text = "Help";
@@ -460,7 +464,7 @@
             this.tbHelp.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tbHelp.Font = new System.Drawing.Font("Arial", 8.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tbHelp.Location = new System.Drawing.Point(1, 1);
-            this.tbHelp.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.tbHelp.Margin = new System.Windows.Forms.Padding(1);
             this.tbHelp.Multiline = true;
             this.tbHelp.Name = "tbHelp";
             this.tbHelp.ReadOnly = true;
@@ -474,7 +478,7 @@
             // 
             this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCheckUpdates.Location = new System.Drawing.Point(416, 341);
-            this.btnCheckUpdates.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnCheckUpdates.Margin = new System.Windows.Forms.Padding(1);
             this.btnCheckUpdates.Name = "btnCheckUpdates";
             this.btnCheckUpdates.Size = new System.Drawing.Size(110, 27);
             this.btnCheckUpdates.TabIndex = 40;
@@ -486,7 +490,7 @@
             // 
             this.btnViewLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnViewLogs.Location = new System.Drawing.Point(532, 341);
-            this.btnViewLogs.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnViewLogs.Margin = new System.Windows.Forms.Padding(1);
             this.btnViewLogs.Name = "btnViewLogs";
             this.btnViewLogs.Size = new System.Drawing.Size(110, 27);
             this.btnViewLogs.TabIndex = 41;
@@ -512,7 +516,7 @@
             this.lblVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblVersion.Location = new System.Drawing.Point(14, 348);
             this.lblVersion.Name = "lblVersion";
-            this.lblVersion.Size = new System.Drawing.Size(77, 13);
+            this.lblVersion.Size = new System.Drawing.Size(91, 16);
             this.lblVersion.TabIndex = 11;
             this.lblVersion.Text = "Version: X.X";
             // 
@@ -520,11 +524,11 @@
             // 
             this.btnDonate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnDonate.Location = new System.Drawing.Point(300, 341);
-            this.btnDonate.Margin = new System.Windows.Forms.Padding(1, 1, 1, 1);
+            this.btnDonate.Margin = new System.Windows.Forms.Padding(1);
             this.btnDonate.Name = "btnDonate";
             this.btnDonate.Size = new System.Drawing.Size(110, 27);
             this.btnDonate.TabIndex = 100;
-            this.btnDonate.Text = "Donate";
+            this.btnDonate.Text = "<Placeholder>";
             this.btnDonate.UseVisualStyleBackColor = true;
             this.btnDonate.Click += new System.EventHandler(this.btnDonate_Click);
             // 
