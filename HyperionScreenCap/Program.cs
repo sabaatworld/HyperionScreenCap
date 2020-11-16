@@ -58,6 +58,7 @@ namespace HyperionScreenCap
 
             // Migrate legacy settings
             SettingsManager.MigrateLegacySettings();
+            SettingsManager.MigrateFromBefore2_7();
 
             // GitHub API requires TLS 1.2
             ConfigureSSL();

@@ -238,13 +238,28 @@ namespace HyperionScreenCap
 
         private void EnableCapture()
         {
-            LOG.Info($"Enabling {SettingsManager.HyperionTaskConfigurations.Count} screen capture(s)");
             _hyperionTasks.Clear();
-            foreach ( HyperionTaskConfiguration configuration in SettingsManager.HyperionTaskConfigurations )
+
+            if (!SettingsManager.HyperionTaskConfigurations.Exists(config => config.Enabled))
             {
-                HyperionTask hyperionTask = new HyperionTask(configuration, _notificationUtils);
-                hyperionTask.EnableCapture();
-                _hyperionTasks.Add(hyperionTask);
+                LOG.Info("Cannot start capture: No hyperion task configuration is enabled");
+                _notificationUtils.Error("Cannot start capture: No capture task enabled");
+                ExecuteToggleCaptureCommand(CaptureCommand.OFF);
+                return;
+            }
+
+            LOG.Info($"Enabling {SettingsManager.HyperionTaskConfigurations.Count} screen capture(s)");
+            foreach ( HyperionTaskConfiguration configuration in SettingsManager.HyperionTaskConfigurations)
+            {
+                if (configuration.Enabled)
+                {
+                    HyperionTask hyperionTask = new HyperionTask(configuration, _notificationUtils);
+                    hyperionTask.EnableCapture();
+                    _hyperionTasks.Add(hyperionTask);
+                } else
+                {
+                    LOG.Info($"Capture task with ID {configuration.Id} is disabled. Skipping.");
+                }
             }
             CaptureEnabled = true;
             new Thread(DisableCaptureOnFailure) { IsBackground = true }.Start();

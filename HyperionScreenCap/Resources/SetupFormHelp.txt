@@ -1,16 +1,23 @@
-==DirectX 11 Configuration Options==
+## DirectX 11 Configuration Options
 
-Maximum FPS: The maxium number of updates per second that should be sent to Hyperion. Setting it to a value higher than your monitor refresh rate will unnecessarily waste resources.
+* **Maximum FPS:** The maxium number of updates per second that should be sent to Hyperion. Setting it to a value higher than your monitor refresh rate will unnecessarily waste resources.
 Suppose you set this to 60 (equal to your monitor refresh rate), then frames should be sent at a minimum interval of 1000/60 ~ 16ms. Using this value, the application evaluates if it needs to wait before sending the next frame.
 
-Frame Capture Timeout: Millis after which desktop capture attempt times out. Timeouts can happen when the displayed content on the monitor does not change for a while.
+* **Frame Capture Timeout:** Millis after which desktop capture attempt times out. Timeouts can happen when the displayed content on the monitor does not change for a while.
 Note that the if a frame is not available within this timeout, the application will send the last captured frame to Hyperion, if it's available.
 This timeout should always be lower than the "Message Duration" + <Time required to send the captured image to Hyperion>.
 
-Image Scaling Factor: A factor by which the size of the desktop image should be reduced before sending to Hyperion.
+* **Image Scaling Factor:** A factor by which the size of the desktop image should be reduced before sending to Hyperion.
 If your monitor resolution is 3840x2160; an image scaling factor of 64 will result in an image of 60x33 (3840/64 x 2160/64) being sent to Hyperion. Depending on the number of LEDs used with Hyperion, you generally want to keep the captured resolution as low as possible to reduce Hyperion message delivery lag.
 An image having each dimension close to 60 is usually sufficient. You can test the effect of the scaling factor by examining the update lag using this YouTube video: https://youtu.be/sr_vL2anfXA 
 
-Adapter Index: A zero based index that indentifies a GPU on your machine. Use the option "Click here to view monitors for DX11" to find out the correct value for this.
+* **Adapter Index:** A zero based index that indentifies a GPU on your machine. Use the option "Click here to view monitors for DX11" to find out the correct value for this.
 
-Monitor Index: A zero based index that indentifies a display connected to your selected adapter. Use the option "Click here to view monitors for DX11" to find out the correct value for this.
+* **Monitor Index:** A zero based index that indentifies a display connected to your selected adapter. Use the option "Click here to view monitors for DX11" to find out the correct value for this.
+
+
+## Hyperion Server Configuration Protocols
+
+1. **PROTOCOL_BUFFERS:** Use this with the proto port on Hyperion Server; which is generally 19445. Note that support for this may be removed from Hyperion in the near future.
+
+1. **FLAT_BUFFERS:** Use this with the flat buffer port on Hyperion Server; which is generally 19400. This may offer slightly better performance by reducing the amount of data that needs to be transferred to Hyperion.

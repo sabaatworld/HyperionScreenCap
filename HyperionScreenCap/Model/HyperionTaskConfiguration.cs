@@ -8,6 +8,7 @@ namespace HyperionScreenCap.Model
     public class HyperionTaskConfiguration
     {
         public String Id { get; set; }
+        public bool Enabled { get; set; }
         public CaptureMethod CaptureMethod { get; set; }
         public int Dx9CaptureWidth { get; set; }
         public int Dx9CaptureHeight { get; set; }
@@ -28,6 +29,7 @@ namespace HyperionScreenCap.Model
             return new HyperionTaskConfiguration()
             {
                 Id = GetNewId(),
+                Enabled = true,
                 CaptureMethod = Settings.Default.captureMethod,
                 Dx9CaptureHeight = Settings.Default.height,
                 Dx9CaptureWidth = Settings.Default.width,
@@ -45,11 +47,12 @@ namespace HyperionScreenCap.Model
         public static HyperionTaskConfiguration BuildUsingDefaultSettings()
         {
             List<HyperionServer> hyperionServers = new List<HyperionServer>();
-            hyperionServers.Add(HyperionServer.BuildUsingDefaultSettings());
+            hyperionServers.Add(HyperionServer.BuildUsingDefaultProtoSettings());
 
             return new HyperionTaskConfiguration()
             {
                 Id = GetNewId(),
+                Enabled = true,
                 CaptureMethod = CaptureMethod.DX11,
                 Dx9CaptureHeight = 64,
                 Dx9CaptureWidth = 64,

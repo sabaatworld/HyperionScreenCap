@@ -141,5 +141,26 @@ namespace HyperionScreenCap
                 LOG.Info("[Settings Migration] Saved legacy hyperion configuration as JSON string");
             }
         }
+
+        public static void MigrateFromBefore2_7()
+        {
+            if (Settings.Default.migrateFromBefore2_7)
+            {
+                LOG.Info("[Settings Migration] Migrating settings from before version 2.7");
+                var configurations = JsonConvert.DeserializeObject<List<HyperionTaskConfiguration>>(Settings.Default.hyperionTaskConfigurations);
+                foreach (HyperionTaskConfiguration configuration in configurations)
+                {
+                    configuration.Enabled = true;
+                    foreach (HyperionServer server in configuration.HyperionServers)
+                    {
+                        server.Protocol = HyperionServerProtocol.PROTOCOL_BUFFERS;
+                    }
+                }
+                Settings.Default.hyperionTaskConfigurations = JsonConvert.SerializeObject(configurations);
+                Settings.Default.migrateFromBefore2_7 = false;
+                Settings.Default.Save();
+                LOG.Info("[Settings Migration] Migrated settings were saved successfully");
+            }
+        }
     }
 }

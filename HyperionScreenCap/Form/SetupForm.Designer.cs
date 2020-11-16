@@ -37,6 +37,7 @@
             this.btnAddTaskConfig = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.dgTaskConfig = new System.Windows.Forms.DataGridView();
+            this.Enabled = new System.Windows.Forms.DataGridViewCheckBoxColumn();
             this.clmnId = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmnCaptureSource = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.clmnHyperionServers = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -61,7 +62,7 @@
             this.lblNotificationLevel = new System.Windows.Forms.Label();
             this.cbNotificationLevel = new System.Windows.Forms.ComboBox();
             this.tabPageHelp = new System.Windows.Forms.TabPage();
-            this.tbHelp = new System.Windows.Forms.TextBox();
+            this.wbHelpContent = new System.Windows.Forms.WebBrowser();
             this.btnCheckUpdates = new System.Windows.Forms.Button();
             this.btnViewLogs = new System.Windows.Forms.Button();
             this.btnSaveExit = new System.Windows.Forms.Button();
@@ -86,7 +87,7 @@
             this.tabControl1.Location = new System.Drawing.Point(2, 4);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(764, 323);
+            this.tabControl1.Size = new System.Drawing.Size(880, 323);
             this.tabControl1.TabIndex = 99;
             // 
             // tabPageGeneric
@@ -101,7 +102,7 @@
             this.tabPageGeneric.Location = new System.Drawing.Point(4, 22);
             this.tabPageGeneric.Name = "tabPageGeneric";
             this.tabPageGeneric.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGeneric.Size = new System.Drawing.Size(756, 297);
+            this.tabPageGeneric.Size = new System.Drawing.Size(872, 297);
             this.tabPageGeneric.TabIndex = 0;
             this.tabPageGeneric.Text = "General";
             // 
@@ -122,7 +123,7 @@
             // 
             this.btnRemoveTaskConfig.Enabled = false;
             this.btnRemoveTaskConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold);
-            this.btnRemoveTaskConfig.Location = new System.Drawing.Point(312, 259);
+            this.btnRemoveTaskConfig.Location = new System.Drawing.Point(442, 259);
             this.btnRemoveTaskConfig.Margin = new System.Windows.Forms.Padding(1);
             this.btnRemoveTaskConfig.Name = "btnRemoveTaskConfig";
             this.btnRemoveTaskConfig.Size = new System.Drawing.Size(65, 25);
@@ -134,7 +135,7 @@
             // btnAddTaskConfig
             // 
             this.btnAddTaskConfig.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.1F, System.Drawing.FontStyle.Bold);
-            this.btnAddTaskConfig.Location = new System.Drawing.Point(239, 259);
+            this.btnAddTaskConfig.Location = new System.Drawing.Point(375, 259);
             this.btnAddTaskConfig.Margin = new System.Windows.Forms.Padding(1);
             this.btnAddTaskConfig.Name = "btnAddTaskConfig";
             this.btnAddTaskConfig.Size = new System.Drawing.Size(65, 25);
@@ -160,6 +161,7 @@
             this.dgTaskConfig.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgTaskConfig.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgTaskConfig.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Enabled,
             this.clmnId,
             this.clmnCaptureSource,
             this.clmnHyperionServers});
@@ -173,10 +175,20 @@
             this.dgTaskConfig.RowTemplate.Height = 40;
             this.dgTaskConfig.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.dgTaskConfig.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.dgTaskConfig.Size = new System.Drawing.Size(370, 222);
+            this.dgTaskConfig.Size = new System.Drawing.Size(503, 222);
             this.dgTaskConfig.TabIndex = 1;
             this.dgTaskConfig.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgTaskConfig_CellDoubleClick);
             this.dgTaskConfig.SelectionChanged += new System.EventHandler(this.dgTaskConfig_SelectionChanged);
+            // 
+            // Enabled
+            // 
+            this.Enabled.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.ColumnHeader;
+            this.Enabled.HeaderText = "Enabled";
+            this.Enabled.MinimumWidth = 6;
+            this.Enabled.Name = "Enabled";
+            this.Enabled.ReadOnly = true;
+            this.Enabled.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Enabled.Width = 59;
             // 
             // clmnId
             // 
@@ -224,7 +236,7 @@
             this.tableLayoutPanel3.Controls.Add(this.chkCaptureOnStartup, 0, 0);
             this.tableLayoutPanel3.Controls.Add(this.tableLayoutPanel1, 0, 4);
             this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Right;
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(401, 3);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(517, 3);
             this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(1);
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 6;
@@ -254,9 +266,9 @@
             // 
             // lblShowDisplaysMsg
             // 
-            this.lblShowDisplaysMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShowDisplaysMsg.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShowDisplaysMsg.AutoSize = true;
-            this.lblShowDisplaysMsg.Location = new System.Drawing.Point(211, 128);
+            this.lblShowDisplaysMsg.Location = new System.Drawing.Point(195, 128);
             this.lblShowDisplaysMsg.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.lblShowDisplaysMsg.Name = "lblShowDisplaysMsg";
             this.lblShowDisplaysMsg.Size = new System.Drawing.Size(146, 15);
@@ -265,10 +277,10 @@
             // 
             // lblShowDx11Displays
             // 
-            this.lblShowDx11Displays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblShowDx11Displays.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.lblShowDx11Displays.AutoSize = true;
             this.lblShowDx11Displays.Cursor = System.Windows.Forms.Cursors.Default;
-            this.lblShowDx11Displays.Location = new System.Drawing.Point(155, 128);
+            this.lblShowDx11Displays.Location = new System.Drawing.Point(132, 128);
             this.lblShowDx11Displays.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.lblShowDx11Displays.Name = "lblShowDx11Displays";
             this.lblShowDx11Displays.Size = new System.Drawing.Size(61, 15);
@@ -441,7 +453,7 @@
             "Info",
             "Error",
             "None"});
-            this.cbNotificationLevel.Location = new System.Drawing.Point(122, 5);
+            this.cbNotificationLevel.Location = new System.Drawing.Point(122, 6);
             this.cbNotificationLevel.Name = "cbNotificationLevel";
             this.cbNotificationLevel.Size = new System.Drawing.Size(100, 21);
             this.cbNotificationLevel.TabIndex = 16;
@@ -449,38 +461,35 @@
             // tabPageHelp
             // 
             this.tabPageHelp.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPageHelp.Controls.Add(this.tbHelp);
+            this.tabPageHelp.Controls.Add(this.wbHelpContent);
             this.tabPageHelp.Location = new System.Drawing.Point(4, 22);
             this.tabPageHelp.Margin = new System.Windows.Forms.Padding(1);
             this.tabPageHelp.Name = "tabPageHelp";
             this.tabPageHelp.Padding = new System.Windows.Forms.Padding(1);
-            this.tabPageHelp.Size = new System.Drawing.Size(756, 297);
+            this.tabPageHelp.Size = new System.Drawing.Size(872, 297);
             this.tabPageHelp.TabIndex = 2;
             this.tabPageHelp.Text = "Help";
             // 
-            // tbHelp
+            // wbHelpContent
             // 
-            this.tbHelp.BackColor = System.Drawing.SystemColors.Info;
-            this.tbHelp.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tbHelp.Font = new System.Drawing.Font("Arial", 8.1F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tbHelp.Location = new System.Drawing.Point(1, 1);
-            this.tbHelp.Margin = new System.Windows.Forms.Padding(1);
-            this.tbHelp.Multiline = true;
-            this.tbHelp.Name = "tbHelp";
-            this.tbHelp.ReadOnly = true;
-            this.tbHelp.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tbHelp.Size = new System.Drawing.Size(754, 295);
-            this.tbHelp.TabIndex = 0;
-            this.tbHelp.TabStop = false;
-            this.tbHelp.Text = "<Help content is in SetupFormHelp.txt resource>";
+            this.wbHelpContent.AllowNavigation = false;
+            this.wbHelpContent.AllowWebBrowserDrop = false;
+            this.wbHelpContent.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wbHelpContent.IsWebBrowserContextMenuEnabled = false;
+            this.wbHelpContent.Location = new System.Drawing.Point(1, 1);
+            this.wbHelpContent.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbHelpContent.Name = "wbHelpContent";
+            this.wbHelpContent.Size = new System.Drawing.Size(870, 295);
+            this.wbHelpContent.TabIndex = 0;
+            this.wbHelpContent.WebBrowserShortcutsEnabled = false;
             // 
             // btnCheckUpdates
             // 
             this.btnCheckUpdates.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnCheckUpdates.Location = new System.Drawing.Point(416, 341);
+            this.btnCheckUpdates.Location = new System.Drawing.Point(515, 341);
             this.btnCheckUpdates.Margin = new System.Windows.Forms.Padding(1);
             this.btnCheckUpdates.Name = "btnCheckUpdates";
-            this.btnCheckUpdates.Size = new System.Drawing.Size(110, 27);
+            this.btnCheckUpdates.Size = new System.Drawing.Size(120, 27);
             this.btnCheckUpdates.TabIndex = 40;
             this.btnCheckUpdates.Text = "Check for Updates";
             this.btnCheckUpdates.UseVisualStyleBackColor = true;
@@ -489,10 +498,10 @@
             // btnViewLogs
             // 
             this.btnViewLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnViewLogs.Location = new System.Drawing.Point(532, 341);
+            this.btnViewLogs.Location = new System.Drawing.Point(637, 341);
             this.btnViewLogs.Margin = new System.Windows.Forms.Padding(1);
             this.btnViewLogs.Name = "btnViewLogs";
-            this.btnViewLogs.Size = new System.Drawing.Size(110, 27);
+            this.btnViewLogs.Size = new System.Drawing.Size(120, 27);
             this.btnViewLogs.TabIndex = 41;
             this.btnViewLogs.Text = "View Logs";
             this.btnViewLogs.UseVisualStyleBackColor = true;
@@ -501,9 +510,9 @@
             // btnSaveExit
             // 
             this.btnSaveExit.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSaveExit.Location = new System.Drawing.Point(648, 341);
+            this.btnSaveExit.Location = new System.Drawing.Point(761, 341);
             this.btnSaveExit.Name = "btnSaveExit";
-            this.btnSaveExit.Size = new System.Drawing.Size(110, 27);
+            this.btnSaveExit.Size = new System.Drawing.Size(120, 27);
             this.btnSaveExit.TabIndex = 42;
             this.btnSaveExit.Text = "Save and close";
             this.btnSaveExit.UseVisualStyleBackColor = true;
@@ -523,10 +532,10 @@
             // btnDonate
             // 
             this.btnDonate.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnDonate.Location = new System.Drawing.Point(300, 341);
+            this.btnDonate.Location = new System.Drawing.Point(393, 341);
             this.btnDonate.Margin = new System.Windows.Forms.Padding(1);
             this.btnDonate.Name = "btnDonate";
-            this.btnDonate.Size = new System.Drawing.Size(110, 27);
+            this.btnDonate.Size = new System.Drawing.Size(120, 27);
             this.btnDonate.TabIndex = 100;
             this.btnDonate.Text = "<Placeholder>";
             this.btnDonate.UseVisualStyleBackColor = true;
@@ -538,7 +547,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(766, 374);
+            this.ClientSize = new System.Drawing.Size(882, 374);
             this.Controls.Add(this.btnDonate);
             this.Controls.Add(this.btnViewLogs);
             this.Controls.Add(this.btnCheckUpdates);
@@ -563,7 +572,6 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.tabPageHelp.ResumeLayout(false);
-            this.tabPageHelp.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -588,7 +596,6 @@
         private System.Windows.Forms.CheckBox chkCaptureOnStartup;
         private System.Windows.Forms.Label lblVersion;
         private System.Windows.Forms.TabPage tabPageHelp;
-        private System.Windows.Forms.TextBox tbHelp;
         private System.Windows.Forms.LinkLabel lblShowDx11Displays;
         private System.Windows.Forms.Label lblShowDisplaysMsg;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
@@ -603,10 +610,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnRemoveTaskConfig;
         private System.Windows.Forms.Button btnAddTaskConfig;
+        private System.Windows.Forms.Button btnEditTaskConfig;
+        private System.Windows.Forms.Button btnDonate;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn Enabled;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnId;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnCaptureSource;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnHyperionServers;
-        private System.Windows.Forms.Button btnEditTaskConfig;
-        private System.Windows.Forms.Button btnDonate;
+        private System.Windows.Forms.WebBrowser wbHelpContent;
     }
 }

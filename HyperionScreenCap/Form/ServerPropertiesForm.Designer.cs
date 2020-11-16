@@ -56,14 +56,16 @@
             this.cbDx11ImageScalingFactor = new System.Windows.Forms.ComboBox();
             this.gBHyperionServers = new System.Windows.Forms.GroupBox();
             this.dgHyperionAddress = new System.Windows.Forms.DataGridView();
-            this.clmnHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmnPort = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmnPriority = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.clmnMessageDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.label10 = new System.Windows.Forms.Label();
+            this.chkConfigurationEnabled = new System.Windows.Forms.CheckBox();
+            this.Protocol = new System.Windows.Forms.DataGridViewComboBoxColumn();
+            this.clmnHost = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmnPort = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmnPriority = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.clmnMessageDuration = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.gbCaptureApi.SuspendLayout();
             this.tblScreenCaptureMethod.SuspendLayout();
             this.tblDx9Values.SuspendLayout();
@@ -76,11 +78,11 @@
             // gbCaptureApi
             // 
             this.gbCaptureApi.Controls.Add(this.tblScreenCaptureMethod);
-            this.gbCaptureApi.Location = new System.Drawing.Point(4, 5);
+            this.gbCaptureApi.Location = new System.Drawing.Point(4, 46);
             this.gbCaptureApi.Margin = new System.Windows.Forms.Padding(1);
             this.gbCaptureApi.Name = "gbCaptureApi";
             this.gbCaptureApi.Padding = new System.Windows.Forms.Padding(1);
-            this.gbCaptureApi.Size = new System.Drawing.Size(506, 344);
+            this.gbCaptureApi.Size = new System.Drawing.Size(506, 303);
             this.gbCaptureApi.TabIndex = 7;
             this.gbCaptureApi.TabStop = false;
             this.gbCaptureApi.Text = "Screen Capture Method";
@@ -103,13 +105,13 @@
             this.tblScreenCaptureMethod.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tblScreenCaptureMethod.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tblScreenCaptureMethod.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 8F));
-            this.tblScreenCaptureMethod.Size = new System.Drawing.Size(504, 329);
+            this.tblScreenCaptureMethod.Size = new System.Drawing.Size(504, 288);
             this.tblScreenCaptureMethod.TabIndex = 0;
             // 
             // rbcmDx9
             // 
             this.rbcmDx9.AutoSize = true;
-            this.rbcmDx9.Location = new System.Drawing.Point(5, 165);
+            this.rbcmDx9.Location = new System.Drawing.Point(5, 145);
             this.rbcmDx9.Margin = new System.Windows.Forms.Padding(1);
             this.rbcmDx9.Name = "rbcmDx9";
             this.rbcmDx9.Size = new System.Drawing.Size(113, 79);
@@ -145,7 +147,7 @@
             this.tblDx9Values.Controls.Add(this.tbDx9CaptureInterval, 1, 3);
             this.tblDx9Values.Controls.Add(this.cbDx9MonitorIndex, 1, 0);
             this.tblDx9Values.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tblDx9Values.Location = new System.Drawing.Point(168, 165);
+            this.tblDx9Values.Location = new System.Drawing.Point(168, 145);
             this.tblDx9Values.Margin = new System.Windows.Forms.Padding(1);
             this.tblDx9Values.Name = "tblDx9Values";
             this.tblDx9Values.RowCount = 5;
@@ -154,7 +156,7 @@
             this.tblDx9Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDx9Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDx9Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblDx9Values.Size = new System.Drawing.Size(331, 159);
+            this.tblDx9Values.Size = new System.Drawing.Size(331, 138);
             this.tblDx9Values.TabIndex = 9;
             // 
             // label1
@@ -279,7 +281,7 @@
             this.tblDx11Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDx11Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tblDx11Values.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tblDx11Values.Size = new System.Drawing.Size(331, 158);
+            this.tblDx11Values.Size = new System.Drawing.Size(331, 138);
             this.tblDx11Values.TabIndex = 10;
             // 
             // cbDx11MonitorIndex
@@ -329,7 +331,7 @@
             // tbDx11MaxFps
             // 
             this.tbDx11MaxFps.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.tbDx11MaxFps.Location = new System.Drawing.Point(168, 116);
+            this.tbDx11MaxFps.Location = new System.Drawing.Point(168, 114);
             this.tbDx11MaxFps.MaxLength = 4;
             this.tbDx11MaxFps.Name = "tbDx11MaxFps";
             this.tbDx11MaxFps.Size = new System.Drawing.Size(100, 20);
@@ -383,7 +385,7 @@
             // 
             this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(1, 91);
+            this.label8.Location = new System.Drawing.Point(1, 90);
             this.label8.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(123, 15);
@@ -394,7 +396,7 @@
             // 
             this.label9.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(1, 118);
+            this.label9.Location = new System.Drawing.Point(1, 116);
             this.label9.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(57, 15);
@@ -442,7 +444,7 @@
             this.gBHyperionServers.Margin = new System.Windows.Forms.Padding(1);
             this.gBHyperionServers.Name = "gBHyperionServers";
             this.gBHyperionServers.Padding = new System.Windows.Forms.Padding(1);
-            this.gBHyperionServers.Size = new System.Drawing.Size(477, 318);
+            this.gBHyperionServers.Size = new System.Drawing.Size(500, 318);
             this.gBHyperionServers.TabIndex = 8;
             this.gBHyperionServers.TabStop = false;
             this.gBHyperionServers.Text = "Hyperion Server Configuration";
@@ -454,6 +456,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgHyperionAddress.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgHyperionAddress.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Protocol,
             this.clmnHost,
             this.clmnPort,
             this.clmnPriority,
@@ -465,10 +468,83 @@
             this.dgHyperionAddress.RowHeadersWidth = 46;
             this.dgHyperionAddress.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
             this.dgHyperionAddress.RowTemplate.Height = 40;
-            this.dgHyperionAddress.Size = new System.Drawing.Size(473, 297);
+            this.dgHyperionAddress.Size = new System.Drawing.Size(496, 297);
             this.dgHyperionAddress.TabIndex = 12;
             this.dgHyperionAddress.DefaultValuesNeeded += new System.Windows.Forms.DataGridViewRowEventHandler(this.dgHyperionAddress_DefaultValuesNeeded);
             this.dgHyperionAddress.EditingControlShowing += new System.Windows.Forms.DataGridViewEditingControlShowingEventHandler(this.dgHyperionAddress_EditingControlShowing);
+            // 
+            // btnSave
+            // 
+            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnSave.Location = new System.Drawing.Point(378, 1);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(1);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(120, 27);
+            this.btnSave.TabIndex = 13;
+            this.btnSave.Text = "Save";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
+            // btnCancel
+            // 
+            this.btnCancel.Location = new System.Drawing.Point(519, 1);
+            this.btnCancel.Margin = new System.Windows.Forms.Padding(1);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(120, 27);
+            this.btnCancel.TabIndex = 14;
+            this.btnCancel.Text = "Cancel";
+            this.btnCancel.UseVisualStyleBackColor = true;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.ColumnCount = 3;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Controls.Add(this.btnSave, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.btnCancel, 2, 0);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 365);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 1;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(1018, 40);
+            this.tableLayoutPanel1.TabIndex = 11;
+            // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label10.Location = new System.Drawing.Point(535, 332);
+            this.label10.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(486, 17);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "- Use the \"Delete\" key to remove the selected Hyperion server configuration";
+            // 
+            // chkConfigurationEnabled
+            // 
+            this.chkConfigurationEnabled.AutoSize = true;
+            this.chkConfigurationEnabled.Location = new System.Drawing.Point(10, 12);
+            this.chkConfigurationEnabled.Name = "chkConfigurationEnabled";
+            this.chkConfigurationEnabled.Size = new System.Drawing.Size(118, 19);
+            this.chkConfigurationEnabled.TabIndex = 13;
+            this.chkConfigurationEnabled.Text = "Capture Enabled";
+            this.chkConfigurationEnabled.UseVisualStyleBackColor = true;
+            // 
+            // Protocol
+            // 
+            this.Protocol.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+            this.Protocol.DataPropertyName = "Protocol";
+            this.Protocol.HeaderText = "Protocol";
+            this.Protocol.MinimumWidth = 6;
+            this.Protocol.Name = "Protocol";
+            this.Protocol.Resizable = System.Windows.Forms.DataGridViewTriState.False;
+            this.Protocol.Width = 58;
             // 
             // clmnHost
             // 
@@ -518,65 +594,13 @@
             this.clmnMessageDuration.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.clmnMessageDuration.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
-            // btnSave
-            // 
-            this.btnSave.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnSave.Location = new System.Drawing.Point(402, 1);
-            this.btnSave.Margin = new System.Windows.Forms.Padding(1);
-            this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(85, 34);
-            this.btnSave.TabIndex = 13;
-            this.btnSave.Text = "Save";
-            this.btnSave.UseVisualStyleBackColor = true;
-            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
-            // 
-            // btnCancel
-            // 
-            this.btnCancel.Location = new System.Drawing.Point(508, 1);
-            this.btnCancel.Margin = new System.Windows.Forms.Padding(1);
-            this.btnCancel.Name = "btnCancel";
-            this.btnCancel.Size = new System.Drawing.Size(85, 34);
-            this.btnCancel.TabIndex = 14;
-            this.btnCancel.Text = "Cancel";
-            this.btnCancel.UseVisualStyleBackColor = true;
-            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
-            // 
-            // tableLayoutPanel1
-            // 
-            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel1.ColumnCount = 3;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 19F));
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Controls.Add(this.btnSave, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.btnCancel, 2, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(4, 365);
-            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(1);
-            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 1;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(995, 42);
-            this.tableLayoutPanel1.TabIndex = 11;
-            // 
-            // label10
-            // 
-            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(526, 336);
-            this.label10.Margin = new System.Windows.Forms.Padding(1, 0, 1, 0);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(486, 17);
-            this.label10.TabIndex = 12;
-            this.label10.Text = "- Use the \"Delete\" key to remove the selected Hyperion server configuration";
-            // 
             // ServerPropertiesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
-            this.ClientSize = new System.Drawing.Size(1002, 415);
+            this.ClientSize = new System.Drawing.Size(1025, 407);
+            this.Controls.Add(this.chkConfigurationEnabled);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Controls.Add(this.gBHyperionServers);
@@ -636,10 +660,12 @@
         private System.Windows.Forms.Button btnCancel;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.ComboBox cbDx11ImageScalingFactor;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.CheckBox chkConfigurationEnabled;
+        private System.Windows.Forms.DataGridViewComboBoxColumn Protocol;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnHost;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnPort;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnPriority;
         private System.Windows.Forms.DataGridViewTextBoxColumn clmnMessageDuration;
-        private System.Windows.Forms.Label label10;
     }
 }

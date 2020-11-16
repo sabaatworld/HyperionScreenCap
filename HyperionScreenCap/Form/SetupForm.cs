@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
+using Markdig;
 
 namespace HyperionScreenCap
 {
@@ -27,7 +28,8 @@ namespace HyperionScreenCap
 
             LoadSettings();
 
-            tbHelp.Text = Resources.SetupFormHelp;
+            var helpHtml = Markdown.ToHtml(Resources.SetupFormHelp);
+            wbHelpContent.DocumentText = helpHtml;
             lblVersion.Text = Assembly.GetExecutingAssembly().GetName().Version.ToString();
             btnDonate.Text = AppConstants.TrayIcon.MENU_TXT_DONATE;
             LOG.Info("SetupForm Instantiated");
@@ -72,6 +74,7 @@ namespace HyperionScreenCap
         private void AddTaskCofigRow(HyperionTaskConfiguration taskConfiguration)
         {
             string id = taskConfiguration.Id;
+            bool enabled = taskConfiguration.Enabled;
 
             string captureSource;
             switch(taskConfiguration.CaptureMethod)
@@ -94,7 +97,7 @@ namespace HyperionScreenCap
             }
             if ( hyperionServers.Length > 0 )
                 hyperionServers.Length = hyperionServers.Length - 2;
-            dgTaskConfig.Rows.Add(id, captureSource, hyperionServers);
+            dgTaskConfig.Rows.Add(enabled, id, captureSource, hyperionServers);
         }
 
         private void btnSaveExit_Click(object sender, EventArgs e)

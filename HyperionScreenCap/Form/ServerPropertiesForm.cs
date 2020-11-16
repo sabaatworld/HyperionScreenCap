@@ -1,12 +1,7 @@
 ﻿using HyperionScreenCap.Model;
 using log4net;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap
@@ -21,15 +16,19 @@ namespace HyperionScreenCap
 
         public ServerPropertiesForm(HyperionTaskConfiguration taskConfiguration)
         {
-            this._defaultServerConfiguration = HyperionServer.BuildUsingDefaultSettings();
+            this._defaultServerConfiguration = HyperionServer.BuildUsingDefaultProtoSettings();
             this.TaskConfiguration = taskConfiguration;
             InitializeComponent();
             this.Text = $"{this.Text} - {taskConfiguration.Id}";
+            var protocolColumn = (DataGridViewComboBoxColumn) this.dgHyperionAddress.Columns.GetFirstColumn(DataGridViewElementStates.Visible);
+            protocolColumn.DataSource = Enum.GetValues(typeof(HyperionServerProtocol));
+            protocolColumn.ValueType = typeof(HyperionServerProtocol);
             InitFormFields();
         }
 
         private void InitFormFields()
         {
+            chkConfigurationEnabled.Checked = TaskConfiguration.Enabled;
             EnableRelevantDxFields(TaskConfiguration.CaptureMethod);
 
             SelectValueFromComboBox(cbDx11AdapterIndex, TaskConfiguration.Dx11AdapterIndex); // TODO check item list for each combo box
@@ -49,6 +48,7 @@ namespace HyperionScreenCap
 
         private void SaveFormFields()
         {
+            TaskConfiguration.Enabled = chkConfigurationEnabled.Checked;
             TaskConfiguration.CaptureMethod = rbcmDx11.Checked ? CaptureMethod.DX11 : CaptureMethod.DX9;
             TaskConfiguration.Dx11AdapterIndex = int.Parse(cbDx11AdapterIndex.SelectedItem.ToString());
             TaskConfiguration.Dx11MonitorIndex = int.Parse(cbDx11MonitorIndex.SelectedItem.ToString());
@@ -157,7 +157,7 @@ namespace HyperionScreenCap
         {
             e.Control.KeyPress -= new KeyPressEventHandler(PreventNonNumeric_KeyPressEventHandler);
             // Only columnIndex 0 is allowed to have non-numeric characters
-            if ( dgHyperionAddress.CurrentCell.ColumnIndex > 0 )
+            if ( dgHyperionAddress.CurrentCell.ColumnIndex > 1 )
             {
                 e.Control.KeyPress += new KeyPressEventHandler(PreventNonNumeric_KeyPressEventHandler);
             }
@@ -173,10 +173,11 @@ namespace HyperionScreenCap
 
         private void dgHyperionAddress_DefaultValuesNeeded(object sender, DataGridViewRowEventArgs e)
         {
-            e.Row.Cells[0].Value = _defaultServerConfiguration.Host;
-            e.Row.Cells[1].Value = _defaultServerConfiguration.Port;
-            e.Row.Cells[2].Value = _defaultServerConfiguration.Priority;
-            e.Row.Cells[3].Value = _defaultServerConfiguration.MessageDuration;
+            e.Row.Cells[0].Value = _defaultServerConfiguration.Protocol;
+            e.Row.Cells[1].Value = _defaultServerConfiguration.Host;
+            e.Row.Cells[2].Value = _defaultServerConfiguration.Port;
+            e.Row.Cells[3].Value = _defaultServerConfiguration.Priority;
+            e.Row.Cells[4].Value = _defaultServerConfiguration.MessageDuration;
         }
 
         private void rbcmDx11_CheckedChanged(object sender, EventArgs e)

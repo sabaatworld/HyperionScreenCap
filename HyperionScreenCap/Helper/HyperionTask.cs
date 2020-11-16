@@ -1,11 +1,10 @@
 ﻿using HyperionScreenCap.Capture;
 using HyperionScreenCap.Config;
 using HyperionScreenCap.Model;
+using HyperionScreenCap.Networking;
 using log4net;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 
 namespace HyperionScreenCap.Helper
@@ -18,7 +17,7 @@ namespace HyperionScreenCap.Helper
         private NotificationUtils _notificationUtils;
 
         private IScreenCapture _screenCapture;
-        private List<ProtoClient> _protoClients;
+        private List<HyperionClient> _hyperionClients;
         public bool CaptureEnabled { get; private set; }
         private Thread _captureThread;
 
@@ -26,7 +25,7 @@ namespace HyperionScreenCap.Helper
         {
             this._configuration = configuration;
             this._notificationUtils = notificationUtils;
-            this._protoClients = new List<ProtoClient>();
+            this._hyperionClients = new List<HyperionClient>();
         }
 
         private void InitScreenCapture()
@@ -49,16 +48,29 @@ namespace HyperionScreenCap.Helper
             }
         }
 
-        private String GetProtoInitFailedMsg(ProtoClient protoClient)
+        private String GetHyperionInitFailedMsg(HyperionClient hyperionClient)
         {
-            return $"Failed to connect to Hyperion server using {protoClient}";
+            return $"Failed to connect to Hyperion server using {hyperionClient}";
         }
 
-        private void InstantiateProtoClients()
+        private void InstantiateHyperionClients()
         {
             foreach ( HyperionServer server in _configuration.HyperionServers )
             {
-                _protoClients.Add(new ProtoClient(server.Host, server.Port, server.Priority, server.MessageDuration));
+                switch (server.Protocol)
+                {
+                    case HyperionServerProtocol.PROTOCOL_BUFFERS:
+                        _hyperionClients.Add(new ProtoClient(server.Host, server.Port, server.Priority, server.MessageDuration));
+                        break;
+
+                    case HyperionServerProtocol.FLAT_BUFFERS:
+                        _hyperionClients.Add(new FbsClinet(server.Host, server.Port, server.Priority, server.MessageDuration));
+                        break;
+
+                    default:
+                        throw new NotImplementedException($"Hyperion server protocol {server.Protocol} is not supported yet");
+                }
+                
             }
         }
 
@@ -81,53 +93,53 @@ namespace HyperionScreenCap.Helper
             }
         }
 
-        private void DisposeProtoClients()
+        private void DisposeHyperionClients()
         {
-            foreach ( ProtoClient protoClient in _protoClients )
+            foreach ( HyperionClient hyperionClient in _hyperionClients )
             {
-                protoClient?.Dispose();
+                hyperionClient?.Dispose();
             }
         }
 
-        private void ConnectProtoClients()
+        private void ConnectHyperionClients()
         {
-            foreach ( ProtoClient protoClient in _protoClients )
+            foreach ( HyperionClient hyperionClient in _hyperionClients )
             {
-                if ( protoClient.IsConnected() )
+                if ( hyperionClient.IsConnected() )
                 {
-                    // Proto client already initialized. Ignoring request.
+                    // Hyperion client already initialized. Ignoring request.
                     return;
                 }
                 try
                 {
-                    LOG.Info($"{this}: Connecting {protoClient}");
-                    protoClient?.Dispose();
-                    // TODO: check for memory leak in protoClient
-                    protoClient.Connect();
+                    LOG.Info($"{this}: Connecting {hyperionClient}");
+                    hyperionClient?.Dispose();
+                    // TODO: check for memory leak in each of the Hyperion Clients
+                    hyperionClient.Connect();
                     // Double checking since sometimes exceptions are not thrown even if connection fails
-                    if ( protoClient.IsConnected() )
+                    if ( hyperionClient.IsConnected() )
                     {
-                        LOG.Info($"{this}: {protoClient} connected");
-                        _notificationUtils.Info($"Connected to Hyperion server using {protoClient}!");
+                        LOG.Info($"{this}: {hyperionClient} connected");
+                        _notificationUtils.Info($"Connected to Hyperion server using {hyperionClient}!");
                     }
                     else
-                        throw new Exception(GetProtoInitFailedMsg(protoClient));
+                        throw new Exception(GetHyperionInitFailedMsg(hyperionClient));
                 }
                 catch ( Exception ex )
                 {
-                    throw new Exception(GetProtoInitFailedMsg(protoClient), ex);
+                    throw new Exception(GetHyperionInitFailedMsg(hyperionClient), ex);
                 }
             }
         }
 
         private void TransmitNextFrame()
         {
-            foreach ( ProtoClient protoClient in _protoClients )
+            foreach ( HyperionClient hyperionClient in _hyperionClients )
             {
                 try
                 {
                     byte[] imageData = _screenCapture.Capture();
-                    protoClient.SendImageToServer(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight);
+                    hyperionClient.SendImageData(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight);
 
                     // Uncomment the following to enable debugging
                     // MiscUtils.SaveRGBArrayToImageFile(imageData, _screenCapture.CaptureWidth, _screenCapture.CaptureHeight, AppConstants.DEBUG_IMAGE_FILE_NAME);
@@ -142,14 +154,14 @@ namespace HyperionScreenCap.Helper
         private void StartCapture()
         {
             InstantiateScreenCapture();
-            InstantiateProtoClients();
+            InstantiateHyperionClients();
             int captureAttempt = 1;
             while ( CaptureEnabled )
             {
                 try // This block will help retry capture before giving up
                 {
                     InitScreenCapture();
-                    ConnectProtoClients();
+                    ConnectHyperionClients();
                     TransmitNextFrame();
                     _screenCapture.DelayNextCapture();
                     captureAttempt = 1; // Reset attempt count
@@ -187,7 +199,7 @@ namespace HyperionScreenCap.Helper
             finally
             {
                 _screenCapture?.Dispose();
-                DisposeProtoClients();
+                DisposeHyperionClients();
             }
             LOG.Info($"{this}: Screen Capture finished");
         }
