@@ -25,6 +25,7 @@ namespace HyperionScreenCap
             LOG.Info("Instantiating SetupForm");
             _mainForm = mainForm;
             InitializeComponent();
+            dgTaskConfig.AutoGenerateColumns = false;
 
             LoadSettings();
 
@@ -52,7 +53,7 @@ namespace HyperionScreenCap
                 chkCheckUpdate.Checked = SettingsManager.CheckUpdateOnStartup;
                 cbNotificationLevel.Text = SettingsManager.NotificationLevel.ToString();
                 _taskConfigurations = SettingsManager.HyperionTaskConfigurations;
-                PopulateTaskConfigRows();
+                Rebind_dgTaskConfig();
                 LOG.Info("Finished loading settings using SettingsManager");
             }
             catch ( Exception ex )
@@ -62,42 +63,51 @@ namespace HyperionScreenCap
             }
         }
 
-        private void PopulateTaskConfigRows()
+        private void dgTaskConfig_RowsAdded(object sender, DataGridViewRowsAddedEventArgs e)
         {
-            dgTaskConfig.Rows.Clear();
-            foreach (HyperionTaskConfiguration taskConfiguration in _taskConfigurations)
+            for (int i = 0; i < e.RowCount; i++)
             {
-                AddTaskCofigRow(taskConfiguration);
+                PopulateUnboundColumns(e.RowIndex + i);
             }
         }
 
-        private void AddTaskCofigRow(HyperionTaskConfiguration taskConfiguration)
+        private void Rebind_dgTaskConfig()
         {
-            string id = taskConfiguration.Id;
-            bool enabled = taskConfiguration.Enabled;
+            var hyperionTasksBindingList = new BindingList<HyperionTaskConfiguration>(_taskConfigurations);
+            var hyperionTasksDataSource = new BindingSource(hyperionTasksBindingList, null);
+            dgTaskConfig.DataSource = hyperionTasksDataSource;
+        }
 
-            string captureSource;
-            switch(taskConfiguration.CaptureMethod)
+        private void PopulateUnboundColumns(int rowIndex)
+        {
+            var row = dgTaskConfig.Rows[rowIndex];
+            row.Cells["clmnCaptureSource"].Value = GetCaptureSourceColumnValue(_taskConfigurations[rowIndex]);
+            row.Cells["clmnHyperionServers"].Value = GetHyperionServersColumnValue(_taskConfigurations[rowIndex]);
+        }
+
+        private String GetCaptureSourceColumnValue(HyperionTaskConfiguration taskConfiguration)
+        {
+            switch (taskConfiguration.CaptureMethod)
             {
                 case CaptureMethod.DX11:
-                    captureSource = $"DX11 Adap:{taskConfiguration.Dx11AdapterIndex} Mon:{taskConfiguration.Dx11MonitorIndex}";
-                    break;
+                   return $"DX11 Adap:{taskConfiguration.Dx11AdapterIndex} Mon:{taskConfiguration.Dx11MonitorIndex}";
 
                 case CaptureMethod.DX9:
-                    captureSource = $"DX9 Mon: {taskConfiguration.Dx9MonitorIndex}";
-                    break;
+                    return $"DX9 Mon: {taskConfiguration.Dx9MonitorIndex}";
 
                 default:
                     throw new NotImplementedException($"The capture method {taskConfiguration.CaptureMethod} is not supported");
             }
+        }
 
-            StringBuilder hyperionServers = new StringBuilder();
-            foreach(HyperionServer server in taskConfiguration.HyperionServers) {
-                hyperionServers.Append($"{server.Host}:{server.Port}, ");
+        private String GetHyperionServersColumnValue(HyperionTaskConfiguration taskConfiguration)
+        {
+            var servers = new List<String>();
+            foreach (HyperionServer server in taskConfiguration.HyperionServers)
+            {
+                servers.Add($"{server.Host}:{server.Port}");
             }
-            if ( hyperionServers.Length > 0 )
-                hyperionServers.Length = hyperionServers.Length - 2;
-            dgTaskConfig.Rows.Add(enabled, id, captureSource, hyperionServers);
+            return string.Join(", ", servers);
         }
 
         private void btnSaveExit_Click(object sender, EventArgs e)
@@ -257,7 +267,7 @@ namespace HyperionScreenCap
             if ( editPropFrm.SaveRequested )
             {
                 _taskConfigurations.Add(editPropFrm.TaskConfiguration);
-                PopulateTaskConfigRows();
+                Rebind_dgTaskConfig();
             }
         }
 
@@ -265,7 +275,7 @@ namespace HyperionScreenCap
         {
             int selectedRowIndex = dgTaskConfig.SelectedRows[0].Index;
             _taskConfigurations.RemoveAt(selectedRowIndex);
-            PopulateTaskConfigRows();
+            Rebind_dgTaskConfig();
         }
 
         private void btnEditTaskConfig_Click(object sender, EventArgs e)
@@ -276,12 +286,12 @@ namespace HyperionScreenCap
         private void EditCurrentlySelectedTaskConfiguration()
         {
             int selectedRowIndex = dgTaskConfig.SelectedRows[0].Index;
-            ServerPropertiesForm editPropFrm = new ServerPropertiesForm(_taskConfigurations[selectedRowIndex]);
+            ServerPropertiesForm editPropFrm = new ServerPropertiesForm(_taskConfigurations[selectedRowIndex].DeepCopy());
             editPropFrm.ShowDialog();
             if ( editPropFrm.SaveRequested )
             {
                 _taskConfigurations[selectedRowIndex] = editPropFrm.TaskConfiguration;
-                PopulateTaskConfigRows();
+                Rebind_dgTaskConfig();
             }
         }
 

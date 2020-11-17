@@ -58,7 +58,7 @@ namespace HyperionScreenCap
         /// <returns></returns>
         public static string GetLogDirectory()
         {
-            return Environment.GetFolderPath(System.Environment.SpecialFolder.LocalApplicationData) + Path.DirectorySeparatorChar
+            return Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData) + Path.DirectorySeparatorChar
                 + Assembly.GetExecutingAssembly().GetName().Name;
         }
 

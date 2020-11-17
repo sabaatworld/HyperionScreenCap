@@ -9,7 +9,7 @@
       <Value Profile="(Default)">19445</Value>
     </Setting>
     <Setting Name="hyperionMessagePriority" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">10</Value>
+      <Value Profile="(Default)">110</Value>
     </Setting>
     <Setting Name="hyperionMessageDuration" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">1500</Value>

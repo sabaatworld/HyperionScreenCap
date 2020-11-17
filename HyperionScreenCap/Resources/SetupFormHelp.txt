@@ -18,6 +18,6 @@ An image having each dimension close to 60 is usually sufficient. You can test t
 
 ## Hyperion Server Configuration Protocols
 
-1. **PROTOCOL_BUFFERS:** Use this with the proto port on Hyperion Server; which is generally 19445. Note that support for this may be removed from Hyperion in the near future.
+1. **PROTOCOL_BUFFERS:** Use this with the proto port on Hyperion Server; which is generally 19445. Priority can be set to anything between 100 - 199. Note that support for this may be removed from Hyperion in the near future.
 
-1. **FLAT_BUFFERS:** Use this with the flat buffer port on Hyperion Server; which is generally 19400. This may offer slightly better performance by reducing the amount of data that needs to be transferred to Hyperion.
+1. **FLAT_BUFFERS:** Use this with the flat buffer port on Hyperion Server; which is generally 19400. Priority can be set to anything between 100 - 199. This may offer slightly better performance by reducing the amount of data that needs to be transferred to Hyperion.

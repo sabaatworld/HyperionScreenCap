@@ -137,14 +137,10 @@ namespace HyperionScreenCap
                 configurations.Add(HyperionTaskConfiguration.BuildUsingLegacySettings());
                 Settings.Default.hyperionTaskConfigurations = JsonConvert.SerializeObject(configurations);
                 Settings.Default.migrateLegacyHyperionConfiguration = false;
+                Settings.Default.migrateFromBefore2_7 = false;
                 Settings.Default.Save();
                 LOG.Info("[Settings Migration] Saved legacy hyperion configuration as JSON string");
-            }
-        }
-
-        public static void MigrateFromBefore2_7()
-        {
-            if (Settings.Default.migrateFromBefore2_7)
+            } else if ( Settings.Default.migrateFromBefore2_7 )
             {
                 LOG.Info("[Settings Migration] Migrating settings from before version 2.7");
                 var configurations = JsonConvert.DeserializeObject<List<HyperionTaskConfiguration>>(Settings.Default.hyperionTaskConfigurations);
@@ -159,7 +155,7 @@ namespace HyperionScreenCap
                 Settings.Default.hyperionTaskConfigurations = JsonConvert.SerializeObject(configurations);
                 Settings.Default.migrateFromBefore2_7 = false;
                 Settings.Default.Save();
-                LOG.Info("[Settings Migration] Migrated settings were saved successfully");
+                LOG.Info("[Settings Migration] Settings from befor version 2.7 were migrated successfully");
             }
         }
     }

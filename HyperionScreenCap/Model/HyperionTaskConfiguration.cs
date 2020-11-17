@@ -24,7 +24,7 @@ namespace HyperionScreenCap.Model
         public static HyperionTaskConfiguration BuildUsingLegacySettings()
         {
             List<HyperionServer> hyperionServers = new List<HyperionServer>();
-            hyperionServers.Add(HyperionServer.BuildUsingLegacySettings());
+            hyperionServers.Add(HyperionServer.BuildUsingDefaultFbsSettings());
 
             return new HyperionTaskConfiguration()
             {
@@ -47,7 +47,7 @@ namespace HyperionScreenCap.Model
         public static HyperionTaskConfiguration BuildUsingDefaultSettings()
         {
             List<HyperionServer> hyperionServers = new List<HyperionServer>();
-            hyperionServers.Add(HyperionServer.BuildUsingDefaultProtoSettings());
+            hyperionServers.Add(HyperionServer.BuildUsingDefaultFbsSettings());
 
             return new HyperionTaskConfiguration()
             {
@@ -70,6 +70,15 @@ namespace HyperionScreenCap.Model
         public static String GetNewId()
         {
             return Guid.NewGuid().ToString().Substring(0, 6);
+        }
+
+        public HyperionTaskConfiguration DeepCopy()
+        {
+            var copy = (HyperionTaskConfiguration) MemberwiseClone();
+            copy.Id = String.Copy(Id);
+            copy.HyperionServers = new List<HyperionServer>();
+            HyperionServers.ForEach(server => copy.HyperionServers.Add(server.DeepCopy()));
+            return copy;
         }
     }
 }

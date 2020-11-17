@@ -16,7 +16,7 @@ namespace HyperionScreenCap
 
         public ServerPropertiesForm(HyperionTaskConfiguration taskConfiguration)
         {
-            this._defaultServerConfiguration = HyperionServer.BuildUsingDefaultProtoSettings();
+            this._defaultServerConfiguration = HyperionServer.BuildUsingDefaultFbsSettings();
             this.TaskConfiguration = taskConfiguration;
             InitializeComponent();
             this.Text = $"{this.Text} - {taskConfiguration.Id}";
@@ -28,7 +28,6 @@ namespace HyperionScreenCap
 
         private void InitFormFields()
         {
-            chkConfigurationEnabled.Checked = TaskConfiguration.Enabled;
             EnableRelevantDxFields(TaskConfiguration.CaptureMethod);
 
             SelectValueFromComboBox(cbDx11AdapterIndex, TaskConfiguration.Dx11AdapterIndex); // TODO check item list for each combo box
@@ -48,7 +47,6 @@ namespace HyperionScreenCap
 
         private void SaveFormFields()
         {
-            TaskConfiguration.Enabled = chkConfigurationEnabled.Checked;
             TaskConfiguration.CaptureMethod = rbcmDx11.Checked ? CaptureMethod.DX11 : CaptureMethod.DX9;
             TaskConfiguration.Dx11AdapterIndex = int.Parse(cbDx11AdapterIndex.SelectedItem.ToString());
             TaskConfiguration.Dx11MonitorIndex = int.Parse(cbDx11MonitorIndex.SelectedItem.ToString());
@@ -120,10 +118,15 @@ namespace HyperionScreenCap
         private void btnSave_Click(object sender, EventArgs e)
         {
             bool validServerFound = false;
+            bool invalidPriority = false;
             // Validate server rows using IP address default value
             for ( int i = 0; i < TaskConfiguration.HyperionServers.Count; i++ )
             {
                 HyperionServer server = TaskConfiguration.HyperionServers[i];
+                if (server.Priority < 100 || server.Priority > 199)
+                {
+                    invalidPriority = true;
+                }
                 if ( !_defaultServerConfiguration.Host.Equals(server.Host) )
                 {
                     validServerFound = true;
@@ -134,6 +137,11 @@ namespace HyperionScreenCap
             if ( !validServerFound )
             {
                 MessageBox.Show("All Hyperion server host names are invalid. Please sepcify a valid Hyperion server configuraion.");
+                return;
+            }
+            if (invalidPriority)
+            {
+                MessageBox.Show("Invalid priority value found. Priority should be set within the range 100-199.");
                 return;
             }
 
@@ -156,10 +164,38 @@ namespace HyperionScreenCap
         private void dgHyperionAddress_EditingControlShowing(object sender, DataGridViewEditingControlShowingEventArgs e)
         {
             e.Control.KeyPress -= new KeyPressEventHandler(PreventNonNumeric_KeyPressEventHandler);
-            // Only columnIndex 0 is allowed to have non-numeric characters
-            if ( dgHyperionAddress.CurrentCell.ColumnIndex > 1 )
+            if ( dgHyperionAddress.CurrentCell.ColumnIndex == dgHyperionAddress.Columns["clmnPort"].Index
+                || dgHyperionAddress.CurrentCell.ColumnIndex == dgHyperionAddress.Columns["clmnPriority"].Index
+                || dgHyperionAddress.CurrentCell.ColumnIndex == dgHyperionAddress.Columns["clmnMessageDuration"].Index)
             {
                 e.Control.KeyPress += new KeyPressEventHandler(PreventNonNumeric_KeyPressEventHandler);
+            }
+        }
+
+        private void dgHyperionAddress_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == dgHyperionAddress.Columns["clmnProtocol"].Index)
+            {
+                var columnValue = dgHyperionAddress.Rows[e.RowIndex].Cells[e.ColumnIndex].Value;
+                if (columnValue != null)
+                {
+                    var serverProtocol = (HyperionServerProtocol) columnValue;
+                    int newPortValue = -1;
+                    switch (serverProtocol)
+                    {
+                        case HyperionServerProtocol.FLAT_BUFFERS:
+                            newPortValue = HyperionServer.BuildUsingDefaultFbsSettings().Port;
+                            break;
+
+                        case HyperionServerProtocol.PROTOCOL_BUFFERS:
+                            newPortValue = HyperionServer.BuildUsingDefaultProtoSettings().Port;
+                            break;
+
+                        default:
+                            throw new NotImplementedException($"Hyperion server protocol {serverProtocol} is not supported yet");
+                    }
+                    dgHyperionAddress.Rows[e.RowIndex].Cells["clmnPort"].Value = newPortValue; // Change port according to protocol
+                }
             }
         }
 
@@ -187,6 +223,5 @@ namespace HyperionScreenCap
             else
                 EnableRelevantDxFields(CaptureMethod.DX9);
         }
-
     }
 }

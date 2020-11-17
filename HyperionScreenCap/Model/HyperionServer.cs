@@ -15,18 +15,6 @@ namespace HyperionScreenCap.Model
         public int Priority { get; set; }
         public int MessageDuration { get; set; }
 
-        public static HyperionServer BuildUsingLegacySettings()
-        {
-            return new HyperionServer()
-            {
-                Protocol = HyperionServerProtocol.PROTOCOL_BUFFERS,
-                Host = Settings.Default.hyperionServerIP,
-                Port = Settings.Default.hyperionServerPort,
-                Priority = Settings.Default.hyperionMessagePriority,
-                MessageDuration = Settings.Default.hyperionMessageDuration
-            };
-        }
-
         public static HyperionServer BuildUsingDefaultProtoSettings()
         {
             return new HyperionServer()
@@ -34,7 +22,7 @@ namespace HyperionScreenCap.Model
                 Protocol = HyperionServerProtocol.PROTOCOL_BUFFERS,
                 Host = "0.0.0.0",
                 Port = 19445,
-                Priority = 10,
+                Priority = 110,
                 MessageDuration = 1500
             };
         }
@@ -49,6 +37,13 @@ namespace HyperionScreenCap.Model
                 Priority = 110,
                 MessageDuration = 1500
             };
+        }
+
+        public HyperionServer DeepCopy()
+        {
+            var copy = (HyperionServer)MemberwiseClone();
+            copy.Host = String.Copy(Host);
+            return copy;
         }
     }
 }

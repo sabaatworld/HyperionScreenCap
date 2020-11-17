@@ -49,7 +49,7 @@ namespace HyperionScreenCap.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("10")]
+        [global::System.Configuration.DefaultSettingValueAttribute("110")]
         public int hyperionMessagePriority {
             get {
                 return ((int)(this["hyperionMessagePriority"]));
