@@ -1,8 +1,14 @@
 # Hyperion Screen Capture (Windows Grabber)
 
+<p>
+<a href="https://github.com/sabaatworld/HyperionScreenCap/releases"><img src="https://img.shields.io/github/v/release/sabaatworld/HyperionScreenCap?include_prereleases"/></a>
+<a href="https://github.com/sabaatworld/HyperionScreenCap/releases"><img src="https://img.shields.io/github/release-date/sabaatworld/HyperionScreenCap"/></a>
+<a href="https://github.com/sabaatworld/HyperionScreenCap/releases"><img src="https://img.shields.io/github/downloads/sabaatworld/HyperionScreenCap/total?color=ffa500"/></a>
+</p>
+
 Windows screen capture program for the [Hyperion](https://github.com/tvdzwan/hyperion) open-source Ambilight project.
 
-The program uses DirectX 9/11 to capture the screen, resize it and send it to the ProtoBuffer interface of Hyperion.
+The program uses DirectX 9/11 to capture the screen, resize it and send it to the FlatBuffer or ProtoBuffer interface of Hyperion.
 
 **Changelog and official forum thread:** https://hyperion-project.org/threads/1018
 
@@ -24,7 +30,7 @@ The program uses DirectX 9/11 to capture the screen, resize it and send it to th
 
 ## Download
 
-[SetupHyperionScreenCapture.exe](https://github.com/sabaatworld/HyperionScreenCap/releases)
+Simply download and install [SetupHyperionScreenCapture.exe](https://github.com/sabaatworld/HyperionScreenCap/releases) from the latest release.
 
 ## Configuration
 
