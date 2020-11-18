@@ -150,6 +150,14 @@ namespace HyperionScreenCap
                     foreach (HyperionServer server in configuration.HyperionServers)
                     {
                         server.Protocol = HyperionServerProtocol.PROTOCOL_BUFFERS;
+                        if (server.Priority < HyperionServer.MIN_PRIORITY)
+                        {
+                            server.Priority = HyperionServer.MIN_PRIORITY;
+                        }
+                        if (server.Priority > HyperionServer.MAX_PRIORITY)
+                        {
+                            server.Priority = HyperionServer.MAX_PRIORITY;
+                        }
                     }
                 }
                 Settings.Default.hyperionTaskConfigurations = JsonConvert.SerializeObject(configurations);

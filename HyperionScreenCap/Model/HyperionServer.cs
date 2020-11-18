@@ -1,14 +1,13 @@
-﻿using HyperionScreenCap.Properties;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
 
 namespace HyperionScreenCap.Model
 {
     [Serializable]
     public class HyperionServer
     {
+        public const int MIN_PRIORITY = 100;
+        public const int MAX_PRIORITY = 199;
+
         public HyperionServerProtocol Protocol { get; set; }
         public String Host { get; set; }
         public int Port { get; set; }

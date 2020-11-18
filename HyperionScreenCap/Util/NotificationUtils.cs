@@ -1,6 +1,5 @@
 ﻿using HyperionScreenCap.Model;
 using log4net;
-using System;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap

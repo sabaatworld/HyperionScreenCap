@@ -2,12 +2,9 @@
 using log4net;
 using RestSharp;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace HyperionScreenCap.Helper

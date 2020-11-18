@@ -28,7 +28,8 @@ The program uses DirectX 9/11 to capture the screen, resize it and send it to th
 
 ## Configuration
 
-The application can be configured using the setup window which can be accessed by right clicking on the system tray icon. The defaults for most of the settings should work out of the box. Description of the configuration parameters can be found on the help tab of the setup window.
+The application can be configured using the setup window which can be accessed by right clicking on the system tray icon. The defaults for most of the settings should work out of the box.
+Description of the configuration parameters can be found on the help tab of the setup window.
 
 ## Setup Window
 
@@ -48,3 +49,8 @@ The application can be configured using the setup window which can be accessed b
 ## DirectX11 4K @ 60Hz HDR Demo
 
 [![Hyperion TV Ambient Light 4K 60Hz](https://img.youtube.com/vi/gY6-J97fXKc/0.jpg)](https://www.youtube.com/watch?v=gY6-J97fXKc "Hyperion TV Ambient Light 4K 60Hz")
+
+## Credits
+
+Icons made by [mynamepong](https://www.flaticon.com/authors/mynamepong), [Good Ware](https://www.flaticon.com/authors/good-ware), [Freepik](https://www.flaticon.com/authors/freepik)
+and [Kiranshastry](https://www.flaticon.com/authors/kiranshastry) from [www.flaticon.com](https://www.flaticon.com/)

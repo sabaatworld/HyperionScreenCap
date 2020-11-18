@@ -123,7 +123,7 @@ namespace HyperionScreenCap
             for ( int i = 0; i < TaskConfiguration.HyperionServers.Count; i++ )
             {
                 HyperionServer server = TaskConfiguration.HyperionServers[i];
-                if (server.Priority < 100 || server.Priority > 199)
+                if (server.Priority < HyperionServer.MIN_PRIORITY || server.Priority > HyperionServer.MAX_PRIORITY)
                 {
                     invalidPriority = true;
                 }

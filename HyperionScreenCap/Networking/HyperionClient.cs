@@ -1,8 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
-using Google.ProtocolBuffers;
-using proto;
 using System.Threading;
 using HyperionScreenCap.Config;
 using log4net;

@@ -150,12 +150,12 @@ namespace HyperionScreenCap {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to ==DirectX 11 Configuration Options==
+        ///   Looks up a localized string similar to ## DirectX 11 Configuration Options
         ///
-        ///Maximum FPS: The maxium number of updates per second that should be sent to Hyperion. Setting it to a value higher than your monitor refresh rate will unnecessarily waste resources.
+        ///* **Maximum FPS:** The maxium number of updates per second that should be sent to Hyperion. Setting it to a value higher than your monitor refresh rate will unnecessarily waste resources.
         ///Suppose you set this to 60 (equal to your monitor refresh rate), then frames should be sent at a minimum interval of 1000/60 ~ 16ms. Using this value, the application evaluates if it needs to wait before sending the next frame.
         ///
-        ///Frame Capture Timeout: Millis after which desktop capture  [rest of string was truncated]&quot;;.
+        ///* **Frame Capture Timeout:** Millis after which deskt [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string SetupFormHelp {
             get {

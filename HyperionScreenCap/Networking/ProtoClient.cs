@@ -1,18 +1,11 @@
 ﻿using System;
-using System.IO;
-using System.Net.Sockets;
 using Google.ProtocolBuffers;
 using proto;
-using System.Threading;
-using HyperionScreenCap.Config;
-using log4net;
 
 namespace HyperionScreenCap.Networking
 {
     class ProtoClient : HyperionClient
     {
-        private static readonly ILog LOG = LogManager.GetLogger(typeof(ProtoClient));
-
         public ProtoClient(string host, int port, int priority, int messageDuration): base(host, port, priority, messageDuration)
         {
     

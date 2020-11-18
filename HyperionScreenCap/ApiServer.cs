@@ -4,8 +4,6 @@ using Grapevine.Server;
 using Grapevine.Server.Attributes;
 using Grapevine.Shared;
 using log4net;
-using System.Reflection;
-using System.Linq.Expressions;
 
 namespace HyperionScreenCap
 {
