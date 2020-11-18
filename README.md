@@ -41,16 +41,16 @@ Description of the configuration parameters can be found on the help tab of the 
 
 ### Manage screen capture configurations and other application level settings.
 
-![Setup Window General Tab](Screenshots/setup-general.JPG)
+![Setup Window General Tab](Screenshots/1.png)
 
 
 ### Select between DirectX11 & DirectX9 capture methods and define one or more Hyperion server destinations.
 
-![Setup Window Edit Capture Configuration](Screenshots/setup-edit-capture-configuration.JPG)
+![Setup Window Edit Capture Configuration](Screenshots/2.png)
 
 ### Use the help tab to understand how to configure screen captures.
 
-![Setup Window Help Tab](Screenshots/setup-help.JPG)
+![Setup Window Help Tab](Screenshots/3.png)
 
 ## DirectX11 4K @ 60Hz HDR Demo
 
