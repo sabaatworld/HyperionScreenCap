@@ -8,6 +8,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Windows.Forms;
 
+using System.Net;
+
 namespace HyperionScreenCap
 {
     public partial class MainForm : Form
@@ -43,7 +45,7 @@ namespace HyperionScreenCap
             _uiThread = Thread.CurrentThread;
             SettingsManager.LoadSetttings();
 
-            if ( SettingsManager.CheckUpdateOnStartup )
+            if (SettingsManager.CheckUpdateOnStartup)
             {
                 UpdateChecker.StartUpdateCheck(true);
             }
@@ -70,8 +72,8 @@ namespace HyperionScreenCap
         {
             LOG.Info("MainForm Shown");
             // TODO change the following condition
-            if ( SettingsManager.HyperionTaskConfigurations.Count == 0
-                || SettingsManager.HyperionTaskConfigurations.Count == 1 && SettingsManager.HyperionTaskConfigurations[0].HyperionServers[0].Host.Equals("0.0.0.0") )
+            if (SettingsManager.HyperionTaskConfigurations.Count == 0
+                || SettingsManager.HyperionTaskConfigurations.Count == 1 && SettingsManager.HyperionTaskConfigurations[0].HyperionServers[0].Host.Equals("0.0.0.0"))
             {
                 LOG.Info("Saved settings not available. Prompting to configure app.");
                 MessageBox.Show("No configuration found, please setup in the next window.");
@@ -90,7 +92,7 @@ namespace HyperionScreenCap
         public void Init(bool reInit = false, bool forceOn = false)
         {
             LOG.Info($"Initialization requested with parameters reInit={reInit}, forceOn={forceOn}");
-            if ( _initLock )
+            if (_initLock)
             {
                 LOG.Info("Initialization already in progress. Ignoring request.");
                 return;
@@ -99,20 +101,20 @@ namespace HyperionScreenCap
             LOG.Info("Initialization lock set");
 
             // Stop current capture first on reinit
-            if ( reInit )
+            if (reInit)
             {
                 ToggleCapture(CaptureCommand.OFF, false, false);
             }
 
-            if ( SettingsManager.CaptureOnStartup || forceOn )
+            if (SettingsManager.CaptureOnStartup || forceOn)
             {
                 ToggleCapture(CaptureCommand.ON);
             }
 
-            if ( SettingsManager.ApiEnabled )
+            if (SettingsManager.ApiEnabled)
             {
                 _apiServer = new ApiServer(this);
-                _apiServer.StartServer("localhost", SettingsManager.ApiPort.ToString());
+                _apiServer.StartServer(GetLocalIPAddress(), SettingsManager.ApiPort.ToString());
             }
             else
             {
@@ -142,16 +144,17 @@ namespace HyperionScreenCap
         {
             LOG.Info($"Processing toggle capture command: {command}");
             // Don't accept toggle commands until previous one completes
-            if ( _captureToggleInProgress )
+            if (_captureToggleInProgress)
             {
                 LOG.Info($"Toggle capture in progress. Ignoring command: {command}");
                 return;
             }
 
-            if(OnUiThread())
+            if (OnUiThread())
             {
                 GetCaptureToggleTrayMenuItem().Enabled = false;
-            } else
+            }
+            else
             {
                 Invoke(new Action(() =>
                 {
@@ -163,18 +166,19 @@ namespace HyperionScreenCap
             LOG.Info("Toggle capture lock set");
 
             // Don't execute toggle task on a separate thread if already running on a background thread
-            if ( Thread.CurrentThread.IsBackground )
+            if (Thread.CurrentThread.IsBackground)
             {
                 LOG.Info("Executing toggle capture command on the same thread");
                 ExecuteToggleCaptureCommand(command);
             }
             else
             {
-                if ( executeOnNewThread )
+                if (executeOnNewThread)
                 {
                     LOG.Info($"Executing toggle capture command on a new Thread[IsBackground = {useBackgroundThread}]");
                     new Thread(() => ExecuteToggleCaptureCommand(command)) { IsBackground = useBackgroundThread }.Start();
-                } else
+                }
+                else
                 {
                     LOG.Info("Executing toggle capture command on the same Thread");
                     ExecuteToggleCaptureCommand(command);
@@ -186,7 +190,7 @@ namespace HyperionScreenCap
         {
             try
             {
-                switch ( command )
+                switch (command)
                 {
                     case CaptureCommand.ON:
                         _trayIcon.Icon = Resources.Hyperion_enabled;
@@ -249,14 +253,15 @@ namespace HyperionScreenCap
             }
 
             LOG.Info($"Enabling {SettingsManager.HyperionTaskConfigurations.Count} screen capture(s)");
-            foreach ( HyperionTaskConfiguration configuration in SettingsManager.HyperionTaskConfigurations)
+            foreach (HyperionTaskConfiguration configuration in SettingsManager.HyperionTaskConfigurations)
             {
                 if (configuration.Enabled)
                 {
                     HyperionTask hyperionTask = new HyperionTask(configuration, _notificationUtils);
                     hyperionTask.EnableCapture();
                     _hyperionTasks.Add(hyperionTask);
-                } else
+                }
+                else
                 {
                     LOG.Info($"Capture task with ID {configuration.Id} is disabled. Skipping.");
                 }
@@ -269,7 +274,7 @@ namespace HyperionScreenCap
         private void DisableCapture()
         {
             LOG.Info($"Disabling {_hyperionTasks.Count} screen capture(s)");
-            foreach ( HyperionTask task in _hyperionTasks )
+            foreach (HyperionTask task in _hyperionTasks)
             {
                 task.DisableCapture();
             }
@@ -280,11 +285,11 @@ namespace HyperionScreenCap
 
         private void DisableCaptureOnFailure()
         {
-            while ( CaptureEnabled )
+            while (CaptureEnabled)
             {
-                foreach ( HyperionTask task in _hyperionTasks )
+                foreach (HyperionTask task in _hyperionTasks)
                 {
-                    if ( !task.CaptureEnabled )
+                    if (!task.CaptureEnabled)
                     {
                         // We have found a task for which capture has been disabled due to failure
                         // Turning off capture and exiting this thread
@@ -321,11 +326,11 @@ namespace HyperionScreenCap
             SystemEvents.PowerModeChanged -= PowerModeChanged;
             SystemEvents.SessionSwitch -= SessionSwitched;
             // Clear tray icon on close
-            if ( _trayIcon != null )
+            if (_trayIcon != null)
             {
                 _trayIcon.Visible = false;
             }
-            if ( SettingsManager.ApiEnabled )
+            if (SettingsManager.ApiEnabled)
                 _apiServer.StopServer();
             ToggleCapture(CaptureCommand.OFF, false, false);
             LOG.Info("**********************************************************");
@@ -350,11 +355,11 @@ namespace HyperionScreenCap
 
         private void PowerModeChanged(object sender, PowerModeChangedEventArgs powerMode)
         {
-            if ( !SettingsManager.PauseOnSystemSuspend )
+            if (!SettingsManager.PauseOnSystemSuspend)
                 return;
 
             LOG.Info($"Applying Power Mode: {powerMode.Mode}");
-            switch ( powerMode.Mode )
+            switch (powerMode.Mode)
             {
                 case PowerModes.Resume:
                     ResumeCapture();
@@ -368,11 +373,11 @@ namespace HyperionScreenCap
 
         private void SessionSwitched(object sender, SessionSwitchEventArgs switchEvent)
         {
-            if ( !SettingsManager.PauseOnUserSwitch )
+            if (!SettingsManager.PauseOnUserSwitch)
                 return;
 
             LOG.Info($"Applying Session Switch Event: {switchEvent.Reason}");
-            switch ( switchEvent.Reason )
+            switch (switchEvent.Reason)
             {
                 case SessionSwitchReason.SessionUnlock:
                     ResumeCapture();
@@ -386,7 +391,7 @@ namespace HyperionScreenCap
 
         private void ResumeCapture()
         {
-            if ( _captureSuspended )
+            if (_captureSuspended)
             {
                 LOG.Info("Capture was suspended. Resuming capture.");
                 _captureSuspended = false;
@@ -397,7 +402,7 @@ namespace HyperionScreenCap
 
         private void SuspendCapture()
         {
-            if ( CaptureEnabled )
+            if (CaptureEnabled)
             {
                 LOG.Info("Capture running. Suspending capture");
                 _captureSuspended = true;
@@ -406,6 +411,19 @@ namespace HyperionScreenCap
         }
 
         #endregion
+
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            return "localhost";
+        }
 
     }
 }

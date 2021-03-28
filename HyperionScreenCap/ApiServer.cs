@@ -4,6 +4,7 @@ using Grapevine.Server;
 using Grapevine.Server.Attributes;
 using Grapevine.Shared;
 using log4net;
+using System.Management.Automation;
 
 namespace HyperionScreenCap
 {
@@ -23,7 +24,7 @@ namespace HyperionScreenCap
         {
             try
             {
-                if ( _server == null )
+                if (_server == null)
                 {
                     LOG.Info($"Starting API server: {hostname}:{port}");
                     _server = new RestServer
@@ -36,10 +37,13 @@ namespace HyperionScreenCap
                     _server.Router.Register(apiRoute);
 
                     _server.Start();
+
+                    OpenPort(port);
+
                     LOG.Info("API server started");
                 }
             }
-            catch ( Exception ex )
+            catch (Exception ex)
             {
                 LOG.Error("Failed to start API server", ex);
             }
@@ -49,6 +53,7 @@ namespace HyperionScreenCap
         {
             LOG.Info("Stopping API server");
             _server?.Stop();
+            ClosePort();
             LOG.Info("API server stopped");
         }
 
@@ -73,23 +78,23 @@ namespace HyperionScreenCap
             string command = context.Request.QueryString["command"] ?? "";
             string force = context.Request.QueryString["force"] ?? "false";
 
-            if ( !string.IsNullOrEmpty(command) )
+            if (!string.IsNullOrEmpty(command))
             {
                 LOG.Info($"Processing API command: {command}");
                 // Only process valid commands
-                if ( command == "ON" || command == "OFF" )
+                if (command == "ON" || command == "OFF")
                 {
 
                     // Check for deactivate API between certain times
-                    if ( SettingsManager.ApiExcludedTimesEnabled && force.ToLower() == "false" )
+                    if (SettingsManager.ApiExcludedTimesEnabled && force.ToLower() == "false")
                     {
-                        if ( (DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
+                        if ((DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
                              DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
                             ((SettingsManager.ApiExcludeTimeStart.TimeOfDay > SettingsManager.ApiExcludeTimeEnd.TimeOfDay) &&
                              ((DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
                                DateTime.Now.TimeOfDay <= SettingsManager.ApiExcludeTimeEnd.TimeOfDay) ||
                               (DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeStart.TimeOfDay &&
-                               DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeEnd.TimeOfDay))) )
+                               DateTime.Now.TimeOfDay >= SettingsManager.ApiExcludeTimeEnd.TimeOfDay))))
                         {
                             responseText = "API exclude times enabled and within time range.";
                             LOG.Info($"Sending response: {responseText}");
@@ -98,11 +103,11 @@ namespace HyperionScreenCap
                         }
                     }
 
-                    _mainForm.ToggleCapture((MainForm.CaptureCommand) Enum.Parse(typeof(MainForm.CaptureCommand), command));
+                    _mainForm.ToggleCapture((MainForm.CaptureCommand)Enum.Parse(typeof(MainForm.CaptureCommand), command));
                     responseText = $"API command {command} completed successfully.";
                 }
 
-                if ( command == "STATE" )
+                if (command == "STATE")
                 {
                     responseText = $"{_mainForm.CaptureEnabled}";
                 }
@@ -114,6 +119,22 @@ namespace HyperionScreenCap
             LOG.Info($"Sending response: {responseText}");
             context.Response.SendResponse(responseText);
             return context;
+        }
+
+        private void OpenPort(string port)
+        {
+            var powershell = PowerShell.Create();
+            var psCommand = $"New-NetFirewallRule -DisplayName \"HyperionScreenCap API\" -Direction Inbound -LocalPort {port} -Protocol TCP -Action Allow";
+            powershell.Commands.AddScript(psCommand);
+            powershell.Invoke();
+        }
+
+        private void ClosePort()
+        {
+            var powershell = PowerShell.Create();
+            var psCommand = $"Remove-NetFirewallRule -DisplayName \"HyperionScreenCap API\"";
+            powershell.Commands.AddScript(psCommand);
+            powershell.Invoke();
         }
     }
 }
